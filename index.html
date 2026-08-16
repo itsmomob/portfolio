@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monica Bernasconi — Virtual Desktop</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ─── RESET & BASE ─── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #1a1a1a;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            color: #2c2a2a;
+        }
+
+        /* ─── DESKTOP ─── */
+        .desktop {
+            width: 100vw;
+            height: 100vh;
+            background: #1a1a1a;
+            position: relative;
+            padding: 20px 30px 80px 30px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 20px 30px;
+            overflow-y: auto;
+            cursor: default;
+        }
+
+        /* ─── WINDOW ─── */
+        .window {
+            background: #f9f6f0;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            min-width: 320px;
+            max-width: 580px;
+            width: auto;
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: column;
+            animation: windowOpen 0.3s ease-out;
+            transition: box-shadow 0.2s;
+            position: relative;
+        }
+
+        .window:hover {
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes windowOpen {
+            0% { opacity: 0; transform: scale(0.95) translateY(8px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* ─── WINDOW HEADER ─── */
+        .window-header {
+            background: #e8d5c4;
+            padding: 12px 16px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            cursor: grab;
+        }
+
+        .window-header:active {
+            cursor: grabbing;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 6px;
+            margin-right: 10px;
+        }
+
+        .window-controls span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: block;
+            transition: opacity 0.2s;
+        }
+
+        .window-controls .close { background: #e07a5f; }
+        .window-controls .minimize { background: #f4c542; }
+        .window-controls .expand { background: #5fa87f; }
+
+        .window-controls span:hover {
+            opacity: 0.7;
+        }
+
+        .window-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 500;
+            color: #3a3530;
+            letter-spacing: 0.3px;
+            flex: 1;
+        }
+
+        /* ─── WINDOW BODY ─── */
+        .window-body {
+            padding: 24px 28px 28px 28px;
+            overflow-y: auto;
+            max-height: 520px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #2c2a2a;
+            flex: 1;
+        }
+
+        .window-body h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #2c2a2a;
+            letter-spacing: -0.3px;
+        }
+
+        .window-body h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 17px;
+            margin-top: 18px;
+            margin-bottom: 6px;
+            color: #c87a5a;
+            letter-spacing: -0.2px;
+        }
+
+        .window-body h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #a08474;
+            margin-top: 16px;
+            margin-bottom: 4px;
+        }
+
+        .window-body p {
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .window-body .divider {
+            border: none;
+            border-top: 1px solid #e8ddd0;
+            margin: 18px 0;
+        }
+
+        .window-body .tag {
+            display: inline-block;
+            background: #e8ddd0;
+            color: #5a4a3a;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin: 2px 4px 2px 0;
+            letter-spacing: 0.2px;
+        }
+
+        .window-body .tag-wrap {
+            margin-top: 10px;
+        }
+
+        .window-body a {
+            color: #c87a5a;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(200, 122, 90, 0.25);
+            transition: border-color 0.2s;
+        }
+
+        .window-body a:hover {
+            border-bottom-color: #c87a5a;
+        }
+
+        .window-body .skill-cat {
+            font-weight: 600;
+            color: #3a3530;
+            margin-top: 6px;
+        }
+
+        .window-body .skill-cat + p {
+            margin-top: 2px;
+            margin-bottom: 6px;
+        }
+
+        .window-body .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: #f0ebe4;
+            padding: 0 6px;
+            border-radius: 4px;
+            color: #5a4a3a;
+        }
+
+        /* ─── STICKY NOTE ─── */
+        .sticky {
+            background: #f9f0d8;
+            padding: 14px 18px;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #4a3f35;
+            max-width: 260px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            position: absolute;
+            font-style: italic;
+            transform: rotate(-2deg);
+            line-height: 1.5;
+            border-left: 3px solid #d4a373;
+        }
+
+        .sticky strong {
+            font-style: normal;
+            font-weight: 600;
+            color: #2c2a2a;
+        }
+
+        /* ─── FOLDERS (DESKTOP ICONS) ─── */
+        .folder-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 28px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .folder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.15s;
+            width: 80px;
+            text-align: center;
+        }
+
+        .folder:hover {
+            transform: translateY(-4px);
+        }
+
+        .folder-icon {
+            font-size: 44px;
+            line-height: 1;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+            transition: filter 0.2s;
+        }
+
+        .folder:hover .folder-icon {
+            filter: drop-shadow(0 4px 12px rgba(200, 122, 90, 0.3));
+        }
+
+        .folder-name {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            color: #e8ddd0;
+            margin-top: 4px;
+            letter-spacing: 0.2px;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+            max-width: 80px;
+            word-break: break-word;
+        }
+
+        /* ─── TASKBAR ─── */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 56px;
+            background: rgba(26, 26, 26, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 1000;
+        }
+
+        .taskbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .taskbar-icon {
+            color: #d4c8bc;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .taskbar-icon:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f9f6f0;
+        }
+
+        .taskbar-icon .emoji {
+            font-size: 16px;
+        }
+
+        .taskbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #b0a89c;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .taskbar-right .time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.3px;
+            color: #b0a89c;
+        }
+
+        .taskbar-right .divider {
+            color: #4a4038;
+        }
+
+        .taskbar-right .monica-logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: #d4c8bc;
+            letter-spacing: 0.5px;
+        }
+
+        /* ─── SCROLLBAR ─── */
+        .window-body::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .window-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .window-body::-webkit-scrollbar-thumb {
+            background: #d4c8bc;
+            border-radius: 10px;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 700px) {
+            .desktop {
+                padding: 12px 16px 70px 16px;
+                gap: 14px;
+            }
+            .window {
+                min-width: 0;
+                max-width: 100%;
+                width: 100%;
+                flex: 1 1 100%;
+            }
+            .window-body {
+                max-height: 350px;
+                padding: 18px 20px 22px 20px;
+                font-size: 13px;
+            }
+            .window-body h1 {
+                font-size: 19px;
+            }
+            .folder {
+                width: 64px;
+            }
+            .folder-icon {
+                font-size: 34px;
+            }
+            .folder-name {
+                font-size: 10px;
+            }
+            .sticky {
+                display: none;
+            }
+            .taskbar {
+                padding: 0 14px;
+                height: 50px;
+            }
+            .taskbar-icon {
+                font-size: 12px;
+                padding: 4px 6px;
+            }
+            .taskbar-right .time {
+                font-size: 11px;
+            }
+            .taskbar-right .monica-logo {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .desktop {
+                padding: 10px 10px 60px 10px;
+                gap: 10px;
+            }
+            .window-body {
+                padding: 14px 16px 18px 16px;
+                max-height: 280px;
+                font-size: 12px;
+            }
+            .window-body h1 {
+                font-size: 17px;
+            }
+            .window-body h2 {
+                font-size: 15px;
+            }
+            .taskbar {
+                height: 44px;
+                padding: 0 10px;
+            }
+            .taskbar-icon {
+                font-size: 11px;
+                padding: 2px 5px;
+            }
+            .taskbar-right .time {
+                font-size: 10px;
+            }
+            .folder {
+                width: 56px;
+            }
+            .folder-icon {
+                font-size: 28px;
+            }
+            .folder-name {
+                font-size: 9px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─── DESKTOP ─── -->
+<div class="desktop" id="desktop">
+
+    <!-- Sticky Note -->
+    <div class="sticky" style="top: 20px; right: 30px;">
+        <strong>“There’s no reason to overcomplicate things.”</strong><br />
+        — Bourdain
+    </div>
+
+    <!-- ─── WELCOME WINDOW ─── -->
+    <div class="window" id="welcome" style="flex: 0 0 auto; max-width: 520px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <span class="close" onclick="closeWindow('welcome')"></span>
+                <span class="minimize" onclick="minimizeWindow('welcome')"></span>
+                <span class="expand"></span>
+            </div>
+            <span class="window-title">WELCOME_TO_MONICA.txt</span>
+        </div>
+        <div class="window-body">
+            <h1>Hi. I'm Monica.</h1>
+            <p>I'm a <strong>Communication Strategist</strong> and <strong>International Systems Designer</strong>.</p>
+            <p>I take complex problems, dismantle them, and rebuild them as clear, human-centered systems—across languages, cultures, and continents.</p>
+            <p>My clients sometimes call me <em>“AI.”</em> Not because I'm robotic, but because I carry random knowledge, and if I don't know something, I'll find it. My mind is like a desktop with dozens of windows open at once—ideas, languages, systems, all moving in parallel.</p>
+            <p>I was born in Italy, educated across Europe, and have worked in London, Luxembourg, and Seoul. I speak 5 languages and thrive at the intersection of international communication, intercultural mediation, and digital transformation.</p>
+            <p><strong>My process?</strong> I sit with a problem, walk it off, consult with people who know more, and build something simple and elegant.</p>
+            <hr class="divider" />
+            <p style="font-style: italic; color: #7a6a5a;">Welcome to my desktop. Explore the folders. Open a window. Ask me anything.</p>
+            <p style="margin-top: 6px; font-size: 13px; color: #7a6a5a;">— Monica</p>
+        </div>
+    </div>
+
+    <!-- ─── FOLDER GRID ─── -->
+    <div class="folder-grid">
+
+        <!-- EU Projects -->
+        <div class="folder" onclick="openFolder('eu')">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">EU_Projects</span>
+        </div>
+
+        <!-- Flashcard System -->
+        <div class="folder" onclick="openFolder('flashcard')">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">Flashcard_System</span>
+        </div>
+
+        <!-- HanaBee -->
+        <div class="folder" onclick="openFolder('hanabee')">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">HanaBee</span>
+        </div>
+
+        <!-- Excel Automation -->
+        <div class="folder" onclick="openFolder('excel')">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">Excel_Automation</span>
+        </div>
+
+        <!-- Brand Stories -->
+        <div class="folder" onclick="openFolder('brand')">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">Brand_Stories</span>
+        </div>
+
+        <!-- Skills -->
+        <div class="folder" onclick="openFolder('skills')">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">Skills</span>
+        </div>
+
+        <!-- Personal Projects -->
+        <div class="folder" onclick="openFolder('personal')">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">Personal_Projects</span>
+        </div>
+
+        <!-- Contact -->
+        <div class="folder" onclick="openFolder('contact')">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">Contact</span>
+        </div>
+
+    </div>
+</div>
+
+<!-- ─── TASKBAR ─── -->
+<div class="taskbar">
+    <div class="taskbar-left">
+        <button class="taskbar-icon" onclick="openFolder('contact')">
+            <span class="emoji">✉️</span> Contact
+        </button>
+        <button class="taskbar-icon" onclick="window.open('https://github.com/itsmomob', '_blank')">
+            <span class="emoji">🐙</span> GitHub
+        </button>
+        <button class="taskbar-icon" onclick="window.open('https://www.linkedin.com/in/monica-bernasconi/', '_blank')">
+            <span class="emoji">🔗</span> LinkedIn
+        </button>
+        <button class="taskbar-icon" onclick="window.open('https://monicabernasconi.my.canva.site/home', '_blank')">
+            <span class="emoji">📁</span> Archive
+        </button>
+    </div>
+    <div class="taskbar-right">
+        <span class="monica-logo">M</span>
+        <span class="divider">|</span>
+        <span class="time" id="clock">--:--</span>
+    </div>
+</div>
+
+<!-- ─── JAVASCRIPT ─── -->
+<script>
+    // ─── CLOCK ───
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('clock').textContent = h + ':' + m;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    // ─── WINDOW FUNCTIONS ───
+    function closeWindow(id) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    }
+
+    function minimizeWindow(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            // Just hide it for now — could add a taskbar icon later
+            el.style.display = 'none';
+        }
+    }
+
+    // ─── OPEN FOLDER (creates a new window) ───
+    function openFolder(folderName) {
+        const content = getFolderContent(folderName);
+        if (!content) return;
+
+        // Check if window already open
+        const existing = document.getElementById('folder-' + folderName);
+        if (existing) {
+            existing.style.display = 'flex';
+            existing.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        const desktop = document.getElementById('desktop');
+
+        // Create window
+        const win = document.createElement('div');
+        win.className = 'window';
+        win.id = 'folder-' + folderName;
+        win.style.maxWidth = '560px';
+        win.style.flex = '0 0 auto';
+
+        // Header
+        const header = document.createElement('div');
+        header.className = 'window-header';
+        header.innerHTML = `
+            <div class="window-controls">
+                <span class="close" onclick="closeWindow('folder-${folderName}')"></span>
+                <span class="minimize" onclick="minimizeWindow('folder-${folderName}')"></span>
+                <span class="expand"></span>
+            </div>
+            <span class="window-title">${getFolderTitle(folderName)}</span>
+        `;
+
+        // Body
+        const body = document.createElement('div');
+        body.className = 'window-body';
+        body.innerHTML = content;
+
+        win.appendChild(header);
+        win.appendChild(body);
+
+        // Insert before the folder grid
+        const grid = desktop.querySelector('.folder-grid');
+        desktop.insertBefore(win, grid);
+
+        // Scroll to it
+        setTimeout(() => win.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+    }
+
+    // ─── FOLDER CONTENT ───
+    function getFolderContent(name) {
+        const contents = {
+            eu: `
+                <h1>EU Projects</h1>
+                <p>Two projects. One mission: make complex systems work for people.</p>
+                <hr class="divider" />
+
+                <h2>IATE 3 Consultancy</h2>
+                <p>The EU's flagship terminology database (IATE) needed a redesign. I provided strategic UI/UX consultancy—not just on how it looked, but on how users experienced it across 24 languages and thousands of daily users.</p>
+                <p><strong>What I delivered:</strong></p>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Stakeholder interviews across EU institutions</li>
+                    <li>User journey mapping for translators, legal experts, policymakers</li>
+                    <li>UI/UX sketches and recommendations</li>
+                    <li>A framework for balancing complexity with usability</li>
+                </ul>
+                <p><a href="#" onclick="alert('Sketches will be embedded here — coming soon!'); return false;">View Sketches →</a></p>
+
+                <hr class="divider" />
+
+                <h2>Process Design: Institutional File Management</h2>
+                <p>A team at the European Parliament was drowning in lost documents and version control chaos. I designed and implemented a new file-sharing system, wrote the user manual, and recorded video tutorials for seamless adoption.</p>
+                <p><strong>What I delivered:</strong></p>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Streamlined file management workflow</li>
+                    <li>Comprehensive user manual</li>
+                    <li>Video tutorials for training and onboarding</li>
+                </ul>
+                <p><strong>Result:</strong> A more organized, efficient digital workspace—still in use today.</p>
+
+                <div class="tag-wrap">
+                    <span class="tag">UI/UX Consultancy</span>
+                    <span class="tag">Process Automation</span>
+                    <span class="tag">Training & Documentation</span>
+                    <span class="tag">Institutional Fluency</span>
+                </div>
+            `,
+
+            flashcard: `
+                <h1>Flashcard System</h1>
+                <p>A practical solution to a real problem.</p>
+                <hr class="divider" />
+
+                <h2>The Challenge</h2>
+                <p>At a Seoul-based language cafe, students received official study materials that didn't match the conversational language they actually encountered. Friction between what was taught and what was used.</p>
+
+                <h2>The Approach</h2>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Assessed recurring terms across multiple conversational topics</li>
+                    <li>Designed a system using HTML, CSS, and JavaScript (with developer friends for JS support)</li>
+                    <li>Kept it simple, mobile-friendly, and easy to update</li>
+                </ul>
+
+                <h2>The Result</h2>
+                <p>A user-driven tool that bridges textbook learning with real-world conversation. Currently being tested and iterated based on student feedback.</p>
+
+                <p style="margin-top: 12px;"><a href="https://itsmomob.github.io/koeng-flashcard-hub/index.html" target="_blank">Launch the Flashcard System →</a></p>
+
+                <div class="tag-wrap">
+                    <span class="tag">HTML</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">GitHub Pages</span>
+                    <span class="tag">Cross-Cultural UX</span>
+                </div>
+            `,
+
+            hanabee: `
+                <h1>HanaBee</h1>
+                <p>From a small Tuscan honey producer to a brand with a story.</p>
+                <hr class="divider" />
+
+                <h2>The Challenge</h2>
+                <p>A honey producer in Tuscany wanted to go digital—but had no brand identity, no online presence, and no clear strategy.</p>
+
+                <h2>The Approach</h2>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Developed the complete brand strategy: name, identity, tone of voice</li>
+                    <li>Built an Instagram strategy focused on sustainability, honey, and slow living</li>
+                    <li>Created a website with SEO-optimized content</li>
+                </ul>
+
+                <h2>The Result</h2>
+                <p>A cohesive brand that tells a story—and a digital presence that attracts customers who share those values.</p>
+
+                <p style="margin-top: 12px;"><a href="#" onclick="alert('Brand materials will be embedded here — coming soon!'); return false;">View Brand Materials →</a></p>
+
+                <div class="tag-wrap">
+                    <span class="tag">Brand Strategy</span>
+                    <span class="tag">Content Creation</span>
+                    <span class="tag">Web Design</span>
+                    <span class="tag">SEO</span>
+                    <span class="tag">Sustainability Communication</span>
+                </div>
+            `,
+
+            excel: `
+                <h1>Excel Automation</h1>
+                <p>Turning repetitive work into automated systems.</p>
+                <hr class="divider" />
+
+                <h2>The Challenge</h2>
+                <p>Teams were drowning in manual data entry, repetitive tasks, and inefficient workflows. Time was being wasted on work that could be automated.</p>
+
+                <h2>The Approach</h2>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Assessed existing workflows and identified bottlenecks</li>
+                    <li>Designed and implemented automated Excel sheets with formulas and AppsScript</li>
+                    <li>Created "manuals" so teams could maintain the systems themselves</li>
+                </ul>
+
+                <h2>The Result</h2>
+                <p>Reduced manual work by 70%+ in some cases. Teams could focus on high-value work instead of data entry. The systems are still in use.</p>
+
+                <div class="tag-wrap">
+                    <span class="tag">Process Automation</span>
+                    <span class="tag">AppsScript</span>
+                    <span class="tag">Excel Architecture</span>
+                    <span class="tag">System Design</span>
+                    <span class="tag">Training</span>
+                </div>
+            `,
+
+            brand: `
+                <h1>Brand Stories</h1>
+                <p>Building communities through stories.</p>
+                <hr class="divider" />
+
+                <h2>Il Polo Positivo</h2>
+                <p>An association born from a simple idea: create a safe space for positive news. I joined as a volunteer writer, then stepped up as Team Leader to build their digital presence from zero.</p>
+                <p><strong>What I built:</strong></p>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Content strategy and editorial calendar</li>
+                    <li>Visual identity (with a graphic designer)</li>
+                    <li>Instagram growth from 0 to nearly 4,000 followers</li>
+                    <li>20+ articles researched and written</li>
+                </ul>
+
+                <hr class="divider" />
+
+                <h2>Cactus Magazine</h2>
+                <p>Creative direction and editorial strategy for a magazine with a vision.</p>
+                <p><strong>What I built:</strong></p>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Collaborated with the art director on content and visuals</li>
+                    <li>Wrote, edited, and translated articles</li>
+                    <li>Managed project timelines and contributor relationships</li>
+                    <li>Produced 5 issues across 2 shootings</li>
+                </ul>
+
+                <div class="tag-wrap">
+                    <span class="tag">Content Strategy</span>
+                    <span class="tag">Team Leadership</span>
+                    <span class="tag">Social Media Growth</span>
+                    <span class="tag">Creative Direction</span>
+                    <span class="tag">Editorial Management</span>
+                </div>
+            `,
+
+            skills: `
+                <h1>Skills & Tools</h1>
+                <hr class="divider" />
+
+                <h2>Languages</h2>
+                <p>🇮🇹 Italian <span style="color:#7a6a5a;font-weight:300;">(Native)</span><br />
+                🇬🇧 English <span style="color:#7a6a5a;font-weight:300;">(C2)</span><br />
+                🇪🇸 Spanish <span style="color:#7a6a5a;font-weight:300;">(C1)</span><br />
+                🇫🇷 French <span style="color:#7a6a5a;font-weight:300;">(B1)</span><br />
+                🇰🇷 Korean <span style="color:#7a6a5a;font-weight:300;">(B1)</span></p>
+
+                <h2>Technical & Digital</h2>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>HTML / CSS</li>
+                    <li>JavaScript <span style="color:#7a6a5a;font-weight:300;">(basic)</span></li>
+                    <li>AppsScript</li>
+                    <li>Excel <span style="color:#7a6a5a;font-weight:300;">(advanced formulas, automation)</span></li>
+                    <li>CMS <span style="color:#7a6a5a;font-weight:300;">(WordPress, etc.)</span></li>
+                    <li>Web Analytics</li>
+                    <li>Canva <span style="color:#7a6a5a;font-weight:300;">(advanced)</span></li>
+                    <li>GitHub</li>
+                </ul>
+
+                <h2>Strategic & Creative</h2>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>International Communication</li>
+                    <li>UI/UX Consultancy</li>
+                    <li>Brand Strategy & Storytelling</li>
+                    <li>Content Architecture</li>
+                    <li>Project Management</li>
+                    <li>Editorial Management</li>
+                    <li>Translation & Interpretation</li>
+                </ul>
+
+                <h2>Certifications</h2>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>Digital Marketing Certificate <span style="color:#7a6a5a;font-weight:300;">(2023)</span></li>
+                    <li>Bachelor's in Interlingual Mediation <span style="color:#7a6a5a;font-weight:300;">(2018–2021)</span></li>
+                    <li>Master's in International Communication <span style="color:#7a6a5a;font-weight:300;">(2021–2023)</span></li>
+                </ul>
+            `,
+
+            personal: `
+                <h1>Wanderlust</h1>
+                <p>Things I create when I'm not working.</p>
+                <hr class="divider" />
+
+                <h2>Coffee Table Books</h2>
+                <p>I travel light—I rarely buy things. Instead, I create coffee table books of my travels to keep the memories alive.</p>
+
+                <h2>South Korea Vlogs</h2>
+                <p>During my time in Seoul, I recorded adventures, conversations, and everyday moments to share with friends and family. Some collaborations with fellow creatives.</p>
+
+                <h2>Monthly Newsletter</h2>
+                <p>A personal newsletter to keep close friends updated across time zones. Funny stories, food, drink recommendations, and plans for the coming months.</p>
+
+                <h2>Random Creative Projects</h2>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li>A personal crossword for a friend's graduation</li>
+                    <li>Mood boards for an album photoshoot</li>
+                    <li>Classy posters for office stretching routines</li>
+                    <li>Unserious posters about stolen cherry tomatoes</li>
+                </ul>
+
+                <p style="margin-top: 12px;"><a href="#" onclick="alert('Personal projects will be embedded here — coming soon!'); return false;">View Projects →</a></p>
+
+                <div class="tag-wrap">
+                    <span class="tag">Creative Direction</span>
+                    <span class="tag">Storytelling</span>
+                    <span class="tag">Video Editing</span>
+                    <span class="tag">Graphic Design</span>
+                </div>
+            `,
+
+            contact: `
+                <h1>Let's Build Something</h1>
+                <hr class="divider" />
+
+                <p><strong>📍 Based in Seoul, South Korea</strong><br />
+                🌍 Worked in Italy, UK, Luxembourg, Sweden, South Korea</p>
+
+                <p style="margin-top: 16px;">
+                    <strong>📧 Email:</strong> <a href="mailto:momor599@gmail.com">momor599@gmail.com</a><br />
+                    <strong>🐙 GitHub:</strong> <a href="https://github.com/itsmomob" target="_blank">github.com/itsmomob</a><br />
+                    <strong>🔗 LinkedIn:</strong> <a href="https://www.linkedin.com/in/monica-bernasconi/" target="_blank">linkedin.com/in/monica-bernasconi</a><br />
+                    <strong>📁 Archive:</strong> <a href="https://monicabernasconi.my.canva.site/home" target="_blank">Canva Portfolio</a>
+                </p>
+
+                <hr class="divider" />
+
+                <p style="font-style: italic; color: #7a6a5a;">"I'm always open to conversations about international communication, systems design, and creative problem-solving. Ask me anything—I'll find the answer."</p>
+                <p style="margin-top: 4px; color: #7a6a5a;">— Monica</p>
+            `
+        };
+
+        return contents[name] || null;
+    }
+
+    function getFolderTitle(name) {
+        const titles = {
+            eu: 'EU_PROJECTS.txt',
+            flashcard: 'FLASHCARD_SYSTEM.md',
+            hanabee: 'HANABEE_BRAND_STRATEGY.txt',
+            excel: 'EXCEL_AUTOMATION.appscript',
+            brand: 'BRAND_STORIES.md',
+            skills: 'SKILLS_&_TOOLS.txt',
+            personal: 'WANDERLUST.txt',
+            contact: 'CONTACT.txt'
+        };
+        return titles[name] || name + '.txt';
+    }
+
+    // ─── KEYBOARD SHORTCUT: ESC to close all windows ───
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const windows = document.querySelectorAll('.window:not(#welcome)');
+            windows.forEach(w => w.style.display = 'none');
+        }
+    });
+</script>
+
+</body>
+</html>
