@@ -274,6 +274,39 @@
             border-bottom-color: #c87a5a;
         }
 
+        /* ─── HOVER IMAGE PREVIEW ─── */
+        .preview-trigger {
+            position: relative;
+            cursor: pointer;
+            color: #c87a5a;
+            font-weight: 500;
+            border-bottom: 1px dashed rgba(200, 122, 90, 0.3);
+            transition: border-color 0.2s;
+        }
+
+        .preview-trigger:hover {
+            border-bottom-color: #c87a5a;
+        }
+
+        .preview-image {
+            position: fixed;
+            max-width: 280px;
+            max-height: 320px;
+            border-radius: 8px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            object-fit: cover;
+            display: none;
+        }
+
+        .preview-image.visible {
+            display: block;
+            opacity: 1;
+        }
+
         /* ─── STICKY NOTE ─── */
         .sticky {
             background: #f9f0d8;
@@ -460,6 +493,10 @@
                 display: none;
             }
 
+            .preview-image {
+                display: none !important;
+            }
+
             .taskbar {
                 height: 44px;
                 padding: 0 12px;
@@ -593,18 +630,29 @@
                     <span class="minimize" onclick="minimizeWindow('welcome')"></span>
                     <span class="expand"></span>
                 </div>
-                <span class="window-title">WELCOME_TO_MONICA.txt</span>
+                <span class="window-title">ABOUT_MONICA.txt</span>
             </div>
             <div class="window-body">
-                <h1>Hi. I'm Monica.</h1>
-                <p>I'm a <strong>Communication Strategist</strong> and <strong>International Systems Designer</strong>.</p>
-                <p>I take complex problems, dismantle them, and rebuild them as clear, human-centered systems—across languages, cultures, and continents.</p>
-                <p>My mind is like a desktop with dozens of windows open at once—ideas, languages, systems, all moving in parallel.</p>
-                <p>I was born in Italy, educated across Europe, and have worked in London, Luxembourg, Milan, and Seoul. I speak 4 languages and thrive at the intersection of international communication, intercultural mediation, and digital transformation.</p>
-                <p><strong>My process?</strong> I sit with a problem, walk it off, consult with people who know more, and build something simple and elegant.</p>
+                <h1>Strategic Communication & International Systems Design</h1>
+
+                <p>I architect communication systems and cross-cultural strategies for organizations operating across Europe and Asia.</p>
+
+                <p>With a foundation in international relations and interlingual mediation, I've worked across institutional, private, and non-profit sectors—from the European Parliament to Seoul-based startups. I speak four languages and have lived and worked in Italy, the UK, Luxembourg, and South Korea.</p>
+
+                <p><strong>My work sits at the intersection of:</strong></p>
+                <ul>
+                    <li>International communication & stakeholder engagement</li>
+                    <li>UI/UX consultancy for multilingual platforms</li>
+                    <li>Process automation & workflow design</li>
+                    <li>Brand strategy & content architecture</li>
+                </ul>
+
+                <p>I don't overcomplicate things. I sit with the problem, consult with people who know more, and build systems that are clear, human, and scalable.</p>
+
                 <hr class="divider" />
-                <p style="font-style: italic; color: #7a6a5a;">Welcome to my desktop. Explore the folders. Open a window. Ask me anything.</p>
-                <p style="margin-top: 4px; font-size: 12px; color: #7a6a5a;">— Monica</p>
+
+                <p style="font-style: italic; color: #7a6a5a;">Open to conversations about international communication, institutional strategy, and creative problem-solving.</p>
+                <p style="margin-top: 4px; color: #7a6a5a;">— Monica Bernasconi</p>
             </div>
         </div>
 
@@ -656,7 +704,6 @@
         const win = header.closest('.window');
         if (!win) return;
 
-        // Bring to front
         bringToFront(win);
 
         const rect = win.getBoundingClientRect();
@@ -678,7 +725,6 @@
         let newX = e.clientX - containerRect.left - dragData.offsetX;
         let newY = e.clientY - containerRect.top - dragData.offsetY;
 
-        // Keep within container bounds
         const winRect = dragData.win.getBoundingClientRect();
         newX = Math.max(0, Math.min(newX, containerRect.width - winRect.width));
         newY = Math.max(0, Math.min(newY, containerRect.height - 60));
@@ -779,15 +825,12 @@
         const container = document.getElementById('windowContainer');
         const rect = container.getBoundingClientRect();
 
-        // Base position: start near top-left
         const baseX = 30;
         const baseY = 30;
 
-        // Count existing windows (excluding welcome)
         const existing = container.querySelectorAll('.window:not(#welcome)');
         const count = existing.length;
 
-        // Calculate offset with wrap-around
         const offset = (count * CASCADE_STEP) % 180;
 
         return {
@@ -804,7 +847,6 @@
 
         const container = document.getElementById('windowContainer');
 
-        // Check if window already open (by checking for folder- prefix)
         const existingId = 'folder-' + folderName;
         const existing = document.getElementById(existingId);
         if (existing) {
@@ -815,7 +857,6 @@
 
         const pos = getNextPosition();
 
-        // Create window
         const win = document.createElement('div');
         win.className = 'window';
         win.id = existingId;
@@ -824,7 +865,6 @@
         win.style.zIndex = pos.zIndex;
         win.style.width = '460px';
 
-        // Header
         const header = document.createElement('div');
         header.className = 'window-header';
         header.setAttribute('data-drag', existingId);
@@ -837,7 +877,6 @@
             <span class="window-title">${getFolderTitle(folderName)}</span>
         `;
 
-        // Body
         const body = document.createElement('div');
         body.className = 'window-body';
         body.innerHTML = content;
@@ -846,7 +885,6 @@
         win.appendChild(body);
         container.appendChild(win);
 
-        // Bring to front
         bringToFront(win);
     }
 
@@ -1058,23 +1096,23 @@
                 <hr class="divider" />
 
                 <h2>Coffee Table Books</h2>
-                <p>I travel light—I rarely buy things. Instead, I create coffee table books of my travels to keep the memories alive.</p>
+                <p>I travel light—I rarely buy things. Instead, I create <span class="preview-trigger" data-image="images/coffee-table-book-1.jpg">coffee table books</span> of my travels to keep the memories alive.</p>
 
                 <h2>South Korea Vlogs</h2>
-                <p>During my time in Seoul, I recorded adventures, conversations, and everyday moments to share with friends and family. Some collaborations with fellow creatives.</p>
+                <p>During my time in Seoul, I recorded <span class="preview-trigger" data-image="images/vlog-seoul.jpg">adventures and conversations</span> to share with friends and family. Some collaborations with fellow creatives.</p>
 
                 <h2>Monthly Newsletter</h2>
-                <p>A personal newsletter to keep close friends updated across time zones. Funny stories, food, drink recommendations, and plans for the coming months.</p>
+                <p>A <span class="preview-trigger" data-image="images/newsletter-issue.jpg">personal newsletter</span> to keep close friends updated across time zones. Funny stories, food, drink recommendations, and plans for the coming months.</p>
 
                 <h2>Random Creative Projects</h2>
                 <ul>
-                    <li>A personal crossword for a friend's graduation</li>
-                    <li>Mood boards for an album photoshoot</li>
-                    <li>Classy posters for office stretching routines</li>
-                    <li>Unserious posters about stolen cherry tomatoes</li>
+                    <li><span class="preview-trigger" data-image="images/crossword-gift.jpg">A personal crossword</span> for a friend's graduation</li>
+                    <li><span class="preview-trigger" data-image="images/album-moodboard.jpg">Mood boards</span> for an album photoshoot</li>
+                    <li><span class="preview-trigger" data-image="images/stretching-poster.jpg">Classy posters</span> for office stretching routines</li>
+                    <li><span class="preview-trigger" data-image="images/tomato-poster.jpg">Unserious posters</span> about stolen cherry tomatoes</li>
                 </ul>
 
-                <p style="margin-top: 10px;"><a href="#" onclick="alert('Personal projects will be embedded here — coming soon!'); return false;">View Projects →</a></p>
+                <p style="margin-top: 10px;"><a href="#" onclick="alert('Personal projects will be embedded here — coming soon!'); return false;">View All Projects →</a></p>
 
                 <div class="tag-wrap">
                     <span class="tag">Creative Direction</span>
@@ -1121,6 +1159,77 @@
         };
         return titles[name] || name + '.txt';
     }
+
+    // ─── HOVER IMAGE PREVIEW ───
+    const previewImage = document.createElement('img');
+    previewImage.className = 'preview-image';
+    document.body.appendChild(previewImage);
+
+    let previewTimeout = null;
+
+    document.addEventListener('mouseover', function(e) {
+        const trigger = e.target.closest('.preview-trigger');
+        if (!trigger) {
+            if (previewTimeout) clearTimeout(previewTimeout);
+            previewTimeout = setTimeout(() => {
+                previewImage.classList.remove('visible');
+                previewImage.style.display = 'none';
+            }, 150);
+            return;
+        }
+
+        if (previewTimeout) {
+            clearTimeout(previewTimeout);
+            previewTimeout = null;
+        }
+
+        const imageUrl = trigger.dataset.image;
+        if (!imageUrl) return;
+
+        previewImage.src = imageUrl;
+        previewImage.alt = trigger.textContent || 'Preview';
+        previewImage.style.display = 'block';
+        previewImage.classList.add('visible');
+
+        let left = e.clientX + 16;
+        let top = e.clientY - 40;
+
+        const imgWidth = 280;
+        const imgHeight = 320;
+        if (left + imgWidth > window.innerWidth - 20) {
+            left = e.clientX - imgWidth - 16;
+        }
+        if (top + imgHeight > window.innerHeight - 20) {
+            top = window.innerHeight - imgHeight - 20;
+        }
+        if (top < 20) top = 20;
+
+        previewImage.style.left = left + 'px';
+        previewImage.style.top = top + 'px';
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (!previewImage.classList.contains('visible')) return;
+
+        const trigger = e.target.closest('.preview-trigger');
+        if (!trigger) return;
+
+        let left = e.clientX + 16;
+        let top = e.clientY - 40;
+
+        const imgWidth = 280;
+        const imgHeight = 320;
+        if (left + imgWidth > window.innerWidth - 20) {
+            left = e.clientX - imgWidth - 16;
+        }
+        if (top + imgHeight > window.innerHeight - 20) {
+            top = window.innerHeight - imgHeight - 20;
+        }
+        if (top < 20) top = 20;
+
+        previewImage.style.left = left + 'px';
+        previewImage.style.top = top + 'px';
+    });
 
     // ─── KEYBOARD SHORTCUT: ESC to close all non-welcome windows ───
     document.addEventListener('keydown', function(e) {
