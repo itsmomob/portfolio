@@ -50,7 +50,7 @@
             padding-top: 8px;
             flex-shrink: 0;
             z-index: 10;
-            overflow-y: auto;
+            overflow: hidden;
         }
 
         .folder {
@@ -110,6 +110,24 @@
             left: 16px;
             z-index: 100;
             min-height: 160px;
+        }
+
+        .window:hover {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes windowOpen {
+            0% { opacity: 0; transform: scale(0.94) translateY(8px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .window.closing {
+            animation: windowClose 0.2s ease-in forwards;
+        }
+
+        @keyframes windowClose {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.94) translateY(8px); }
         }
 
         /* ─── WINDOW HEADER ─── */
@@ -237,7 +255,7 @@
             border-bottom-color: #c87a5a;
         }
 
-        /* ─── RIGHT COLUMN: COLLAGE ─── */
+        /* ─── RIGHT COLUMN: COLLAGE (full space, no preview) ─── */
         .col-right {
             flex: 1.2;
             position: relative;
@@ -249,30 +267,48 @@
             padding: 16px;
         }
 
-        .collage {
+        .collage-wrapper {
             width: 100%;
             height: 100%;
             position: relative;
             overflow: hidden;
             border-radius: 8px;
+            cursor: default;
         }
 
-        /* ─── COLLAGE ITEMS ─── */
+        .collage {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* ─── COLLAGE ITEMS (draggable) ─── */
         .collage-item {
             position: absolute;
             border-radius: 8px;
             overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+            cursor: grab;
+            transition: box-shadow 0.25s ease, filter 0.25s ease;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.06);
+            touch-action: none;
+        }
+
+        .collage-item:active {
+            cursor: grabbing;
         }
 
         .collage-item:hover {
-            transform: scale(1.04) translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
             z-index: 20;
             filter: brightness(1.05);
+        }
+
+        .collage-item.dragging {
+            transition: none !important;
+            z-index: 100 !important;
+            cursor: grabbing;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
         }
 
         .collage-item img {
@@ -280,7 +316,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: filter 0.3s ease;
+            pointer-events: none;
         }
 
         .collage-item .item-overlay {
@@ -312,147 +348,6 @@
             font-weight: 300;
             color: #d4c8bc;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ─── PREVIEW PANEL ─── */
-        .preview-panel {
-            width: 280px;
-            min-width: 240px;
-            max-width: 340px;
-            height: 100%;
-            background: rgba(249, 246, 240, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .preview-panel-header {
-            background: #e8d5c4;
-            padding: 8px 14px;
-            border-radius: 10px 10px 0 0;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            font-weight: 500;
-            color: #3a3530;
-            letter-spacing: 0.3px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .preview-panel-header .preview-title {
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            font-size: 11px;
-            color: #7a6a5a;
-        }
-
-        .preview-panel-body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            overflow: hidden;
-            position: relative;
-            background: #fcf9f5;
-        }
-
-        .preview-panel-body .placeholder {
-            color: #b0a89c;
-            font-size: 12px;
-            font-weight: 300;
-            text-align: center;
-            line-height: 1.6;
-            font-style: italic;
-        }
-
-        .preview-panel-body .placeholder .icon {
-            font-size: 32px;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .preview-panel-body img {
-            max-width: 100%;
-            max-height: 180px;
-            object-fit: contain;
-            border-radius: 6px;
-            display: none;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-        }
-
-        .preview-panel-body img.visible {
-            display: block;
-            animation: previewFade 0.3s ease-out;
-        }
-
-        @keyframes previewFade {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .preview-panel-body .preview-meta {
-            width: 100%;
-            margin-top: 12px;
-            display: none;
-        }
-
-        .preview-panel-body .preview-meta.visible {
-            display: block;
-        }
-
-        .preview-panel-body .preview-meta .meta-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 2px 0;
-            font-size: 11px;
-            border-bottom: 1px solid #f0ebe4;
-        }
-
-        .preview-panel-body .preview-meta .meta-row .label {
-            color: #7a6a5a;
-            font-weight: 400;
-        }
-
-        .preview-panel-body .preview-meta .meta-row .value {
-            color: #2c2a2a;
-            font-weight: 500;
-        }
-
-        .preview-panel-body .preview-meta .meta-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-top: 6px;
-        }
-
-        .preview-panel-body .preview-meta .meta-skills .skill-tag {
-            background: #e8ddd0;
-            color: #5a4a3a;
-            font-size: 9px;
-            font-weight: 500;
-            padding: 2px 8px;
-            border-radius: 20px;
-        }
-
-        .preview-panel-body .loading {
-            color: #b0a89c;
-            font-size: 11px;
-            font-weight: 300;
-            display: none;
-        }
-
-        .preview-panel-body .loading.visible {
-            display: block;
         }
 
         /* ─── STICKY NOTE ─── */
@@ -577,13 +472,6 @@
         }
 
         /* ─── RESPONSIVE ─── */
-        @media (max-width: 1024px) {
-            .preview-panel {
-                width: 200px;
-                min-width: 160px;
-            }
-        }
-
         @media (max-width: 860px) {
             .desktop {
                 flex-direction: column;
@@ -600,7 +488,7 @@
                 gap: 4px;
                 padding-top: 0;
                 max-height: 70px;
-                overflow-y: auto;
+                overflow: hidden;
             }
 
             .folder {
@@ -643,19 +531,6 @@
                 height: 35vh;
                 min-height: 150px;
                 padding: 8px;
-                flex-direction: column;
-            }
-
-            .preview-panel {
-                width: 100%;
-                min-width: unset;
-                max-width: unset;
-                height: 35vh;
-                min-height: 120px;
-            }
-
-            .preview-panel-body img {
-                max-height: 120px;
             }
 
             .sticky {
@@ -724,18 +599,6 @@
 
             .taskbar-icon .emoji {
                 font-size: 11px;
-            }
-
-            .preview-panel-body .preview-meta .meta-row {
-                font-size: 10px;
-            }
-
-            .preview-panel-body .placeholder {
-                font-size: 10px;
-            }
-
-            .preview-panel-body .placeholder .icon {
-                font-size: 24px;
             }
         }
     </style>
@@ -818,43 +681,10 @@
         </div>
     </div>
 
-    <!-- ─── RIGHT COLUMN: COLLAGE + PREVIEW ─── -->
+    <!-- ─── RIGHT COLUMN: COLLAGE ─── -->
     <div class="col-right" id="colRight">
-        <!-- Collage -->
-        <div class="collage" id="collage"></div>
-
-        <!-- Preview Panel -->
-        <div class="preview-panel" id="previewPanel">
-            <div class="preview-panel-header">
-                <span>📷 PREVIEW</span>
-                <span class="preview-title" id="previewTitle">Hover a project</span>
-            </div>
-            <div class="preview-panel-body" id="previewBody">
-                <div class="placeholder" id="placeholder">
-                    <span class="icon">🖱️</span>
-                    Hover over a project<br />to see the details
-                </div>
-                <img id="previewImage" src="" alt="Preview" />
-                <div class="preview-meta" id="previewMeta">
-                    <div class="meta-row">
-                        <span class="label">Project</span>
-                        <span class="value" id="metaName">—</span>
-                    </div>
-                    <div class="meta-row">
-                        <span class="label">Date</span>
-                        <span class="value" id="metaDate">—</span>
-                    </div>
-                    <div class="meta-row">
-                        <span class="label">City</span>
-                        <span class="value" id="metaCity">—</span>
-                    </div>
-                    <div class="meta-row" style="border-bottom: none; flex-direction: column; align-items: flex-start; gap: 4px; padding-top: 4px;">
-                        <span class="label">Skills</span>
-                        <div class="meta-skills" id="metaSkills"></div>
-                    </div>
-                </div>
-                <div class="loading" id="previewLoading">Loading...</div>
-            </div>
+        <div class="collage-wrapper" id="collageWrapper">
+            <div class="collage" id="collage"></div>
         </div>
     </div>
 </div>
@@ -938,7 +768,7 @@
     }, {
         id: 'cactus',
         name: 'Cactus Magazine',
-        image: 'https://online.fliphtml5.com/yawpx/erig/',
+        image: 'images/cactus-magazine-1.jpg',
         date: '2023',
         city: 'Milan',
         skills: ['Creative Direction', 'Editorial Management', 'Project Management'],
@@ -958,7 +788,7 @@
     }, {
         id: 'not-portfolio',
         name: 'Not a Portfolio',
-        image: 'https://canva.link/8nk6ch5maspb7va',
+        image: 'https://canva.link/4cyk8ss8ef74i2r',
         date: 'Ongoing',
         city: 'Remote',
         skills: ['Portfolio Design', 'Storytelling', 'Creative Direction'],
@@ -1047,29 +877,191 @@
         link: null
     }];
 
+    // ─── COLLAGE ITEM DRAG ───
+    let dragItem = null;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+    let dragStartMouseX = 0;
+    let dragStartMouseY = 0;
+    let hasDragged = false;
+
+    function initDrag(e, item) {
+        const rect = item.getBoundingClientRect();
+        const wrapperRect = document.getElementById('collageWrapper').getBoundingClientRect();
+
+        const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
+        const clientY = e.clientY || e.touches?.[0]?.clientY || 0;
+
+        dragItem = item;
+        dragOffsetX = clientX - rect.left;
+        dragOffsetY = clientY - rect.top;
+        dragStartMouseX = clientX;
+        dragStartMouseY = clientY;
+        hasDragged = false;
+
+        item.classList.add('dragging');
+        item.style.zIndex = 100;
+
+        // Prevent click events from firing on drop
+        e.preventDefault?.();
+        if (e.type === 'touchstart') {
+            e.preventDefault();
+        }
+    }
+
+    function moveDrag(e) {
+        if (!dragItem) return;
+
+        const wrapper = document.getElementById('collageWrapper');
+        const wrapperRect = wrapper.getBoundingClientRect();
+
+        const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
+        const clientY = e.clientY || e.touches?.[0]?.clientY || 0;
+
+        const dx = clientX - dragStartMouseX;
+        const dy = clientY - dragStartMouseY;
+
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+            hasDragged = true;
+        }
+
+        const currentLeft = parseFloat(dragItem.dataset.left) || 0;
+        const currentTop = parseFloat(dragItem.dataset.top) || 0;
+
+        let newX = currentLeft + dx;
+        let newY = currentTop + dy;
+
+        // Keep within bounds
+        const itemWidth = parseFloat(dragItem.style.width);
+        const itemHeight = parseFloat(dragItem.style.height);
+        const wrapperWidth = wrapperRect.width;
+        const wrapperHeight = wrapperRect.height;
+
+        newX = Math.max(0, Math.min(newX, wrapperWidth - itemWidth));
+        newY = Math.max(0, Math.min(newY, wrapperHeight - itemHeight));
+
+        dragItem.style.left = newX + 'px';
+        dragItem.style.top = newY + 'px';
+        dragItem.dataset.left = newX;
+        dragItem.dataset.top = newY;
+
+        dragStartMouseX = clientX;
+        dragStartMouseY = clientY;
+
+        if (e.type === 'touchmove') {
+            e.preventDefault();
+        }
+    }
+
+    function endDrag(e) {
+        if (!dragItem) return;
+
+        dragItem.classList.remove('dragging');
+
+        // If no drag occurred, treat as a click
+        if (!hasDragged) {
+            const projectId = dragItem.dataset.projectId;
+            const project = projects.find(p => p.id === projectId);
+            if (project) {
+                openProject(project);
+            }
+        }
+
+        // Reset z-index
+        setTimeout(() => {
+            if (dragItem) {
+                dragItem.style.zIndex = '';
+            }
+        }, 100);
+
+        dragItem = null;
+        hasDragged = false;
+
+        if (e?.type === 'touchend') {
+            e.preventDefault();
+        }
+    }
+
+    // ─── MOUSE DRAG EVENTS ───
+    document.addEventListener('mousedown', function(e) {
+        const item = e.target.closest('.collage-item');
+        if (item) {
+            initDrag(e, item);
+        }
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (dragItem) {
+            moveDrag(e);
+        }
+    });
+
+    document.addEventListener('mouseup', function(e) {
+        if (dragItem) {
+            endDrag(e);
+        }
+    });
+
+    // ─── TOUCH DRAG EVENTS ───
+    document.addEventListener('touchstart', function(e) {
+        const item = e.target.closest('.collage-item');
+        if (item) {
+            initDrag(e, item);
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function(e) {
+        if (dragItem) {
+            moveDrag(e);
+        }
+    }, { passive: false });
+
+    document.addEventListener('touchend', function(e) {
+        if (dragItem) {
+            endDrag(e);
+        }
+    }, { passive: true });
+
     // ─── COLLAGE LAYOUT ───
-    // Varied sizes: large, medium, small
     const sizes = [
-        { w: 48, h: 48 }, // large
-        { w: 36, h: 36 }, // medium
-        { w: 28, h: 28 }, // small
-        { w: 36, h: 28 },
-        { w: 28, h: 36 },
-        { w: 48, h: 36 },
-        { w: 36, h: 48 },
-        { w: 28, h: 28 },
-        { w: 48, h: 28 },
-        { w: 28, h: 48 },
-        { w: 36, h: 36 }
+        { w: 48, h: 48 }, { w: 36, h: 36 }, { w: 28, h: 28 },
+        { w: 36, h: 28 }, { w: 28, h: 36 }, { w: 48, h: 36 },
+        { w: 36, h: 48 }, { w: 28, h: 28 }, { w: 48, h: 28 },
+        { w: 28, h: 48 }, { w: 36, h: 36 }
     ];
 
+    // ─── STORE POSITIONS IN LOCAL STORAGE ───
+    const STORAGE_KEY = 'monica_collage_positions';
+
+    function loadPositions() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : {};
+        } catch (e) {
+            return {};
+        }
+    }
+
+    function savePositions(positions) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(positions));
+        } catch (e) {
+            // ignore
+        }
+    }
+
     function generateCollage() {
-        const collage = document.getElementById('collage');
-        const rect = collage.getBoundingClientRect();
+        const collageEl = document.getElementById('collage');
+        const rect = collageEl.getBoundingClientRect();
         const W = rect.width || 600;
         const H = rect.height || 400;
 
-        // Shuffle projects with sizes
+        // Expand the collage area slightly
+        const expandedW = W * 1.1;
+        const expandedH = H * 1.1;
+        collageEl.style.width = expandedW + 'px';
+        collageEl.style.height = expandedH + 'px';
+
         const shuffled = projects.map((p, i) => ({
             ...p,
             size: sizes[i % sizes.length],
@@ -1077,54 +1069,67 @@
             y: 0
         }));
 
-        // Simple scattered placement with more spacing
+        const savedPositions = loadPositions();
+
         const padding = 16;
         const placed = [];
 
         shuffled.forEach((project, index) => {
-            const sw = (project.size.w / 100) * W;
-            const sh = (project.size.h / 100) * H;
-            let attempts = 0;
-            let placedOk = false;
+            const sw = (project.size.w / 100) * expandedW * 0.85;
+            const sh = (project.size.h / 100) * expandedH * 0.85;
 
-            while (!placedOk && attempts < 300) {
-                const x = padding + Math.random() * (W - sw - padding * 2);
-                const y = padding + Math.random() * (H - sh - padding * 2);
-                let overlap = false;
+            // Check if we have a saved position for this project
+            const saved = savedPositions[project.id];
+            let x, y;
 
-                for (const p of placed) {
-                    if (x < p.x + p.w + 8 && x + sw + 8 > p.x &&
-                        y < p.y + p.h + 8 && y + sh + 8 > p.y) {
-                        overlap = true;
-                        break;
+            if (saved && saved.x !== undefined && saved.y !== undefined &&
+                saved.x + sw <= expandedW && saved.y + sh <= expandedH) {
+                x = saved.x;
+                y = saved.y;
+            } else {
+                // Random placement
+                let attempts = 0;
+                let placedOk = false;
+
+                while (!placedOk && attempts < 300) {
+                    x = padding + Math.random() * (expandedW - sw - padding * 2);
+                    y = padding + Math.random() * (expandedH - sh - padding * 2);
+                    let overlap = false;
+
+                    for (const p of placed) {
+                        if (x < p.x + p.w + 8 && x + sw + 8 > p.x &&
+                            y < p.y + p.h + 8 && y + sh + 8 > p.y) {
+                            overlap = true;
+                            break;
+                        }
                     }
+
+                    if (!overlap) {
+                        placedOk = true;
+                    }
+                    attempts++;
                 }
 
-                if (!overlap) {
-                    project.x = x;
-                    project.y = y;
-                    placed.push({ x, y, w: sw, h: sh });
-                    placedOk = true;
+                if (!placedOk) {
+                    x = padding + Math.random() * (expandedW - sw - padding * 2);
+                    y = padding + Math.random() * (expandedH - sh - padding * 2);
                 }
-                attempts++;
             }
 
-            if (!placedOk) {
-                project.x = padding + Math.random() * (W - sw - padding * 2);
-                project.y = padding + Math.random() * (H - sh - padding * 2);
-                placed.push({ x: project.x, y: project.y, w: sw, h: sh });
-            }
+            project.x = x;
+            project.y = y;
+            placed.push({ x, y, w: sw, h: sh });
 
-            // Create DOM element
             const el = document.createElement('div');
             el.className = 'collage-item';
-            el.style.left = project.x + 'px';
-            el.style.top = project.y + 'px';
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
             el.style.width = sw + 'px';
             el.style.height = sh + 'px';
+            el.dataset.left = x;
+            el.dataset.top = y;
             el.dataset.projectId = project.id;
 
-            // Image
             const img = document.createElement('img');
             img.src = project.image;
             img.alt = project.name;
@@ -1136,7 +1141,6 @@
             };
             el.appendChild(img);
 
-            // Overlay
             const overlay = document.createElement('div');
             overlay.className = 'item-overlay';
             overlay.innerHTML = `
@@ -1145,95 +1149,65 @@
             `;
             el.appendChild(overlay);
 
-            // Events
-            el.addEventListener('mouseenter', function(e) {
-                showPreview(project);
-            });
-
-            el.addEventListener('mouseleave', function(e) {
-                clearPreview();
-            });
-
-            el.addEventListener('click', function(e) {
-                openProject(project);
-            });
-
-            collage.appendChild(el);
+            collageEl.appendChild(el);
         });
     }
 
-    // ─── PREVIEW PANEL ───
-    const previewImage = document.getElementById('previewImage');
-    const previewMeta = document.getElementById('previewMeta');
-    const metaName = document.getElementById('metaName');
-    const metaDate = document.getElementById('metaDate');
-    const metaCity = document.getElementById('metaCity');
-    const metaSkills = document.getElementById('metaSkills');
-    const previewTitle = document.getElementById('previewTitle');
-    const placeholder = document.getElementById('placeholder');
-    const previewLoading = document.getElementById('previewLoading');
+    // ─── SAVE POSITIONS ON DRAG END ───
+    function saveAllPositions() {
+        const items = document.querySelectorAll('.collage-item');
+        const positions = {};
+        items.forEach(item => {
+            const id = item.dataset.projectId;
+            const left = parseFloat(item.dataset.left) || parseFloat(item.style.left) || 0;
+            const top = parseFloat(item.dataset.top) || parseFloat(item.style.top) || 0;
+            positions[id] = { x: left, y: top };
+        });
+        savePositions(positions);
+    }
 
-    let previewTimeout = null;
+    // Override endDrag to save positions
+    const originalEndDrag = endDrag;
+    endDrag = function(e) {
+        if (!dragItem) return;
 
-    function showPreview(project) {
-        if (previewTimeout) {
-            clearTimeout(previewTimeout);
-            previewTimeout = null;
+        dragItem.classList.remove('dragging');
+
+        if (!hasDragged) {
+            const projectId = dragItem.dataset.projectId;
+            const project = projects.find(p => p.id === projectId);
+            if (project) {
+                openProject(project);
+            }
+        } else {
+            // Save positions after dragging
+            saveAllPositions();
         }
 
-        placeholder.style.display = 'none';
-        previewLoading.classList.add('visible');
-        previewImage.classList.remove('visible');
-        previewMeta.classList.remove('visible');
+        setTimeout(() => {
+            if (dragItem) {
+                dragItem.style.zIndex = '';
+            }
+        }, 100);
 
-        previewTitle.textContent = project.name;
+        dragItem = null;
+        hasDragged = false;
 
-        const img = new Image();
-        img.onload = function() {
-            previewLoading.classList.remove('visible');
-            previewImage.src = project.image;
-            previewImage.classList.add('visible');
-
-            metaName.textContent = project.name;
-            metaDate.textContent = project.date;
-            metaCity.textContent = project.city;
-            metaSkills.innerHTML = project.skills.map(s =>
-                `<span class="skill-tag">${s}</span>`
-            ).join('');
-            previewMeta.classList.add('visible');
-        };
-        img.onerror = function() {
-            previewLoading.classList.remove('visible');
-            previewImage.classList.remove('visible');
-            previewMeta.classList.remove('visible');
-            previewTitle.textContent = '⚠️ Image not found';
-        };
-        img.src = project.image;
-    }
-
-    function clearPreview() {
-        if (previewTimeout) clearTimeout(previewTimeout);
-        previewTimeout = setTimeout(() => {
-            previewImage.classList.remove('visible');
-            previewImage.src = '';
-            previewMeta.classList.remove('visible');
-            previewLoading.classList.remove('visible');
-            placeholder.style.display = 'block';
-            previewTitle.textContent = 'Hover a project';
-        }, 200);
-    }
+        if (e?.type === 'touchend') {
+            e.preventDefault();
+        }
+    };
 
     // ─── OPEN PROJECT ───
     function openProject(project) {
         if (project.link) {
             window.open(project.link, '_blank');
         } else {
-            // Open as a folder window
             openFolder(project.folder);
         }
     }
 
-    // ─── DRAG LOGIC ───
+    // ─── DRAG LOGIC FOR WINDOWS ───
     let dragData = null;
 
     document.addEventListener('mousedown', function(e) {
@@ -1271,7 +1245,7 @@
         dragData = null;
     });
 
-    // ─── TOUCH DRAG ───
+    // ─── TOUCH DRAG FOR WINDOWS ───
     let touchDragData = null;
 
     document.addEventListener('touchstart', function(e) {
@@ -1567,7 +1541,7 @@
                     <li>Classy posters for office stretching routines</li>
                     <li>Unserious posters about stolen cherry tomatoes</li>
                 </ul>
-                <p><a href="https://canva.link/wgnb7ckoboovidn" target="_blank">My Not So Linear Journey →</a> | <a href="https://canva.link/8nk6ch5maspb7va" target="_blank">Not a Portfolio →</a></p>
+                <p><a href="https://canva.link/wgnb7ckoboovidn" target="_blank">My Not So Linear Journey →</a> | <a href="https://canva.link/4cyk8ss8ef74i2r" target="_blank">Not a Portfolio →</a></p>
                 <div class="tag-wrap">
                     <span class="tag">Creative Direction</span>
                     <span class="tag">Storytelling</span>
@@ -1616,8 +1590,8 @@
     });
 
     window.addEventListener('resize', function() {
-        const collage = document.getElementById('collage');
-        collage.innerHTML = '';
+        const collageEl = document.getElementById('collage');
+        collageEl.innerHTML = '';
         generateCollage();
     });
 
