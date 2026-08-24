@@ -84,12 +84,7 @@
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
         }
 
-        .folder.active {
-            background: rgba(200, 122, 90, 0.15);
-            border-left: 2px solid #c87a5a;
-        }
-
-        /* ─── WINDOW CONTAINER ─── */
+        /* ─── MIDDLE COLUMN: FOLDER WINDOWS ─── */
         .col-middle {
             flex: 1;
             position: relative;
@@ -98,7 +93,7 @@
             min-width: 0;
         }
 
-        /* ─── WINDOW (folder windows) ─── */
+        /* ─── WINDOW ─── */
         .window {
             background: #f9f6f0;
             border-radius: 10px;
@@ -115,24 +110,6 @@
             left: 16px;
             z-index: 100;
             min-height: 160px;
-        }
-
-        .window:hover {
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
-        }
-
-        @keyframes windowOpen {
-            0% { opacity: 0; transform: scale(0.94) translateY(8px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .window.closing {
-            animation: windowClose 0.2s ease-in forwards;
-        }
-
-        @keyframes windowClose {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0.94) translateY(8px); }
         }
 
         /* ─── WINDOW HEADER ─── */
@@ -216,17 +193,6 @@
             letter-spacing: -0.1px;
         }
 
-        .window-body h3 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #a08474;
-            margin-top: 10px;
-            margin-bottom: 2px;
-        }
-
         .window-body p {
             margin-bottom: 6px;
             font-weight: 300;
@@ -235,10 +201,6 @@
         .window-body ul {
             margin-left: 16px;
             margin-bottom: 8px;
-        }
-
-        .window-body ul li {
-            margin-bottom: 2px;
         }
 
         .window-body .divider {
@@ -284,7 +246,7 @@
             min-width: 0;
             border-radius: 10px;
             background: rgba(26, 26, 26, 0.4);
-            padding: 12px;
+            padding: 16px;
         }
 
         .collage {
@@ -367,7 +329,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transition: opacity 0.3s ease;
             flex-shrink: 0;
         }
 
@@ -593,10 +554,6 @@
             color: #b0a89c;
         }
 
-        .taskbar-right .divider {
-            color: #4a4038;
-        }
-
         .taskbar-right .monica-logo {
             font-family: 'Playfair Display', serif;
             font-weight: 600;
@@ -616,19 +573,6 @@
 
         .window-body::-webkit-scrollbar-thumb {
             background: #d4c8bc;
-            border-radius: 10px;
-        }
-
-        .col-left::-webkit-scrollbar {
-            width: 3px;
-        }
-
-        .col-left::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .col-left::-webkit-scrollbar-thumb {
-            background: #4a4038;
             border-radius: 10px;
         }
 
@@ -699,6 +643,7 @@
                 height: 35vh;
                 min-height: 150px;
                 padding: 8px;
+                flex-direction: column;
             }
 
             .preview-panel {
@@ -857,7 +802,7 @@
             <div class="window-body">
                 <h1>Strategic Communication & International Systems Design</h1>
                 <p>I architect communication systems and cross-cultural strategies for organizations operating across Europe and Asia.</p>
-                <p>With a foundation in international relations and interlingual mediation, I've worked across institutional, private, and non-profit sectors—from the European Parliament to Seoul-based small businesses. I speak five languages and have lived and worked in Italy, the UK, Luxembourg, and South Korea.</p>
+                <p>With a foundation in international relations and interlingual mediation, I've worked across institutional, private, and non-profit sectors—from the European Parliament to Seoul-based startups. I speak five languages and have lived and worked in Italy, the UK, Luxembourg, and South Korea.</p>
                 <p><strong>My work sits at the intersection of:</strong></p>
                 <ul>
                     <li>International communication & stakeholder engagement</li>
@@ -958,16 +903,28 @@
         city: 'Luxembourg',
         skills: ['UI/UX Consultancy', 'Stakeholder Interviews', 'User Journey Mapping'],
         folder: 'eu',
-        description: 'UI/UX consultancy for the EU\'s flagship terminology database redesign.'
+        description: 'UI/UX consultancy for the EU\'s flagship terminology database redesign.',
+        link: null
     }, {
         id: 'hanabee',
         name: 'HanaBee',
-        image: 'images/hanabee-brand-1.jpg',
+        image: 'https://canva.link/x26pwkbbdh6x8x2',
         date: '2024',
         city: 'Tuscany',
         skills: ['Brand Strategy', 'Content Creation', 'Web Design', 'SEO'],
         folder: 'hanabee',
-        description: 'Brand identity and packaging design for a Tuscan honey producer.'
+        description: 'Brand identity and packaging design for a Tuscan honey producer.',
+        link: 'https://canva.link/x26pwkbbdh6x8x2'
+    }, {
+        id: 'hanabee-brochure',
+        name: 'HanaBee Brochure',
+        image: 'https://canva.link/qk5l2u4tdceum0x',
+        date: '2024',
+        city: 'Tuscany',
+        skills: ['Brand Strategy', 'Content Creation', 'Print Design'],
+        folder: 'hanabee',
+        description: 'Brochure design for the HanaBee brand.',
+        link: 'https://canva.link/qk5l2u4tdceum0x'
     }, {
         id: 'polo',
         name: 'Il Polo Positivo',
@@ -976,16 +933,48 @@
         city: 'Remote',
         skills: ['Content Strategy', 'Team Leadership', 'Social Media Growth'],
         folder: 'brand',
-        description: 'Content strategy and visual identity for a positive news community.'
+        description: 'Content strategy and visual identity for a positive news community.',
+        link: null
     }, {
         id: 'cactus',
         name: 'Cactus Magazine',
-        image: 'images/cactus-magazine-1.jpg',
+        image: 'https://online.fliphtml5.com/yawpx/erig/',
         date: '2023',
         city: 'Milan',
         skills: ['Creative Direction', 'Editorial Management', 'Project Management'],
         folder: 'brand',
-        description: 'Creative direction and editorial strategy for a magazine with a vision.'
+        description: 'Creative direction and editorial strategy for a magazine with a vision.',
+        link: 'https://online.fliphtml5.com/yawpx/erig/'
+    }, {
+        id: 'cactus-collab',
+        name: 'Cactus Collab',
+        image: 'https://www.behance.net/gallery/183436925/Restaurant-Magazine',
+        date: '2023',
+        city: 'Milan',
+        skills: ['Creative Direction', 'Collaboration', 'Art Direction'],
+        folder: 'brand',
+        description: 'Collaboration with the graphic designer on the Cactus magazine project.',
+        link: 'https://www.behance.net/gallery/183436925/Restaurant-Magazine'
+    }, {
+        id: 'not-portfolio',
+        name: 'Not a Portfolio',
+        image: 'https://canva.link/8nk6ch5maspb7va',
+        date: 'Ongoing',
+        city: 'Remote',
+        skills: ['Portfolio Design', 'Storytelling', 'Creative Direction'],
+        folder: 'personal',
+        description: 'A creative diary and scrapbook of my work.',
+        link: 'https://canva.link/8nk6ch5maspb7va'
+    }, {
+        id: 'journey',
+        name: 'My Not So Linear Journey',
+        image: 'https://canva.link/wgnb7ckoboovidn',
+        date: 'Ongoing',
+        city: 'Remote',
+        skills: ['Personal Storytelling', 'Design', 'Reflection'],
+        folder: 'personal',
+        description: 'A visual journey of my non-linear career path.',
+        link: 'https://canva.link/wgnb7ckoboovidn'
     }, {
         id: 'coffee',
         name: 'Coffee Table Books',
@@ -994,7 +983,8 @@
         city: 'Remote',
         skills: ['Design', 'Photography', 'Storytelling'],
         folder: 'personal',
-        description: 'Visual journeys of my travels, created to keep memories alive.'
+        description: 'Visual journeys of my travels, created to keep memories alive.',
+        link: null
     }, {
         id: 'vlog',
         name: 'Vlog Seoul',
@@ -1003,7 +993,8 @@
         city: 'Seoul',
         skills: ['Video Editing', 'Storytelling', 'Collaboration'],
         folder: 'personal',
-        description: 'Adventures and conversations recorded during my time in Seoul.'
+        description: 'Adventures and conversations recorded during my time in Seoul.',
+        link: null
     }, {
         id: 'newsletter',
         name: 'Monthly Newsletter',
@@ -1012,7 +1003,8 @@
         city: 'Remote',
         skills: ['Writing', 'Community', 'Storytelling'],
         folder: 'personal',
-        description: 'Personal newsletter keeping friends updated across time zones.'
+        description: 'Personal newsletter keeping friends updated across time zones.',
+        link: null
     }, {
         id: 'crossword',
         name: 'Crossword Gift',
@@ -1021,7 +1013,8 @@
         city: 'Remote',
         skills: ['Creative Direction', 'Personalization', 'Design'],
         folder: 'personal',
-        description: 'A personal crossword created for a friend\'s graduation.'
+        description: 'A personal crossword created for a friend\'s graduation.',
+        link: null
     }, {
         id: 'album',
         name: 'Album Moodboard',
@@ -1030,7 +1023,8 @@
         city: 'Milan',
         skills: ['Creative Direction', 'Mood Boarding', 'Art Direction'],
         folder: 'personal',
-        description: 'Mood boards and creative direction for an album photoshoot.'
+        description: 'Mood boards and creative direction for an album photoshoot.',
+        link: null
     }, {
         id: 'stretching',
         name: 'Stretching Poster',
@@ -1039,7 +1033,8 @@
         city: 'Luxembourg',
         skills: ['Graphic Design', 'Typography', 'Office Culture'],
         folder: 'personal',
-        description: 'Classy poster for office stretching routines.'
+        description: 'Classy poster for office stretching routines.',
+        link: null
     }, {
         id: 'tomato',
         name: 'Tomato Poster',
@@ -1048,7 +1043,8 @@
         city: 'Luxembourg',
         skills: ['Graphic Design', 'Humor', 'Office Culture'],
         folder: 'personal',
-        description: 'Unserious poster about stolen cherry tomatoes from the office fridge.'
+        description: 'Unserious poster about stolen cherry tomatoes from the office fridge.',
+        link: null
     }];
 
     // ─── COLLAGE LAYOUT ───
@@ -1081,8 +1077,8 @@
             y: 0
         }));
 
-        // Simple scattered placement
-        const padding = 8;
+        // Simple scattered placement with more spacing
+        const padding = 16;
         const placed = [];
 
         shuffled.forEach((project, index) => {
@@ -1091,14 +1087,14 @@
             let attempts = 0;
             let placedOk = false;
 
-            while (!placedOk && attempts < 200) {
+            while (!placedOk && attempts < 300) {
                 const x = padding + Math.random() * (W - sw - padding * 2);
                 const y = padding + Math.random() * (H - sh - padding * 2);
                 let overlap = false;
 
                 for (const p of placed) {
-                    if (x < p.x + p.w + 4 && x + sw + 4 > p.x &&
-                        y < p.y + p.h + 4 && y + sh + 4 > p.y) {
+                    if (x < p.x + p.w + 8 && x + sw + 8 > p.x &&
+                        y < p.y + p.h + 8 && y + sh + 8 > p.y) {
                         overlap = true;
                         break;
                     }
@@ -1159,7 +1155,7 @@
             });
 
             el.addEventListener('click', function(e) {
-                openProjectWindow(project);
+                openProject(project);
             });
 
             collage.appendChild(el);
@@ -1227,63 +1223,14 @@
         }, 200);
     }
 
-    // ─── OPEN PROJECT WINDOW ───
-    function openProjectWindow(project) {
-        const middle = document.getElementById('colMiddle');
-        const existingId = 'project-' + project.id;
-        const existing = document.getElementById(existingId);
-        if (existing) {
-            existing.style.display = 'flex';
-            bringToFront(existing);
-            return;
+    // ─── OPEN PROJECT ───
+    function openProject(project) {
+        if (project.link) {
+            window.open(project.link, '_blank');
+        } else {
+            // Open as a folder window
+            openFolder(project.folder);
         }
-
-        const pos = getNextPosition();
-
-        const win = document.createElement('div');
-        win.className = 'window';
-        win.id = existingId;
-        win.style.left = pos.left + 'px';
-        win.style.top = pos.top + 'px';
-        win.style.zIndex = pos.zIndex;
-        win.style.width = '400px';
-
-        const header = document.createElement('div');
-        header.className = 'window-header';
-        header.setAttribute('data-drag', existingId);
-        header.innerHTML = `
-            <div class="window-controls">
-                <span class="close" onclick="closeWindow('${existingId}')"></span>
-                <span class="minimize" onclick="minimizeWindow('${existingId}')"></span>
-                <span class="expand"></span>
-            </div>
-            <span class="window-title">${project.name}.txt</span>
-        `;
-
-        const body = document.createElement('div');
-        body.className = 'window-body';
-        body.innerHTML = `
-            <h1>${project.name}</h1>
-            <p><strong>📍 ${project.city}</strong> · ${project.date}</p>
-            <hr class="divider" />
-            <p>${project.description}</p>
-            <p><strong>Skills:</strong></p>
-            <div class="tag-wrap">
-                ${project.skills.map(s => `<span class="tag">${s}</span>`).join('')}
-            </div>
-            <hr class="divider" />
-            <p style="font-size: 11px; color: #7a6a5a;">
-                <span class="preview-trigger" data-image="${project.image}" data-caption="${project.name}" data-title="${project.name}">
-                    🖼️ View image
-                </span>
-            </p>
-        `;
-
-        win.appendChild(header);
-        win.appendChild(body);
-        middle.appendChild(win);
-
-        bringToFront(win);
     }
 
     // ─── DRAG LOGIC ───
@@ -1509,6 +1456,7 @@
                 </ul>
                 <h2>The Result</h2>
                 <p>A cohesive brand that tells a story—and a digital presence that attracts customers who share those values.</p>
+                <p><a href="https://canva.link/x26pwkbbdh6x8x2" target="_blank">View Branding →</a> | <a href="https://canva.link/qk5l2u4tdceum0x" target="_blank">View Brochure →</a></p>
                 <div class="tag-wrap">
                     <span class="tag">Brand Strategy</span>
                     <span class="tag">Content Creation</span>
@@ -1560,6 +1508,7 @@
                     <li>Managed project timelines and contributor relationships</li>
                     <li>Produced 5 issues across 2 shootings</li>
                 </ul>
+                <p><a href="https://online.fliphtml5.com/yawpx/erig/" target="_blank">Read the Journal →</a> | <a href="https://www.behance.net/gallery/183436925/Restaurant-Magazine" target="_blank">View Collaboration →</a></p>
                 <div class="tag-wrap">
                     <span class="tag">Content Strategy</span>
                     <span class="tag">Team Leadership</span>
@@ -1618,6 +1567,7 @@
                     <li>Classy posters for office stretching routines</li>
                     <li>Unserious posters about stolen cherry tomatoes</li>
                 </ul>
+                <p><a href="https://canva.link/wgnb7ckoboovidn" target="_blank">My Not So Linear Journey →</a> | <a href="https://canva.link/8nk6ch5maspb7va" target="_blank">Not a Portfolio →</a></p>
                 <div class="tag-wrap">
                     <span class="tag">Creative Direction</span>
                     <span class="tag">Storytelling</span>
@@ -1628,12 +1578,15 @@
             contact: `
                 <h1>Let's Build Something</h1>
                 <hr class="divider" />
-                <p><strong>📍 Based in Seoul, South Korea</strong><br />🌍 Worked in Italy, UK, Luxembourg, Sweden, South Korea</p>
+                <p><strong>📍 Based in Seoul, South Korea</strong><br />🌍 Worked in Italy, UK, Luxembourg, and South Korea</p>
                 <p style="margin-top: 12px;">
                     <strong>📧 Email:</strong> <a href="mailto:bernasconimonica12@gmail.com">bernasconimonica12@gmail.com</a><br />
                     <strong>🐙 GitHub:</strong> <a href="https://github.com/itsmomob" target="_blank">github.com/itsmomob</a><br />
                     <strong>🔗 LinkedIn:</strong> <a href="https://www.linkedin.com/in/monica-bernasconi/" target="_blank">linkedin.com/in/monica-bernasconi</a><br />
                     <strong>📁 Archive:</strong> <a href="https://monicabernasconi.my.canva.site/home" target="_blank">Canva Portfolio</a>
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>📄 CV:</strong> <a href="Monica_Bernasconi_CV.pdf" target="_blank">Download CV (PDF)</a>
                 </p>
                 <hr class="divider" />
                 <p style="font-style: italic; color: #7a6a5a;">"I'm always open to conversations about international communication, systems design, and creative problem-solving."</p>
