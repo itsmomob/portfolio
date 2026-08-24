@@ -33,74 +33,64 @@
             height: 100vh;
             background: #1a1a1a;
             display: flex;
-            padding: 20px 20px 70px 20px;
-            gap: 20px;
+            padding: 16px 16px 60px 16px;
+            gap: 16px;
             overflow: hidden;
             position: relative;
         }
 
-        /* ─── SIDEBAR (FOLDERS ON LEFT) ─── */
-        .sidebar {
-            width: 100px;
-            min-width: 100px;
+        /* ─── LEFT COLUMN: FOLDERS ─── */
+        .col-left {
+            width: 140px;
+            min-width: 120px;
+            max-width: 180px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            padding-top: 10px;
+            gap: 8px;
+            padding-top: 8px;
             flex-shrink: 0;
             z-index: 10;
+            overflow-y: auto;
         }
 
         .folder {
             display: flex;
-            flex-direction: column;
             align-items: center;
+            gap: 8px;
             cursor: pointer;
-            transition: transform 0.15s;
-            width: 80px;
-            text-align: center;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: background 0.2s, transform 0.15s;
+            width: 100%;
         }
 
         .folder:hover {
-            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(4px);
         }
 
         .folder-icon {
-            font-size: 36px;
+            font-size: 20px;
             line-height: 1;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
-            transition: filter 0.2s;
-        }
-
-        .folder:hover .folder-icon {
-            filter: drop-shadow(0 4px 12px rgba(200, 122, 90, 0.3));
+            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
         }
 
         .folder-name {
             font-family: 'Inter', sans-serif;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 500;
             color: #d4c8bc;
-            margin-top: 2px;
             letter-spacing: 0.2px;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-            max-width: 80px;
-            word-break: break-word;
-            line-height: 1.3;
+        }
+
+        .folder.active {
+            background: rgba(200, 122, 90, 0.15);
+            border-left: 2px solid #c87a5a;
         }
 
         /* ─── WINDOW CONTAINER ─── */
-        .window-container {
-            flex: 1;
-            position: relative;
-            height: 100%;
-            overflow: hidden;
-            display: flex;
-            gap: 20px;
-        }
-
-        /* ─── LEFT AREA (FOLDER WINDOWS) ─── */
-        .window-left {
+        .col-middle {
             flex: 1;
             position: relative;
             height: 100%;
@@ -108,142 +98,31 @@
             min-width: 0;
         }
 
-        /* ─── PREVIEW PANEL (RIGHT) ─── */
-        .preview-panel {
-            width: 340px;
-            min-width: 300px;
-            max-width: 420px;
-            height: 100%;
-            background: rgba(249, 246, 240, 0.95);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transition: opacity 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .preview-panel-header {
-            background: #e8d5c4;
-            padding: 10px 16px;
-            border-radius: 12px 12px 0 0;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 500;
-            color: #3a3530;
-            letter-spacing: 0.3px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .preview-panel-header .preview-title {
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            font-size: 12px;
-            color: #7a6a5a;
-        }
-
-        .preview-panel-body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow: hidden;
-            position: relative;
-            background: #fcf9f5;
-        }
-
-        .preview-panel-body .placeholder {
-            color: #b0a89c;
-            font-size: 13px;
-            font-weight: 300;
-            text-align: center;
-            line-height: 1.6;
-            font-style: italic;
-        }
-
-        .preview-panel-body .placeholder .icon {
-            font-size: 40px;
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        .preview-panel-body img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 6px;
-            display: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .preview-panel-body img.visible {
-            display: block;
-            animation: previewFade 0.3s ease-out;
-        }
-
-        @keyframes previewFade {
-            0% { opacity: 0; transform: scale(0.96); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .preview-panel-body .preview-caption {
-            font-size: 12px;
-            color: #7a6a5a;
-            margin-top: 12px;
-            font-weight: 400;
-            text-align: center;
-            display: none;
-        }
-
-        .preview-panel-body .preview-caption.visible {
-            display: block;
-        }
-
-        .preview-panel-body .loading {
-            color: #b0a89c;
-            font-size: 12px;
-            font-weight: 300;
-            display: none;
-        }
-
-        .preview-panel-body .loading.visible {
-            display: block;
-        }
-
-        /* ─── WINDOW ─── */
+        /* ─── WINDOW (folder windows) ─── */
         .window {
             background: #f9f6f0;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-            width: 480px;
-            max-width: 90%;
-            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            width: 420px;
+            max-width: 92%;
+            max-height: 82vh;
             display: flex;
             flex-direction: column;
             animation: windowOpen 0.3s ease-out;
             transition: box-shadow 0.2s, opacity 0.2s;
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 16px;
+            left: 16px;
             z-index: 100;
-            min-height: 200px;
+            min-height: 160px;
         }
 
         .window:hover {
-            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
         @keyframes windowOpen {
-            0% { opacity: 0; transform: scale(0.92) translateY(10px); }
+            0% { opacity: 0; transform: scale(0.94) translateY(8px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
@@ -253,17 +132,17 @@
 
         @keyframes windowClose {
             0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0.92) translateY(10px); }
+            100% { opacity: 0; transform: scale(0.94) translateY(8px); }
         }
 
         /* ─── WINDOW HEADER ─── */
         .window-header {
             background: #e8d5c4;
-            padding: 10px 14px;
-            border-radius: 12px 12px 0 0;
+            padding: 8px 12px;
+            border-radius: 10px 10px 0 0;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
             cursor: grab;
         }
@@ -274,13 +153,13 @@
 
         .window-controls {
             display: flex;
-            gap: 5px;
-            margin-right: 8px;
+            gap: 4px;
+            margin-right: 6px;
         }
 
         .window-controls span {
-            width: 11px;
-            height: 11px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             display: block;
             transition: opacity 0.2s;
@@ -297,7 +176,7 @@
 
         .window-title {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
             color: #3a3530;
             letter-spacing: 0.3px;
@@ -309,53 +188,53 @@
 
         /* ─── WINDOW BODY ─── */
         .window-body {
-            padding: 20px 24px 24px 24px;
+            padding: 16px 20px 20px 20px;
             overflow-y: auto;
             flex: 1;
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.7;
             color: #2c2a2a;
-            max-height: 60vh;
+            max-height: 55vh;
         }
 
         .window-body h1 {
             font-family: 'Playfair Display', serif;
             font-weight: 600;
-            font-size: 20px;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 8px;
             color: #2c2a2a;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.2px;
         }
 
         .window-body h2 {
             font-family: 'Playfair Display', serif;
             font-weight: 400;
-            font-size: 16px;
-            margin-top: 16px;
-            margin-bottom: 4px;
+            font-size: 14px;
+            margin-top: 12px;
+            margin-bottom: 3px;
             color: #c87a5a;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.1px;
         }
 
         .window-body h3 {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #a08474;
-            margin-top: 14px;
+            margin-top: 10px;
             margin-bottom: 2px;
         }
 
         .window-body p {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 300;
         }
 
         .window-body ul {
-            margin-left: 18px;
-            margin-bottom: 10px;
+            margin-left: 16px;
+            margin-bottom: 8px;
         }
 
         .window-body ul li {
@@ -365,23 +244,23 @@
         .window-body .divider {
             border: none;
             border-top: 1px solid #e8ddd0;
-            margin: 14px 0;
+            margin: 12px 0;
         }
 
         .window-body .tag {
             display: inline-block;
             background: #e8ddd0;
             color: #5a4a3a;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 500;
-            padding: 2px 10px;
+            padding: 2px 8px;
             border-radius: 20px;
-            margin: 2px 4px 2px 0;
+            margin: 2px 3px 2px 0;
             letter-spacing: 0.2px;
         }
 
         .window-body .tag-wrap {
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .window-body a {
@@ -396,37 +275,242 @@
             border-bottom-color: #c87a5a;
         }
 
-        /* ─── PREVIEW TRIGGER ─── */
-        .preview-trigger {
+        /* ─── RIGHT COLUMN: COLLAGE ─── */
+        .col-right {
+            flex: 1.2;
             position: relative;
-            cursor: pointer;
-            color: #c87a5a;
-            font-weight: 500;
-            border-bottom: 1px dashed rgba(200, 122, 90, 0.3);
-            transition: border-color 0.2s;
+            height: 100%;
+            overflow: hidden;
+            min-width: 0;
+            border-radius: 10px;
+            background: rgba(26, 26, 26, 0.4);
+            padding: 12px;
         }
 
-        .preview-trigger:hover {
-            border-bottom-color: #c87a5a;
+        .collage {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        /* ─── COLLAGE ITEMS ─── */
+        .collage-item {
+            position: absolute;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .collage-item:hover {
+            transform: scale(1.04) translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            z-index: 20;
+            filter: brightness(1.05);
+        }
+
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.3s ease;
+        }
+
+        .collage-item .item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 12px 10px 12px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .collage-item:hover .item-overlay {
+            opacity: 1;
+        }
+
+        .collage-item .item-name {
+            font-size: 11px;
+            font-weight: 500;
+            color: #f9f6f0;
+            letter-spacing: 0.2px;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .collage-item .item-sub {
+            font-size: 9px;
+            font-weight: 300;
+            color: #d4c8bc;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ─── PREVIEW PANEL ─── */
+        .preview-panel {
+            width: 280px;
+            min-width: 240px;
+            max-width: 340px;
+            height: 100%;
+            background: rgba(249, 246, 240, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .preview-panel-header {
+            background: #e8d5c4;
+            padding: 8px 14px;
+            border-radius: 10px 10px 0 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            color: #3a3530;
+            letter-spacing: 0.3px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .preview-panel-header .preview-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 11px;
+            color: #7a6a5a;
+        }
+
+        .preview-panel-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            overflow: hidden;
+            position: relative;
+            background: #fcf9f5;
+        }
+
+        .preview-panel-body .placeholder {
+            color: #b0a89c;
+            font-size: 12px;
+            font-weight: 300;
+            text-align: center;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .preview-panel-body .placeholder .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .preview-panel-body img {
+            max-width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            border-radius: 6px;
+            display: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .preview-panel-body img.visible {
+            display: block;
+            animation: previewFade 0.3s ease-out;
+        }
+
+        @keyframes previewFade {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .preview-panel-body .preview-meta {
+            width: 100%;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .preview-panel-body .preview-meta.visible {
+            display: block;
+        }
+
+        .preview-panel-body .preview-meta .meta-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            font-size: 11px;
+            border-bottom: 1px solid #f0ebe4;
+        }
+
+        .preview-panel-body .preview-meta .meta-row .label {
+            color: #7a6a5a;
+            font-weight: 400;
+        }
+
+        .preview-panel-body .preview-meta .meta-row .value {
+            color: #2c2a2a;
+            font-weight: 500;
+        }
+
+        .preview-panel-body .preview-meta .meta-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .preview-panel-body .preview-meta .meta-skills .skill-tag {
+            background: #e8ddd0;
+            color: #5a4a3a;
+            font-size: 9px;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .preview-panel-body .loading {
+            color: #b0a89c;
+            font-size: 11px;
+            font-weight: 300;
+            display: none;
+        }
+
+        .preview-panel-body .loading.visible {
+            display: block;
         }
 
         /* ─── STICKY NOTE ─── */
         .sticky {
             background: #f9f0d8;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 6px;
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 14px;
+            font-size: 12px;
             color: #4a3f35;
-            max-width: 220px;
+            max-width: 180px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
             position: absolute;
             transform: rotate(-3deg);
-            line-height: 1.6;
+            line-height: 1.5;
             border-left: 3px solid #d4a373;
-            bottom: 80px;
-            right: 30px;
+            bottom: 70px;
+            right: 16px;
             z-index: 5;
         }
 
@@ -439,7 +523,7 @@
         .sticky .attribution {
             font-family: 'Inter', sans-serif;
             font-style: normal;
-            font-size: 11px;
+            font-size: 10px;
             color: #7a6a5a;
             margin-top: 2px;
         }
@@ -450,7 +534,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50px;
+            height: 44px;
             background: rgba(26, 26, 26, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -458,30 +542,30 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
+            padding: 0 16px;
             z-index: 1000;
         }
 
         .taskbar-left {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 4px;
         }
 
         .taskbar-icon {
             color: #d4c8bc;
             cursor: pointer;
-            padding: 4px 10px;
+            padding: 4px 8px;
             border-radius: 6px;
             transition: all 0.2s;
             background: transparent;
             border: none;
             font-family: 'Inter', sans-serif;
             font-weight: 400;
-            font-size: 13px;
+            font-size: 12px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
         .taskbar-icon:hover {
@@ -490,21 +574,21 @@
         }
 
         .taskbar-icon .emoji {
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .taskbar-right {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             color: #b0a89c;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 400;
         }
 
         .taskbar-right .time {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+            font-size: 10px;
             letter-spacing: 0.3px;
             color: #b0a89c;
         }
@@ -516,7 +600,7 @@
         .taskbar-right .monica-logo {
             font-family: 'Playfair Display', serif;
             font-weight: 600;
-            font-size: 15px;
+            font-size: 14px;
             color: #d4c8bc;
             letter-spacing: 0.5px;
         }
@@ -535,82 +619,98 @@
             border-radius: 10px;
         }
 
+        .col-left::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .col-left::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .col-left::-webkit-scrollbar-thumb {
+            background: #4a4038;
+            border-radius: 10px;
+        }
+
         /* ─── RESPONSIVE ─── */
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
             .preview-panel {
-                width: 260px;
-                min-width: 200px;
+                width: 200px;
+                min-width: 160px;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 860px) {
             .desktop {
-                padding: 12px 12px 60px 12px;
-                gap: 12px;
                 flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                min-width: unset;
-                flex-direction: row;
-                flex-wrap: wrap;
+                padding: 10px 10px 50px 10px;
                 gap: 10px;
-                padding-top: 0;
-                justify-content: center;
             }
 
-            .folder {
-                width: 60px;
-            }
-
-            .folder-icon {
-                font-size: 28px;
-            }
-
-            .folder-name {
-                font-size: 9px;
-            }
-
-            .window-container {
-                width: 100%;
-                height: calc(100vh - 180px);
-                flex-direction: column;
-            }
-
-            .window-left {
-                height: 60%;
-                min-height: 200px;
-            }
-
-            .preview-panel {
+            .col-left {
                 width: 100%;
                 min-width: unset;
                 max-width: unset;
-                height: 40%;
-                min-height: 150px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 4px;
+                padding-top: 0;
+                max-height: 70px;
+                overflow-y: auto;
+            }
+
+            .folder {
+                width: auto;
+                padding: 4px 10px;
+            }
+
+            .folder-icon {
+                font-size: 16px;
+            }
+
+            .folder-name {
+                font-size: 10px;
+            }
+
+            .col-middle {
+                height: 40vh;
+                min-height: 180px;
             }
 
             .window {
                 width: 95%;
                 max-width: 95%;
                 left: 2.5% !important;
-                top: 10px !important;
-                max-height: 70vh;
+                top: 8px !important;
+                max-height: 80%;
             }
 
             .window-body {
                 max-height: 50vh;
-                padding: 16px 18px 20px 18px;
-                font-size: 12px;
+                padding: 12px 16px 16px 16px;
+                font-size: 11px;
             }
 
             .window-body h1 {
-                font-size: 17px;
+                font-size: 16px;
             }
 
-            .window-body h2 {
-                font-size: 14px;
+            .col-right {
+                height: 35vh;
+                min-height: 150px;
+                padding: 8px;
+            }
+
+            .preview-panel {
+                width: 100%;
+                min-width: unset;
+                max-width: unset;
+                height: 35vh;
+                min-height: 120px;
+            }
+
+            .preview-panel-body img {
+                max-height: 120px;
             }
 
             .sticky {
@@ -618,21 +718,21 @@
             }
 
             .taskbar {
-                height: 44px;
-                padding: 0 12px;
+                height: 40px;
+                padding: 0 10px;
             }
 
             .taskbar-icon {
-                font-size: 11px;
+                font-size: 10px;
                 padding: 2px 6px;
             }
 
             .taskbar-right .time {
-                font-size: 10px;
+                font-size: 9px;
             }
 
             .taskbar-right .monica-logo {
-                font-size: 13px;
+                font-size: 12px;
             }
         }
 
@@ -641,57 +741,56 @@
                 width: 98%;
                 max-width: 98%;
                 left: 1% !important;
-                top: 5px !important;
+                top: 4px !important;
                 max-height: 75vh;
             }
 
             .window-body {
-                padding: 12px 14px 16px 14px;
-                font-size: 11px;
-                max-height: 45vh;
+                padding: 10px 12px 14px 12px;
+                font-size: 10px;
+                max-height: 40vh;
             }
 
             .window-body h1 {
-                font-size: 15px;
+                font-size: 14px;
             }
 
             .window-body h2 {
-                font-size: 13px;
+                font-size: 12px;
             }
 
             .window-header {
-                padding: 8px 10px;
+                padding: 6px 8px;
             }
 
             .window-title {
-                font-size: 10px;
+                font-size: 9px;
             }
 
             .window-controls span {
-                width: 9px;
-                height: 9px;
+                width: 8px;
+                height: 8px;
             }
 
             .taskbar-icon {
-                font-size: 10px;
+                font-size: 9px;
                 padding: 2px 4px;
             }
 
             .taskbar-icon .emoji {
-                font-size: 12px;
+                font-size: 11px;
             }
 
-            .preview-panel {
-                height: 35%;
-                min-height: 120px;
-            }
-
-            .preview-panel-body .placeholder .icon {
-                font-size: 28px;
+            .preview-panel-body .preview-meta .meta-row {
+                font-size: 10px;
             }
 
             .preview-panel-body .placeholder {
-                font-size: 11px;
+                font-size: 10px;
+            }
+
+            .preview-panel-body .placeholder .icon {
+                font-size: 24px;
             }
         }
     </style>
@@ -707,110 +806,111 @@
         <div class="attribution">— Bourdain</div>
     </div>
 
-    <!-- ─── SIDEBAR ─── -->
-    <div class="sidebar" id="sidebar">
-
+    <!-- ─── LEFT COLUMN: FOLDERS ─── -->
+    <div class="col-left" id="colLeft">
         <div class="folder" onclick="openFolder('eu')">
             <span class="folder-icon">📁</span>
             <span class="folder-name">EU_Projects</span>
         </div>
-
         <div class="folder" onclick="openFolder('flashcard')">
             <span class="folder-icon">📁</span>
             <span class="folder-name">Flashcard_System</span>
         </div>
-
         <div class="folder" onclick="openFolder('hanabee')">
             <span class="folder-icon">📁</span>
             <span class="folder-name">HanaBee</span>
         </div>
-
         <div class="folder" onclick="openFolder('excel')">
             <span class="folder-icon">📁</span>
             <span class="folder-name">Excel_Automation</span>
         </div>
-
         <div class="folder" onclick="openFolder('brand')">
             <span class="folder-icon">📁</span>
             <span class="folder-name">Brand_Stories</span>
         </div>
-
         <div class="folder" onclick="openFolder('skills')">
             <span class="folder-icon">📁</span>
             <span class="folder-name">Skills</span>
         </div>
-
         <div class="folder" onclick="openFolder('personal')">
             <span class="folder-icon">📁</span>
             <span class="folder-name">Personal_Projects</span>
         </div>
-
         <div class="folder" onclick="openFolder('contact')">
             <span class="folder-icon">📁</span>
             <span class="folder-name">Contact</span>
         </div>
-
     </div>
 
-    <!-- ─── WINDOW CONTAINER ─── -->
-    <div class="window-container" id="windowContainer">
-
-        <!-- Left Area: Folder Windows -->
-        <div class="window-left" id="windowLeft">
-
-            <!-- Welcome Window -->
-            <div class="window" id="welcome" style="top: 20px; left: 20px; z-index: 50;">
-                <div class="window-header" data-drag="welcome">
-                    <div class="window-controls">
-                        <span class="close" onclick="closeWindow('welcome')"></span>
-                        <span class="minimize" onclick="minimizeWindow('welcome')"></span>
-                        <span class="expand"></span>
-                    </div>
-                    <span class="window-title">ABOUT_MONICA.txt</span>
+    <!-- ─── MIDDLE COLUMN: FOLDER WINDOWS ─── -->
+    <div class="col-middle" id="colMiddle">
+        <!-- Welcome Window -->
+        <div class="window" id="welcome" style="top: 16px; left: 16px; z-index: 50;">
+            <div class="window-header" data-drag="welcome">
+                <div class="window-controls">
+                    <span class="close" onclick="closeWindow('welcome')"></span>
+                    <span class="minimize" onclick="minimizeWindow('welcome')"></span>
+                    <span class="expand"></span>
                 </div>
-                <div class="window-body">
-                    <h1>Strategic Communication & International Systems Design</h1>
-
-                    <p>I architect communication systems and cross-cultural strategies for organizations operating across Europe and Asia.</p>
-
-                    <p>With a foundation in international relations and interlingual mediation, I've worked across institutional, private, and non-profit sectors—from the European Parliament to Seoul-based startups. I speak five languages and have lived and worked in Italy, the UK, Sweden, Luxembourg, and South Korea.</p>
-
-                    <p><strong>My work sits at the intersection of:</strong></p>
-                    <ul>
-                        <li>International communication & stakeholder engagement</li>
-                        <li>UI/UX consultancy for multilingual platforms</li>
-                        <li>Process automation & workflow design</li>
-                        <li>Brand strategy & content architecture</li>
-                    </ul>
-
-                    <p>I don't overcomplicate things. I sit with the problem, consult with people who know more, and build systems that are clear, human, and scalable.</p>
-
-                    <hr class="divider" />
-
-                    <p style="font-style: italic; color: #7a6a5a;">Open to conversations about international communication, institutional strategy, and creative problem-solving.</p>
-                    <p style="margin-top: 4px; color: #7a6a5a;">— Monica Bernasconi</p>
-                </div>
+                <span class="window-title">ABOUT_MONICA.txt</span>
             </div>
-
+            <div class="window-body">
+                <h1>Strategic Communication & International Systems Design</h1>
+                <p>I architect communication systems and cross-cultural strategies for organizations operating across Europe and Asia.</p>
+                <p>With a foundation in international relations and interlingual mediation, I've worked across institutional, private, and non-profit sectors—from the European Parliament to Seoul-based startups. I speak five languages and have lived and worked in Italy, the UK, Sweden, Luxembourg, and South Korea.</p>
+                <p><strong>My work sits at the intersection of:</strong></p>
+                <ul>
+                    <li>International communication & stakeholder engagement</li>
+                    <li>UI/UX consultancy for multilingual platforms</li>
+                    <li>Process automation & workflow design</li>
+                    <li>Brand strategy & content architecture</li>
+                </ul>
+                <p>I don't overcomplicate things. I sit with the problem, consult with people who know more, and build systems that are clear, human, and scalable.</p>
+                <hr class="divider" />
+                <p style="font-style: italic; color: #7a6a5a;">Open to conversations about international communication, institutional strategy, and creative problem-solving.</p>
+                <p style="margin-top: 4px; color: #7a6a5a;">— Monica Bernasconi</p>
+            </div>
         </div>
+    </div>
 
-        <!-- ─── PREVIEW PANEL (RIGHT) ─── -->
+    <!-- ─── RIGHT COLUMN: COLLAGE + PREVIEW ─── -->
+    <div class="col-right" id="colRight">
+        <!-- Collage -->
+        <div class="collage" id="collage"></div>
+
+        <!-- Preview Panel -->
         <div class="preview-panel" id="previewPanel">
             <div class="preview-panel-header">
                 <span>📷 PREVIEW</span>
-                <span class="preview-title" id="previewTitle">Hover a project to preview</span>
+                <span class="preview-title" id="previewTitle">Hover a project</span>
             </div>
             <div class="preview-panel-body" id="previewBody">
                 <div class="placeholder" id="placeholder">
                     <span class="icon">🖱️</span>
-                    Hover over a project name<br />to see the preview here
+                    Hover over a project<br />to see the details
                 </div>
                 <img id="previewImage" src="" alt="Preview" />
-                <div class="preview-caption" id="previewCaption"></div>
+                <div class="preview-meta" id="previewMeta">
+                    <div class="meta-row">
+                        <span class="label">Project</span>
+                        <span class="value" id="metaName">—</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="label">Date</span>
+                        <span class="value" id="metaDate">—</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="label">City</span>
+                        <span class="value" id="metaCity">—</span>
+                    </div>
+                    <div class="meta-row" style="border-bottom: none; flex-direction: column; align-items: flex-start; gap: 4px; padding-top: 4px;">
+                        <span class="label">Skills</span>
+                        <div class="meta-skills" id="metaSkills"></div>
+                    </div>
+                </div>
                 <div class="loading" id="previewLoading">Loading...</div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -849,86 +949,342 @@
     updateClock();
     setInterval(updateClock, 10000);
 
+    // ─── PROJECT DATA ───
+    const projects = [{
+        id: 'iate',
+        name: 'IATE Sketches',
+        image: 'images/iate-sketch-1.jpg',
+        date: 'Spring 2025',
+        city: 'Luxembourg',
+        skills: ['UI/UX Consultancy', 'Stakeholder Interviews', 'User Journey Mapping'],
+        folder: 'eu',
+        description: 'UI/UX consultancy for the EU\'s flagship terminology database redesign.'
+    }, {
+        id: 'hanabee',
+        name: 'HanaBee',
+        image: 'images/hanabee-brand-1.jpg',
+        date: '2024',
+        city: 'Tuscany',
+        skills: ['Brand Strategy', 'Content Creation', 'Web Design', 'SEO'],
+        folder: 'hanabee',
+        description: 'Brand identity and packaging design for a Tuscan honey producer.'
+    }, {
+        id: 'polo',
+        name: 'Il Polo Positivo',
+        image: 'images/polo-positivo-1.jpg',
+        date: '2017-2023',
+        city: 'Remote',
+        skills: ['Content Strategy', 'Team Leadership', 'Social Media Growth'],
+        folder: 'brand',
+        description: 'Content strategy and visual identity for a positive news community.'
+    }, {
+        id: 'cactus',
+        name: 'Cactus Magazine',
+        image: 'images/cactus-magazine-1.jpg',
+        date: '2023',
+        city: 'Milan',
+        skills: ['Creative Direction', 'Editorial Management', 'Project Management'],
+        folder: 'brand',
+        description: 'Creative direction and editorial strategy for a magazine with a vision.'
+    }, {
+        id: 'coffee',
+        name: 'Coffee Table Books',
+        image: 'images/coffee-table-book-1.jpg',
+        date: 'Ongoing',
+        city: 'Remote',
+        skills: ['Design', 'Photography', 'Storytelling'],
+        folder: 'personal',
+        description: 'Visual journeys of my travels, created to keep memories alive.'
+    }, {
+        id: 'vlog',
+        name: 'Vlog Seoul',
+        image: 'images/vlog-seoul.jpg',
+        date: 'Spring 2024',
+        city: 'Seoul',
+        skills: ['Video Editing', 'Storytelling', 'Collaboration'],
+        folder: 'personal',
+        description: 'Adventures and conversations recorded during my time in Seoul.'
+    }, {
+        id: 'newsletter',
+        name: 'Monthly Newsletter',
+        image: 'images/newsletter-issue.jpg',
+        date: 'Ongoing',
+        city: 'Remote',
+        skills: ['Writing', 'Community', 'Storytelling'],
+        folder: 'personal',
+        description: 'Personal newsletter keeping friends updated across time zones.'
+    }, {
+        id: 'crossword',
+        name: 'Crossword Gift',
+        image: 'images/crossword-gift.jpg',
+        date: '2021',
+        city: 'Remote',
+        skills: ['Creative Direction', 'Personalization', 'Design'],
+        folder: 'personal',
+        description: 'A personal crossword created for a friend\'s graduation.'
+    }, {
+        id: 'album',
+        name: 'Album Moodboard',
+        image: 'images/album-moodboard.jpg',
+        date: '2023',
+        city: 'Milan',
+        skills: ['Creative Direction', 'Mood Boarding', 'Art Direction'],
+        folder: 'personal',
+        description: 'Mood boards and creative direction for an album photoshoot.'
+    }, {
+        id: 'stretching',
+        name: 'Stretching Poster',
+        image: 'images/stretching-poster.jpg',
+        date: '2024',
+        city: 'Luxembourg',
+        skills: ['Graphic Design', 'Typography', 'Office Culture'],
+        folder: 'personal',
+        description: 'Classy poster for office stretching routines.'
+    }, {
+        id: 'tomato',
+        name: 'Tomato Poster',
+        image: 'images/tomato-poster.jpg',
+        date: '2024',
+        city: 'Luxembourg',
+        skills: ['Graphic Design', 'Humor', 'Office Culture'],
+        folder: 'personal',
+        description: 'Unserious poster about stolen cherry tomatoes from the office fridge.'
+    }];
+
+    // ─── COLLAGE LAYOUT ───
+    // Varied sizes: large, medium, small
+    const sizes = [
+        { w: 48, h: 48 }, // large
+        { w: 36, h: 36 }, // medium
+        { w: 28, h: 28 }, // small
+        { w: 36, h: 28 },
+        { w: 28, h: 36 },
+        { w: 48, h: 36 },
+        { w: 36, h: 48 },
+        { w: 28, h: 28 },
+        { w: 48, h: 28 },
+        { w: 28, h: 48 },
+        { w: 36, h: 36 }
+    ];
+
+    function generateCollage() {
+        const collage = document.getElementById('collage');
+        const rect = collage.getBoundingClientRect();
+        const W = rect.width || 600;
+        const H = rect.height || 400;
+
+        // Shuffle projects with sizes
+        const shuffled = projects.map((p, i) => ({
+            ...p,
+            size: sizes[i % sizes.length],
+            x: 0,
+            y: 0
+        }));
+
+        // Simple scattered placement
+        const padding = 8;
+        const placed = [];
+
+        shuffled.forEach((project, index) => {
+            const sw = (project.size.w / 100) * W;
+            const sh = (project.size.h / 100) * H;
+            let attempts = 0;
+            let placedOk = false;
+
+            while (!placedOk && attempts < 200) {
+                const x = padding + Math.random() * (W - sw - padding * 2);
+                const y = padding + Math.random() * (H - sh - padding * 2);
+                let overlap = false;
+
+                for (const p of placed) {
+                    if (x < p.x + p.w + 4 && x + sw + 4 > p.x &&
+                        y < p.y + p.h + 4 && y + sh + 4 > p.y) {
+                        overlap = true;
+                        break;
+                    }
+                }
+
+                if (!overlap) {
+                    project.x = x;
+                    project.y = y;
+                    placed.push({ x, y, w: sw, h: sh });
+                    placedOk = true;
+                }
+                attempts++;
+            }
+
+            if (!placedOk) {
+                project.x = padding + Math.random() * (W - sw - padding * 2);
+                project.y = padding + Math.random() * (H - sh - padding * 2);
+                placed.push({ x: project.x, y: project.y, w: sw, h: sh });
+            }
+
+            // Create DOM element
+            const el = document.createElement('div');
+            el.className = 'collage-item';
+            el.style.left = project.x + 'px';
+            el.style.top = project.y + 'px';
+            el.style.width = sw + 'px';
+            el.style.height = sh + 'px';
+            el.dataset.projectId = project.id;
+
+            // Image
+            const img = document.createElement('img');
+            img.src = project.image;
+            img.alt = project.name;
+            img.loading = 'lazy';
+            img.onerror = function() {
+                this.style.display = 'none';
+                el.style.background = '#3a3530';
+                el.innerHTML += `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#b0a89c;font-size:10px;padding:8px;text-align:center;">${project.name}</div>`;
+            };
+            el.appendChild(img);
+
+            // Overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'item-overlay';
+            overlay.innerHTML = `
+                <div class="item-name">${project.name}</div>
+                <div class="item-sub">${project.city} · ${project.date}</div>
+            `;
+            el.appendChild(overlay);
+
+            // Events
+            el.addEventListener('mouseenter', function(e) {
+                showPreview(project);
+            });
+
+            el.addEventListener('mouseleave', function(e) {
+                clearPreview();
+            });
+
+            el.addEventListener('click', function(e) {
+                openProjectWindow(project);
+            });
+
+            collage.appendChild(el);
+        });
+    }
+
     // ─── PREVIEW PANEL ───
     const previewImage = document.getElementById('previewImage');
-    const previewCaption = document.getElementById('previewCaption');
+    const previewMeta = document.getElementById('previewMeta');
+    const metaName = document.getElementById('metaName');
+    const metaDate = document.getElementById('metaDate');
+    const metaCity = document.getElementById('metaCity');
+    const metaSkills = document.getElementById('metaSkills');
     const previewTitle = document.getElementById('previewTitle');
     const placeholder = document.getElementById('placeholder');
     const previewLoading = document.getElementById('previewLoading');
 
     let previewTimeout = null;
 
-    function showPreview(imageUrl, caption, title) {
-        // Hide placeholder
-        placeholder.style.display = 'none';
-
-        // Show loading
-        previewLoading.classList.add('visible');
-        previewImage.classList.remove('visible');
-        previewCaption.classList.remove('visible');
-
-        // Update title
-        if (title) {
-            previewTitle.textContent = title;
+    function showPreview(project) {
+        if (previewTimeout) {
+            clearTimeout(previewTimeout);
+            previewTimeout = null;
         }
 
-        // Load image
+        placeholder.style.display = 'none';
+        previewLoading.classList.add('visible');
+        previewImage.classList.remove('visible');
+        previewMeta.classList.remove('visible');
+
+        previewTitle.textContent = project.name;
+
         const img = new Image();
         img.onload = function() {
             previewLoading.classList.remove('visible');
-            previewImage.src = imageUrl;
+            previewImage.src = project.image;
             previewImage.classList.add('visible');
-            if (caption) {
-                previewCaption.textContent = caption;
-                previewCaption.classList.add('visible');
-            }
+
+            metaName.textContent = project.name;
+            metaDate.textContent = project.date;
+            metaCity.textContent = project.city;
+            metaSkills.innerHTML = project.skills.map(s =>
+                `<span class="skill-tag">${s}</span>`
+            ).join('');
+            previewMeta.classList.add('visible');
         };
         img.onerror = function() {
             previewLoading.classList.remove('visible');
             previewImage.classList.remove('visible');
-            previewCaption.classList.remove('visible');
+            previewMeta.classList.remove('visible');
             previewTitle.textContent = '⚠️ Image not found';
         };
-        img.src = imageUrl;
+        img.src = project.image;
     }
 
     function clearPreview() {
-        if (previewTimeout) {
-            clearTimeout(previewTimeout);
-            previewTimeout = null;
-        }
+        if (previewTimeout) clearTimeout(previewTimeout);
         previewTimeout = setTimeout(() => {
             previewImage.classList.remove('visible');
             previewImage.src = '';
-            previewCaption.classList.remove('visible');
-            previewCaption.textContent = '';
+            previewMeta.classList.remove('visible');
             previewLoading.classList.remove('visible');
             placeholder.style.display = 'block';
-            previewTitle.textContent = 'Hover a project to preview';
+            previewTitle.textContent = 'Hover a project';
         }, 200);
     }
 
-    // ─── PREVIEW TRIGGER EVENTS ───
-    document.addEventListener('mouseover', function(e) {
-        const trigger = e.target.closest('.preview-trigger');
-        if (!trigger) {
-            clearPreview();
+    // ─── OPEN PROJECT WINDOW ───
+    function openProjectWindow(project) {
+        const middle = document.getElementById('colMiddle');
+        const existingId = 'project-' + project.id;
+        const existing = document.getElementById(existingId);
+        if (existing) {
+            existing.style.display = 'flex';
+            bringToFront(existing);
             return;
         }
 
-        if (previewTimeout) {
-            clearTimeout(previewTimeout);
-            previewTimeout = null;
-        }
+        const pos = getNextPosition();
 
-        const imageUrl = trigger.dataset.image;
-        const caption = trigger.dataset.caption || trigger.textContent.trim();
-        const title = trigger.dataset.title || 'Preview';
+        const win = document.createElement('div');
+        win.className = 'window';
+        win.id = existingId;
+        win.style.left = pos.left + 'px';
+        win.style.top = pos.top + 'px';
+        win.style.zIndex = pos.zIndex;
+        win.style.width = '400px';
 
-        if (imageUrl) {
-            showPreview(imageUrl, caption, title);
-        }
-    });
+        const header = document.createElement('div');
+        header.className = 'window-header';
+        header.setAttribute('data-drag', existingId);
+        header.innerHTML = `
+            <div class="window-controls">
+                <span class="close" onclick="closeWindow('${existingId}')"></span>
+                <span class="minimize" onclick="minimizeWindow('${existingId}')"></span>
+                <span class="expand"></span>
+            </div>
+            <span class="window-title">${project.name}.txt</span>
+        `;
+
+        const body = document.createElement('div');
+        body.className = 'window-body';
+        body.innerHTML = `
+            <h1>${project.name}</h1>
+            <p><strong>📍 ${project.city}</strong> · ${project.date}</p>
+            <hr class="divider" />
+            <p>${project.description}</p>
+            <p><strong>Skills:</strong></p>
+            <div class="tag-wrap">
+                ${project.skills.map(s => `<span class="tag">${s}</span>`).join('')}
+            </div>
+            <hr class="divider" />
+            <p style="font-size: 11px; color: #7a6a5a;">
+                <span class="preview-trigger" data-image="${project.image}" data-caption="${project.name}" data-title="${project.name}">
+                    🖼️ View image
+                </span>
+            </p>
+        `;
+
+        win.appendChild(header);
+        win.appendChild(body);
+        middle.appendChild(win);
+
+        bringToFront(win);
+    }
 
     // ─── DRAG LOGIC ───
     let dragData = null;
@@ -936,35 +1292,30 @@
     document.addEventListener('mousedown', function(e) {
         const header = e.target.closest('.window-header');
         if (!header) return;
-
         const win = header.closest('.window');
         if (!win) return;
-
         bringToFront(win);
-
         const rect = win.getBoundingClientRect();
+        const middle = document.getElementById('colMiddle');
+        const mRect = middle.getBoundingClientRect();
         dragData = {
             win: win,
             offsetX: e.clientX - rect.left,
             offsetY: e.clientY - rect.top,
+            containerRect: mRect
         };
-
         e.preventDefault();
     });
 
     document.addEventListener('mousemove', function(e) {
         if (!dragData) return;
-
-        const leftArea = document.getElementById('windowLeft');
-        const containerRect = leftArea.getBoundingClientRect();
-
-        let newX = e.clientX - containerRect.left - dragData.offsetX;
-        let newY = e.clientY - containerRect.top - dragData.offsetY;
-
+        const middle = document.getElementById('colMiddle');
+        const cRect = middle.getBoundingClientRect();
+        let newX = e.clientX - cRect.left - dragData.offsetX;
+        let newY = e.clientY - cRect.top - dragData.offsetY;
         const winRect = dragData.win.getBoundingClientRect();
-        newX = Math.max(0, Math.min(newX, containerRect.width - winRect.width));
-        newY = Math.max(0, Math.min(newY, containerRect.height - 60));
-
+        newX = Math.max(0, Math.min(newX, cRect.width - winRect.width));
+        newY = Math.max(0, Math.min(newY, cRect.height - 60));
         dragData.win.style.left = newX + 'px';
         dragData.win.style.top = newY + 'px';
     });
@@ -979,40 +1330,31 @@
     document.addEventListener('touchstart', function(e) {
         const header = e.target.closest('.window-header');
         if (!header) return;
-
         const win = header.closest('.window');
         if (!win) return;
-
         bringToFront(win);
-
         const touch = e.touches[0];
         const rect = win.getBoundingClientRect();
         touchDragData = {
             win: win,
             offsetX: touch.clientX - rect.left,
-            offsetY: touch.clientY - rect.top,
+            offsetY: touch.clientY - rect.top
         };
-
         e.preventDefault();
     }, { passive: false });
 
     document.addEventListener('touchmove', function(e) {
         if (!touchDragData) return;
-
-        const leftArea = document.getElementById('windowLeft');
-        const containerRect = leftArea.getBoundingClientRect();
+        const middle = document.getElementById('colMiddle');
+        const cRect = middle.getBoundingClientRect();
         const touch = e.touches[0];
-
-        let newX = touch.clientX - containerRect.left - touchDragData.offsetX;
-        let newY = touch.clientY - containerRect.top - touchDragData.offsetY;
-
+        let newX = touch.clientX - cRect.left - touchDragData.offsetX;
+        let newY = touch.clientY - cRect.top - touchDragData.offsetY;
         const winRect = touchDragData.win.getBoundingClientRect();
-        newX = Math.max(0, Math.min(newX, containerRect.width - winRect.width));
-        newY = Math.max(0, Math.min(newY, containerRect.height - 60));
-
+        newX = Math.max(0, Math.min(newX, cRect.width - winRect.width));
+        newY = Math.max(0, Math.min(newY, cRect.height - 60));
         touchDragData.win.style.left = newX + 'px';
         touchDragData.win.style.top = newY + 'px';
-
         e.preventDefault();
     }, { passive: false });
 
@@ -1022,8 +1364,8 @@
 
     // ─── BRING TO FRONT ───
     function bringToFront(win) {
-        const leftArea = document.getElementById('windowLeft');
-        const windows = leftArea.querySelectorAll('.window');
+        const middle = document.getElementById('colMiddle');
+        const windows = middle.querySelectorAll('.window');
         let maxZ = 50;
         windows.forEach(w => {
             const z = parseInt(w.style.zIndex) || 0;
@@ -1041,47 +1383,33 @@
             return;
         }
         el.classList.add('closing');
-        setTimeout(() => {
-            el.remove();
-        }, 250);
+        setTimeout(() => el.remove(), 250);
     }
 
     function minimizeWindow(id) {
         const el = document.getElementById(id);
-        if (el) {
-            el.style.display = 'none';
-        }
+        if (el) el.style.display = 'none';
     }
 
-    // ─── WINDOW CASCADE POSITION ───
-    const CASCADE_STEP = 28;
+    // ─── WINDOW CASCADE ───
+    const CASCADE_STEP = 24;
 
     function getNextPosition() {
-        const leftArea = document.getElementById('windowLeft');
-        const rect = leftArea.getBoundingClientRect();
-
-        const baseX = 20;
-        const baseY = 20;
-
-        const existing = leftArea.querySelectorAll('.window:not(#welcome)');
+        const middle = document.getElementById('colMiddle');
+        const rect = middle.getBoundingClientRect();
+        const baseX = 16;
+        const baseY = 16;
+        const existing = middle.querySelectorAll('.window:not(#welcome)');
         const count = existing.length;
-
-        const offset = (count * CASCADE_STEP) % 180;
-
-        return {
-            left: baseX + offset,
-            top: baseY + offset,
-            zIndex: 100 + count
-        };
+        const offset = (count * CASCADE_STEP) % 140;
+        return { left: baseX + offset, top: baseY + offset, zIndex: 100 + count };
     }
 
     // ─── OPEN FOLDER ───
     function openFolder(folderName) {
         const content = getFolderContent(folderName);
         if (!content) return;
-
-        const leftArea = document.getElementById('windowLeft');
-
+        const middle = document.getElementById('colMiddle');
         const existingId = 'folder-' + folderName;
         const existing = document.getElementById(existingId);
         if (existing) {
@@ -1089,17 +1417,14 @@
             bringToFront(existing);
             return;
         }
-
         const pos = getNextPosition();
-
         const win = document.createElement('div');
         win.className = 'window';
         win.id = existingId;
         win.style.left = pos.left + 'px';
         win.style.top = pos.top + 'px';
         win.style.zIndex = pos.zIndex;
-        win.style.width = '440px';
-
+        win.style.width = '400px';
         const header = document.createElement('div');
         header.className = 'window-header';
         header.setAttribute('data-drag', existingId);
@@ -1111,15 +1436,12 @@
             </div>
             <span class="window-title">${getFolderTitle(folderName)}</span>
         `;
-
         const body = document.createElement('div');
         body.className = 'window-body';
         body.innerHTML = content;
-
         win.appendChild(header);
         win.appendChild(body);
-        leftArea.appendChild(win);
-
+        middle.appendChild(win);
         bringToFront(win);
     }
 
@@ -1130,7 +1452,6 @@
                 <h1>EU Projects</h1>
                 <p>Two projects. One mission: make complex systems work for people.</p>
                 <hr class="divider" />
-
                 <h2>IATE 3 Consultancy</h2>
                 <p>The EU's flagship terminology database (IATE) needed a redesign. I provided strategic UI/UX consultancy—not just on how it looked, but on how users experienced it across 24 languages and thousands of daily users.</p>
                 <p><strong>What I delivered:</strong></p>
@@ -1140,20 +1461,10 @@
                     <li>UI/UX sketches and recommendations</li>
                     <li>A framework for balancing complexity with usability</li>
                 </ul>
-                <p><span class="preview-trigger" data-image="images/iate-sketch-1.jpg" data-caption="IATE 3 — User journey mapping sketch" data-title="IATE Sketches">View Sketches →</span></p>
-
                 <hr class="divider" />
-
                 <h2>Process Design: Institutional File Management</h2>
                 <p>A team at the European Parliament was drowning in lost documents and version control chaos. I designed and implemented a new file-sharing system, wrote the user manual, and recorded video tutorials for seamless adoption.</p>
-                <p><strong>What I delivered:</strong></p>
-                <ul>
-                    <li>Streamlined file management workflow</li>
-                    <li>Comprehensive user manual</li>
-                    <li>Video tutorials for training and onboarding</li>
-                </ul>
                 <p><strong>Result:</strong> A more organized, efficient digital workspace—still in use today.</p>
-
                 <div class="tag-wrap">
                     <span class="tag">UI/UX Consultancy</span>
                     <span class="tag">Process Automation</span>
@@ -1161,27 +1472,21 @@
                     <span class="tag">Institutional Fluency</span>
                 </div>
             `,
-
             flashcard: `
                 <h1>Flashcard System</h1>
                 <p>A practical solution to a real problem.</p>
                 <hr class="divider" />
-
                 <h2>The Challenge</h2>
-                <p>At a Seoul-based language cafe, students received official study materials that didn't match the conversational language they actually encountered. Friction between what was taught and what was used.</p>
-
+                <p>At a Seoul-based language cafe, students received official study materials that didn't match the conversational language they actually encountered.</p>
                 <h2>The Approach</h2>
                 <ul>
                     <li>Assessed recurring terms across multiple conversational topics</li>
-                    <li>Designed a system using HTML, CSS, and JavaScript (with developer friends for JS support)</li>
+                    <li>Designed a system using HTML, CSS, and JavaScript</li>
                     <li>Kept it simple, mobile-friendly, and easy to update</li>
                 </ul>
-
                 <h2>The Result</h2>
-                <p>A user-driven tool that bridges textbook learning with real-world conversation. Currently being tested and iterated based on student feedback.</p>
-
+                <p>A user-driven tool that bridges textbook learning with real-world conversation.</p>
                 <p style="margin-top: 10px;"><a href="https://itsmomob.github.io/koeng-flashcard-hub/index.html" target="_blank">Launch the Flashcard System →</a></p>
-
                 <div class="tag-wrap">
                     <span class="tag">HTML</span>
                     <span class="tag">CSS</span>
@@ -1190,27 +1495,20 @@
                     <span class="tag">Cross-Cultural UX</span>
                 </div>
             `,
-
             hanabee: `
                 <h1>HanaBee</h1>
                 <p>From a small Tuscan honey producer to a brand with a story.</p>
                 <hr class="divider" />
-
                 <h2>The Challenge</h2>
                 <p>A honey producer in Tuscany wanted to go digital—but had no brand identity, no online presence, and no clear strategy.</p>
-
                 <h2>The Approach</h2>
                 <ul>
                     <li>Developed the complete brand strategy: name, identity, tone of voice</li>
                     <li>Built an Instagram strategy focused on sustainability, honey, and slow living</li>
                     <li>Created a website with SEO-optimized content</li>
                 </ul>
-
                 <h2>The Result</h2>
                 <p>A cohesive brand that tells a story—and a digital presence that attracts customers who share those values.</p>
-
-                <p style="margin-top: 10px;"><span class="preview-trigger" data-image="images/hanabee-brand-1.jpg" data-caption="HanaBee — Brand identity and packaging design" data-title="HanaBee">View Brand Materials →</span></p>
-
                 <div class="tag-wrap">
                     <span class="tag">Brand Strategy</span>
                     <span class="tag">Content Creation</span>
@@ -1219,25 +1517,20 @@
                     <span class="tag">Sustainability Communication</span>
                 </div>
             `,
-
             excel: `
                 <h1>Excel Automation</h1>
                 <p>Turning repetitive work into automated systems.</p>
                 <hr class="divider" />
-
                 <h2>The Challenge</h2>
-                <p>Teams were drowning in manual data entry, repetitive tasks, and inefficient workflows. Time was being wasted on work that could be automated.</p>
-
+                <p>Teams were drowning in manual data entry, repetitive tasks, and inefficient workflows.</p>
                 <h2>The Approach</h2>
                 <ul>
                     <li>Assessed existing workflows and identified bottlenecks</li>
                     <li>Designed and implemented automated Excel sheets with formulas and AppsScript</li>
                     <li>Created "manuals" so teams could maintain the systems themselves</li>
                 </ul>
-
                 <h2>The Result</h2>
-                <p>Reduced manual work by 70%+ in some cases. Teams could focus on high-value work instead of data entry. The systems are still in use.</p>
-
+                <p>Reduced manual work by 70%+ in some cases. The systems are still in use.</p>
                 <div class="tag-wrap">
                     <span class="tag">Process Automation</span>
                     <span class="tag">AppsScript</span>
@@ -1246,36 +1539,27 @@
                     <span class="tag">Training</span>
                 </div>
             `,
-
             brand: `
                 <h1>Brand Stories</h1>
                 <p>Building communities through stories.</p>
                 <hr class="divider" />
-
                 <h2>Il Polo Positivo</h2>
                 <p>An association born from a simple idea: create a safe space for positive news. I joined as a volunteer writer, then stepped up as Team Leader to build their digital presence from zero.</p>
-                <p><strong>What I built:</strong></p>
                 <ul>
                     <li>Content strategy and editorial calendar</li>
                     <li>Visual identity (with a graphic designer)</li>
                     <li>Instagram growth from 0 to nearly 4,000 followers</li>
                     <li>20+ articles researched and written</li>
                 </ul>
-                <p><span class="preview-trigger" data-image="images/polo-positivo-1.jpg" data-caption="Il Polo Positivo — Content strategy and visual identity" data-title="Il Polo Positivo">View Campaign →</span></p>
-
                 <hr class="divider" />
-
                 <h2>Cactus Magazine</h2>
                 <p>Creative direction and editorial strategy for a magazine with a vision.</p>
-                <p><strong>What I built:</strong></p>
                 <ul>
                     <li>Collaborated with the art director on content and visuals</li>
                     <li>Wrote, edited, and translated articles</li>
                     <li>Managed project timelines and contributor relationships</li>
                     <li>Produced 5 issues across 2 shootings</li>
                 </ul>
-                <p><span class="preview-trigger" data-image="images/cactus-magazine-1.jpg" data-caption="Cactus Magazine — Creative direction and editorial design" data-title="Cactus Magazine">View Magazine →</span></p>
-
                 <div class="tag-wrap">
                     <span class="tag">Content Strategy</span>
                     <span class="tag">Team Leadership</span>
@@ -1284,30 +1568,22 @@
                     <span class="tag">Editorial Management</span>
                 </div>
             `,
-
             skills: `
                 <h1>Skills & Tools</h1>
                 <hr class="divider" />
-
                 <h2>Languages</h2>
-                <p>🇮🇹 Italian <span style="color:#7a6a5a;font-weight:300;">(Native)</span><br />
-                🇬🇧 English <span style="color:#7a6a5a;font-weight:300;">(C2)</span><br />
-                🇪🇸 Spanish <span style="color:#7a6a5a;font-weight:300;">(C1)</span><br />
-                🇫🇷 French <span style="color:#7a6a5a;font-weight:300;">(B1)</span><br />
-                🇰🇷 Korean <span style="color:#7a6a5a;font-weight:300;">(B1)</span></p>
-
+                <p>🇮🇹 Italian (Native)<br />🇬🇧 English (C2)<br />🇪🇸 Spanish (C1)<br />🇫🇷 French (B1)<br />🇰🇷 Korean (B1)</p>
                 <h2>Technical & Digital</h2>
                 <ul>
                     <li>HTML / CSS</li>
-                    <li>JavaScript <span style="color:#7a6a5a;font-weight:300;">(basic)</span></li>
+                    <li>JavaScript (basic)</li>
                     <li>AppsScript</li>
-                    <li>Excel <span style="color:#7a6a5a;font-weight:300;">(advanced formulas, automation)</span></li>
-                    <li>CMS <span style="color:#7a6a5a;font-weight:300;">(WordPress, etc.)</span></li>
+                    <li>Excel (advanced formulas, automation)</li>
+                    <li>CMS (WordPress, etc.)</li>
                     <li>Web Analytics</li>
-                    <li>Canva <span style="color:#7a6a5a;font-weight:300;">(advanced)</span></li>
+                    <li>Canva (advanced)</li>
                     <li>GitHub</li>
                 </ul>
-
                 <h2>Strategic & Creative</h2>
                 <ul>
                     <li>International Communication</li>
@@ -1318,37 +1594,30 @@
                     <li>Editorial Management</li>
                     <li>Translation & Interpretation</li>
                 </ul>
-
                 <h2>Certifications</h2>
                 <ul>
-                    <li>Digital Marketing Certificate <span style="color:#7a6a5a;font-weight:300;">(2023)</span></li>
-                    <li>Bachelor's in Interlingual Mediation <span style="color:#7a6a5a;font-weight:300;">(2018–2021)</span></li>
-                    <li>Master's in International Communication <span style="color:#7a6a5a;font-weight:300;">(2021–2023)</span></li>
+                    <li>Digital Marketing Certificate (2023)</li>
+                    <li>Bachelor's in Interlingual Mediation (2018–2021)</li>
+                    <li>Master's in International Communication (2021–2023)</li>
                 </ul>
             `,
-
             personal: `
                 <h1>Wanderlust</h1>
                 <p>Things I create when I'm not working.</p>
                 <hr class="divider" />
-
                 <h2>Coffee Table Books</h2>
-                <p>I travel light—I rarely buy things. Instead, I create <span class="preview-trigger" data-image="images/coffee-table-book-1.jpg" data-caption="Coffee table book — A visual journey of my travels" data-title="Coffee Table Books">coffee table books</span> of my travels to keep the memories alive.</p>
-
+                <p>I travel light—I rarely buy things. Instead, I create coffee table books of my travels to keep the memories alive.</p>
                 <h2>South Korea Vlogs</h2>
-                <p>During my time in Seoul, I recorded <span class="preview-trigger" data-image="images/vlog-seoul.jpg" data-caption="South Korea vlogs — Adventures and conversations in Seoul" data-title="South Korea Vlogs">adventures and conversations</span> to share with friends and family. Some collaborations with fellow creatives.</p>
-
+                <p>During my time in Seoul, I recorded adventures and conversations to share with friends and family.</p>
                 <h2>Monthly Newsletter</h2>
-                <p>A <span class="preview-trigger" data-image="images/newsletter-issue.jpg" data-caption="Monthly newsletter — Stories, food, and plans across time zones" data-title="Monthly Newsletter">personal newsletter</span> to keep close friends updated across time zones. Funny stories, food, drink recommendations, and plans for the coming months.</p>
-
+                <p>A personal newsletter to keep close friends updated across time zones.</p>
                 <h2>Random Creative Projects</h2>
                 <ul>
-                    <li><span class="preview-trigger" data-image="images/crossword-gift.jpg" data-caption="Personal crossword for a friend's graduation" data-title="Crossword Gift">A personal crossword</span> for a friend's graduation</li>
-                    <li><span class="preview-trigger" data-image="images/album-moodboard.jpg" data-caption="Album photoshoot — Mood boards and creative direction" data-title="Album Moodboard">Mood boards</span> for an album photoshoot</li>
-                    <li><span class="preview-trigger" data-image="images/stretching-poster.jpg" data-caption="Classy poster for office stretching routines" data-title="Stretching Poster">Classy posters</span> for office stretching routines</li>
-                    <li><span class="preview-trigger" data-image="images/tomato-poster.jpg" data-caption="Unserious poster about stolen cherry tomatoes" data-title="Office Stories">Unserious posters</span> about stolen cherry tomatoes</li>
+                    <li>A personal crossword for a friend's graduation</li>
+                    <li>Mood boards for an album photoshoot</li>
+                    <li>Classy posters for office stretching routines</li>
+                    <li>Unserious posters about stolen cherry tomatoes</li>
                 </ul>
-
                 <div class="tag-wrap">
                     <span class="tag">Creative Direction</span>
                     <span class="tag">Storytelling</span>
@@ -1356,28 +1625,21 @@
                     <span class="tag">Graphic Design</span>
                 </div>
             `,
-
             contact: `
                 <h1>Let's Build Something</h1>
                 <hr class="divider" />
-
-                <p><strong>📍 Based in Seoul, South Korea</strong><br />
-                🌍 Worked in Italy, UK, Luxembourg, Sweden, South Korea</p>
-
-                <p style="margin-top: 14px;">
+                <p><strong>📍 Based in Seoul, South Korea</strong><br />🌍 Worked in Italy, UK, Luxembourg, Sweden, South Korea</p>
+                <p style="margin-top: 12px;">
                     <strong>📧 Email:</strong> <a href="mailto:bernasconimonica12@gmail.com">bernasconimonica12@gmail.com</a><br />
                     <strong>🐙 GitHub:</strong> <a href="https://github.com/itsmomob" target="_blank">github.com/itsmomob</a><br />
                     <strong>🔗 LinkedIn:</strong> <a href="https://www.linkedin.com/in/monica-bernasconi/" target="_blank">linkedin.com/in/monica-bernasconi</a><br />
                     <strong>📁 Archive:</strong> <a href="https://monicabernasconi.my.canva.site/home" target="_blank">Canva Portfolio</a>
                 </p>
-
                 <hr class="divider" />
-
-                <p style="font-style: italic; color: #7a6a5a;">"I'm always open to conversations about international communication, systems design, and creative problem-solving. Ask me anything—I'll find the answer."</p>
+                <p style="font-style: italic; color: #7a6a5a;">"I'm always open to conversations about international communication, systems design, and creative problem-solving."</p>
                 <p style="margin-top: 2px; color: #7a6a5a;">— Monica</p>
             `
         };
-
         return contents[name] || null;
     }
 
@@ -1395,7 +1657,18 @@
         return titles[name] || name + '.txt';
     }
 
-    // ─── KEYBOARD SHORTCUT: ESC to close all non-welcome windows ───
+    // ─── INIT ───
+    window.addEventListener('load', function() {
+        generateCollage();
+    });
+
+    window.addEventListener('resize', function() {
+        const collage = document.getElementById('collage');
+        collage.innerHTML = '';
+        generateCollage();
+    });
+
+    // ─── KEYBOARD SHORTCUT: ESC ───
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             const windows = document.querySelectorAll('.window:not(#welcome)');
