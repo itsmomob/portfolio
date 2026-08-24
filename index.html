@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Monica Bernasconi — Virtual Desktop</title>
+    <title>Monica Bernasconi — Desktop</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,26 +31,81 @@
         .desktop {
             width: 100vw;
             height: 100vh;
-            background: #1a1a1a;
-            display: flex;
-            padding: 16px 16px 60px 16px;
-            gap: 16px;
-            overflow: hidden;
+            background: #1E1E24;
             position: relative;
+            overflow: hidden;
         }
 
-        /* ─── LEFT COLUMN: FOLDERS ─── */
-        .col-left {
-            width: 140px;
-            min-width: 120px;
+        /* ─── DESKTOP BACKGROUND ─── */
+        .desktop-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(60, 50, 80, 0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(40, 60, 80, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(80, 60, 50, 0.2) 0%, transparent 50%),
+                #1E1E24;
+            z-index: 0;
+        }
+
+        .desktop-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* ─── STICKY NOTE ─── */
+        .sticky {
+            background: #f9f0d8;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: #4a3f35;
             max-width: 180px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04);
+            transform: rotate(-3deg);
+            line-height: 1.5;
+            border-left: 3px solid #d4a373;
+            position: absolute;
+            bottom: 70px;
+            right: 24px;
+            z-index: 5;
+        }
+
+        .sticky strong {
+            font-style: normal;
+            font-weight: 600;
+            color: #2c2a2a;
+        }
+
+        .sticky .attribution {
+            font-family: 'Inter', sans-serif;
+            font-style: normal;
+            font-size: 10px;
+            color: #7a6a5a;
+            margin-top: 2px;
+        }
+
+        /* ─── FOLDER SIDEBAR ─── */
+        .folder-sidebar {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            padding-top: 8px;
-            flex-shrink: 0;
-            z-index: 10;
-            overflow: hidden;
+            gap: 6px;
+            z-index: 20;
+            padding: 12px 8px;
+            background: rgba(30, 30, 36, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .folder {
@@ -61,59 +116,47 @@
             padding: 6px 10px;
             border-radius: 6px;
             transition: background 0.2s, transform 0.15s;
+            background: transparent;
+            border: none;
             width: 100%;
-        }
-
-        .folder:hover {
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateX(4px);
-        }
-
-        .folder-icon {
-            font-size: 20px;
-            line-height: 1;
-            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
-        }
-
-        .folder-name {
+            color: #d4c8bc;
             font-family: 'Inter', sans-serif;
             font-size: 11px;
             font-weight: 500;
-            color: #d4c8bc;
-            letter-spacing: 0.2px;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
         }
 
-        /* ─── MIDDLE COLUMN: FOLDER WINDOWS ─── */
-        .col-middle {
-            flex: 1;
-            position: relative;
-            height: 100%;
-            overflow: hidden;
-            min-width: 0;
+        .folder:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(4px);
+            color: #f9f6f0;
+        }
+
+        .folder-icon {
+            font-size: 18px;
+            line-height: 1;
+            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
         }
 
         /* ─── WINDOW ─── */
         .window {
             background: #f9f6f0;
             border-radius: 10px;
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
-            width: 420px;
-            max-width: 92%;
-            max-height: 82vh;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            width: 400px;
+            max-width: 90vw;
+            max-height: 80vh;
             display: flex;
             flex-direction: column;
-            animation: windowOpen 0.3s ease-out;
-            transition: box-shadow 0.2s, opacity 0.2s;
+            animation: windowOpen 0.25s ease-out;
+            transition: box-shadow 0.2s;
             position: absolute;
-            top: 16px;
-            left: 16px;
             z-index: 100;
-            min-height: 160px;
+            min-height: 120px;
+            resize: none;
         }
 
         .window:hover {
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
         }
 
         @keyframes windowOpen {
@@ -192,6 +235,19 @@
             max-height: 55vh;
         }
 
+        .window-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .window-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .window-body::-webkit-scrollbar-thumb {
+            background: #d4c8bc;
+            border-radius: 10px;
+        }
+
         .window-body h1 {
             font-family: 'Playfair Display', serif;
             font-weight: 600;
@@ -255,43 +311,18 @@
             border-bottom-color: #c87a5a;
         }
 
-        /* ─── RIGHT COLUMN: COLLAGE (full space, no preview) ─── */
-        .col-right {
-            flex: 1.2;
-            position: relative;
-            height: 100%;
-            overflow: hidden;
-            min-width: 0;
-            border-radius: 10px;
-            background: rgba(26, 26, 26, 0.4);
-            padding: 16px;
-        }
-
-        .collage-wrapper {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-            cursor: default;
-        }
-
-        .collage {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        /* ─── COLLAGE ITEMS (draggable) ─── */
+        /* ─── COLLAGE ITEMS ─── */
         .collage-item {
             position: absolute;
             border-radius: 8px;
             overflow: hidden;
             cursor: grab;
-            transition: box-shadow 0.25s ease, filter 0.25s ease;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.25s ease, filter 0.25s ease, transform 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.06);
             touch-action: none;
+            will-change: transform, left, top;
+            background: #2a2a32;
         }
 
         .collage-item:active {
@@ -299,16 +330,18 @@
         }
 
         .collage-item:hover {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
             z-index: 20;
             filter: brightness(1.05);
+            transform: scale(1.02) !important;
         }
 
         .collage-item.dragging {
             transition: none !important;
             z-index: 100 !important;
             cursor: grabbing;
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+            transform: scale(1.04) !important;
         }
 
         .collage-item img {
@@ -324,8 +357,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 20px 12px 10px 12px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            padding: 24px 12px 10px 12px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
@@ -348,40 +381,6 @@
             font-weight: 300;
             color: #d4c8bc;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ─── STICKY NOTE ─── */
-        .sticky {
-            background: #f9f0d8;
-            padding: 10px 14px;
-            border-radius: 6px;
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 12px;
-            color: #4a3f35;
-            max-width: 180px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
-            position: absolute;
-            transform: rotate(-3deg);
-            line-height: 1.5;
-            border-left: 3px solid #d4a373;
-            bottom: 70px;
-            right: 16px;
-            z-index: 5;
-        }
-
-        .sticky strong {
-            font-style: normal;
-            font-weight: 600;
-            color: #2c2a2a;
-        }
-
-        .sticky .attribution {
-            font-family: 'Inter', sans-serif;
-            font-style: normal;
-            font-size: 10px;
-            color: #7a6a5a;
-            margin-top: 2px;
         }
 
         /* ─── TASKBAR ─── */
@@ -457,64 +456,38 @@
             letter-spacing: 0.5px;
         }
 
-        /* ─── SCROLLBAR ─── */
-        .window-body::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .window-body::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .window-body::-webkit-scrollbar-thumb {
-            background: #d4c8bc;
-            border-radius: 10px;
-        }
-
         /* ─── RESPONSIVE ─── */
-        @media (max-width: 860px) {
-            .desktop {
-                flex-direction: column;
-                padding: 10px 10px 50px 10px;
-                gap: 10px;
-            }
-
-            .col-left {
-                width: 100%;
-                min-width: unset;
-                max-width: unset;
+        @media (max-width: 768px) {
+            .folder-sidebar {
+                top: auto;
+                bottom: 60px;
+                left: 50%;
+                transform: translateX(-50%);
                 flex-direction: row;
                 flex-wrap: wrap;
+                justify-content: center;
                 gap: 4px;
-                padding-top: 0;
-                max-height: 70px;
-                overflow: hidden;
+                padding: 8px 12px;
+                max-width: 90%;
+                backdrop-filter: blur(12px);
             }
 
             .folder {
+                padding: 4px 8px;
+                font-size: 10px;
                 width: auto;
-                padding: 4px 10px;
             }
 
             .folder-icon {
-                font-size: 16px;
-            }
-
-            .folder-name {
-                font-size: 10px;
-            }
-
-            .col-middle {
-                height: 40vh;
-                min-height: 180px;
+                font-size: 14px;
             }
 
             .window {
-                width: 95%;
-                max-width: 95%;
-                left: 2.5% !important;
-                top: 8px !important;
-                max-height: 80%;
+                width: 90vw;
+                max-width: 90vw;
+                left: 5vw !important;
+                top: 10vh !important;
+                max-height: 70vh;
             }
 
             .window-body {
@@ -525,12 +498,6 @@
 
             .window-body h1 {
                 font-size: 16px;
-            }
-
-            .col-right {
-                height: 35vh;
-                min-height: 150px;
-                padding: 8px;
             }
 
             .sticky {
@@ -558,10 +525,10 @@
 
         @media (max-width: 480px) {
             .window {
-                width: 98%;
-                max-width: 98%;
-                left: 1% !important;
-                top: 4px !important;
+                width: 95vw;
+                max-width: 95vw;
+                left: 2.5vw !important;
+                top: 5vh !important;
                 max-height: 75vh;
             }
 
@@ -600,13 +567,26 @@
             .taskbar-icon .emoji {
                 font-size: 11px;
             }
+
+            .collage-item {
+                border-radius: 6px;
+            }
+
+            .collage-item .item-name {
+                font-size: 9px;
+            }
+
+            .collage-item .item-sub {
+                font-size: 8px;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- ─── DESKTOP ─── -->
 <div class="desktop" id="desktop">
+    <!-- Background Layer -->
+    <div class="desktop-bg"></div>
 
     <!-- Sticky Note -->
     <div class="sticky">
@@ -614,77 +594,59 @@
         <div class="attribution">— Bourdain</div>
     </div>
 
-    <!-- ─── LEFT COLUMN: FOLDERS ─── -->
-    <div class="col-left" id="colLeft">
-        <div class="folder" onclick="openFolder('eu')">
-            <span class="folder-icon">📁</span>
-            <span class="folder-name">EU_Projects</span>
-        </div>
-        <div class="folder" onclick="openFolder('flashcard')">
-            <span class="folder-icon">📁</span>
-            <span class="folder-name">Flashcard_System</span>
-        </div>
-        <div class="folder" onclick="openFolder('hanabee')">
-            <span class="folder-icon">📁</span>
-            <span class="folder-name">HanaBee</span>
-        </div>
-        <div class="folder" onclick="openFolder('excel')">
-            <span class="folder-icon">📁</span>
-            <span class="folder-name">Excel_Automation</span>
-        </div>
-        <div class="folder" onclick="openFolder('brand')">
-            <span class="folder-icon">📁</span>
-            <span class="folder-name">Brand_Stories</span>
-        </div>
-        <div class="folder" onclick="openFolder('skills')">
-            <span class="folder-icon">📁</span>
-            <span class="folder-name">Skills</span>
-        </div>
-        <div class="folder" onclick="openFolder('personal')">
-            <span class="folder-icon">📁</span>
-            <span class="folder-name">Personal_Projects</span>
-        </div>
-        <div class="folder" onclick="openFolder('contact')">
-            <span class="folder-icon">📁</span>
-            <span class="folder-name">Contact</span>
-        </div>
+    <!-- Folder Sidebar -->
+    <div class="folder-sidebar" id="folderSidebar">
+        <button class="folder" onclick="openFolder('eu')">
+            <span class="folder-icon">📁</span> EU_Projects
+        </button>
+        <button class="folder" onclick="openFolder('flashcard')">
+            <span class="folder-icon">📁</span> Flashcard
+        </button>
+        <button class="folder" onclick="openFolder('hanabee')">
+            <span class="folder-icon">📁</span> HanaBee
+        </button>
+        <button class="folder" onclick="openFolder('excel')">
+            <span class="folder-icon">📁</span> Excel_Auto
+        </button>
+        <button class="folder" onclick="openFolder('brand')">
+            <span class="folder-icon">📁</span> Brand_Stories
+        </button>
+        <button class="folder" onclick="openFolder('skills')">
+            <span class="folder-icon">📁</span> Skills
+        </button>
+        <button class="folder" onclick="openFolder('personal')">
+            <span class="folder-icon">📁</span> Personal
+        </button>
+        <button class="folder" onclick="openFolder('contact')">
+            <span class="folder-icon">📁</span> Contact
+        </button>
     </div>
 
-    <!-- ─── MIDDLE COLUMN: FOLDER WINDOWS ─── -->
-    <div class="col-middle" id="colMiddle">
-        <!-- Welcome Window -->
-        <div class="window" id="welcome" style="top: 16px; left: 16px; z-index: 50;">
-            <div class="window-header" data-drag="welcome">
-                <div class="window-controls">
-                    <span class="close" onclick="closeWindow('welcome')"></span>
-                    <span class="minimize" onclick="minimizeWindow('welcome')"></span>
-                    <span class="expand"></span>
-                </div>
-                <span class="window-title">ABOUT_MONICA.txt</span>
+    <!-- Welcome Window -->
+    <div class="window" id="welcome" style="top: 40px; left: 160px; z-index: 50; width: 420px;">
+        <div class="window-header" data-drag="welcome">
+            <div class="window-controls">
+                <span class="close" onclick="closeWindow('welcome')"></span>
+                <span class="minimize" onclick="minimizeWindow('welcome')"></span>
+                <span class="expand"></span>
             </div>
-            <div class="window-body">
-                <h1>Strategic Communication & International Systems Design</h1>
-                <p>I architect communication systems and cross-cultural strategies for organizations operating across Europe and Asia.</p>
-                <p>With a foundation in international relations and interlingual mediation, I've worked across institutional, private, and non-profit sectors—from the European Parliament to Seoul-based startups. I speak five languages and have lived and worked in Italy, the UK, Luxembourg, and South Korea.</p>
-                <p><strong>My work sits at the intersection of:</strong></p>
-                <ul>
-                    <li>International communication & stakeholder engagement</li>
-                    <li>UI/UX consultancy for multilingual platforms</li>
-                    <li>Process automation & workflow design</li>
-                    <li>Brand strategy & content architecture</li>
-                </ul>
-                <p>I don't overcomplicate things. I sit with the problem, consult with people who know more, and build systems that are clear, human, and scalable.</p>
-                <hr class="divider" />
-                <p style="font-style: italic; color: #7a6a5a;">Open to conversations about international communication, institutional strategy, and creative problem-solving.</p>
-                <p style="margin-top: 4px; color: #7a6a5a;">— Monica Bernasconi</p>
-            </div>
+            <span class="window-title">ABOUT_MONICA.txt</span>
         </div>
-    </div>
-
-    <!-- ─── RIGHT COLUMN: COLLAGE ─── -->
-    <div class="col-right" id="colRight">
-        <div class="collage-wrapper" id="collageWrapper">
-            <div class="collage" id="collage"></div>
+        <div class="window-body">
+            <h1>Strategic Communication & International Systems Design</h1>
+            <p>I architect communication systems and cross-cultural strategies for organizations operating across Europe and Asia.</p>
+            <p>With a foundation in international relations and interlingual mediation, I've worked across institutional, private, and non-profit sectors—from the European Parliament to Seoul-based startups. I speak five languages and have lived and worked in Italy, the UK, Luxembourg, and South Korea.</p>
+            <p><strong>My work sits at the intersection of:</strong></p>
+            <ul>
+                <li>International communication & stakeholder engagement</li>
+                <li>UI/UX consultancy for multilingual platforms</li>
+                <li>Process automation & workflow design</li>
+                <li>Brand strategy & content architecture</li>
+            </ul>
+            <p>I don't overcomplicate things. I sit with the problem, consult with people who know more, and build systems that are clear, human, and scalable.</p>
+            <hr class="divider" />
+            <p style="font-style: italic; color: #7a6a5a;">Open to conversations about international communication, institutional strategy, and creative problem-solving.</p>
+            <p style="margin-top: 4px; color: #7a6a5a;">— Monica Bernasconi</p>
         </div>
     </div>
 </div>
@@ -734,7 +696,8 @@
         skills: ['UI/UX Consultancy', 'Stakeholder Interviews', 'User Journey Mapping'],
         folder: 'eu',
         description: 'UI/UX consultancy for the EU\'s flagship terminology database redesign.',
-        link: null
+        link: null,
+        rotation: (Math.random() - 0.5) * 4
     }, {
         id: 'hanabee',
         name: 'HanaBee',
@@ -744,7 +707,8 @@
         skills: ['Brand Strategy', 'Content Creation', 'Web Design', 'SEO'],
         folder: 'hanabee',
         description: 'Brand identity and packaging design for a Tuscan honey producer.',
-        link: 'https://canva.link/x26pwkbbdh6x8x2'
+        link: 'https://canva.link/x26pwkbbdh6x8x2',
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'hanabee-brochure',
         name: 'HanaBee Brochure',
@@ -754,7 +718,8 @@
         skills: ['Brand Strategy', 'Content Creation', 'Print Design'],
         folder: 'hanabee',
         description: 'Brochure design for the HanaBee brand.',
-        link: 'https://canva.link/qk5l2u4tdceum0x'
+        link: 'https://canva.link/qk5l2u4tdceum0x',
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'polo',
         name: 'Il Polo Positivo',
@@ -764,7 +729,8 @@
         skills: ['Content Strategy', 'Team Leadership', 'Social Media Growth'],
         folder: 'brand',
         description: 'Content strategy and visual identity for a positive news community.',
-        link: null
+        link: null,
+        rotation: (Math.random() - 0.5) * 4
     }, {
         id: 'cactus',
         name: 'Cactus Magazine',
@@ -774,7 +740,8 @@
         skills: ['Creative Direction', 'Editorial Management', 'Project Management'],
         folder: 'brand',
         description: 'Creative direction and editorial strategy for a magazine with a vision.',
-        link: 'https://online.fliphtml5.com/yawpx/erig/'
+        link: 'https://online.fliphtml5.com/yawpx/erig/',
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'cactus-collab',
         name: 'Cactus Collab',
@@ -784,7 +751,8 @@
         skills: ['Creative Direction', 'Collaboration', 'Art Direction'],
         folder: 'brand',
         description: 'Collaboration with the graphic designer on the Cactus magazine project.',
-        link: 'https://www.behance.net/gallery/183436925/Restaurant-Magazine'
+        link: 'https://www.behance.net/gallery/183436925/Restaurant-Magazine',
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'not-portfolio',
         name: 'Not a Portfolio',
@@ -794,7 +762,8 @@
         skills: ['Portfolio Design', 'Storytelling', 'Creative Direction'],
         folder: 'personal',
         description: 'A creative diary and scrapbook of my work.',
-        link: 'https://canva.link/4cyk8ss8ef74i2r'
+        link: 'https://canva.link/4cyk8ss8ef74i2r',
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'journey',
         name: 'My Not So Linear Journey',
@@ -804,7 +773,8 @@
         skills: ['Personal Storytelling', 'Design', 'Reflection'],
         folder: 'personal',
         description: 'A visual journey of my non-linear career path.',
-        link: 'https://canva.link/wgnb7ckoboovidn'
+        link: 'https://canva.link/wgnb7ckoboovidn',
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'coffee',
         name: 'Coffee Table Books',
@@ -814,7 +784,8 @@
         skills: ['Design', 'Photography', 'Storytelling'],
         folder: 'personal',
         description: 'Visual journeys of my travels, created to keep memories alive.',
-        link: null
+        link: null,
+        rotation: (Math.random() - 0.5) * 4
     }, {
         id: 'vlog',
         name: 'Vlog Seoul',
@@ -824,7 +795,8 @@
         skills: ['Video Editing', 'Storytelling', 'Collaboration'],
         folder: 'personal',
         description: 'Adventures and conversations recorded during my time in Seoul.',
-        link: null
+        link: null,
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'newsletter',
         name: 'Monthly Newsletter',
@@ -834,7 +806,8 @@
         skills: ['Writing', 'Community', 'Storytelling'],
         folder: 'personal',
         description: 'Personal newsletter keeping friends updated across time zones.',
-        link: null
+        link: null,
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'crossword',
         name: 'Crossword Gift',
@@ -844,7 +817,8 @@
         skills: ['Creative Direction', 'Personalization', 'Design'],
         folder: 'personal',
         description: 'A personal crossword created for a friend\'s graduation.',
-        link: null
+        link: null,
+        rotation: (Math.random() - 0.5) * 4
     }, {
         id: 'album',
         name: 'Album Moodboard',
@@ -854,7 +828,8 @@
         skills: ['Creative Direction', 'Mood Boarding', 'Art Direction'],
         folder: 'personal',
         description: 'Mood boards and creative direction for an album photoshoot.',
-        link: null
+        link: null,
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'stretching',
         name: 'Stretching Poster',
@@ -864,7 +839,8 @@
         skills: ['Graphic Design', 'Typography', 'Office Culture'],
         folder: 'personal',
         description: 'Classy poster for office stretching routines.',
-        link: null
+        link: null,
+        rotation: (Math.random() - 0.5) * 3
     }, {
         id: 'tomato',
         name: 'Tomato Poster',
@@ -874,8 +850,39 @@
         skills: ['Graphic Design', 'Humor', 'Office Culture'],
         folder: 'personal',
         description: 'Unserious poster about stolen cherry tomatoes from the office fridge.',
-        link: null
+        link: null,
+        rotation: (Math.random() - 0.5) * 4
     }];
+
+    // ─── STORAGE ───
+    const STORAGE_KEY = 'monica_desktop_positions';
+    const COLLAGE_STORAGE_KEY = 'monica_collage_positions';
+
+    function loadPositions() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : {};
+        } catch (e) { return {}; }
+    }
+
+    function savePositions(positions) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(positions));
+        } catch (e) {}
+    }
+
+    function loadCollagePositions() {
+        try {
+            const data = localStorage.getItem(COLLAGE_STORAGE_KEY);
+            return data ? JSON.parse(data) : {};
+        } catch (e) { return {}; }
+    }
+
+    function saveCollagePositions(positions) {
+        try {
+            localStorage.setItem(COLLAGE_STORAGE_KEY, JSON.stringify(positions));
+        } catch (e) {}
+    }
 
     // ─── COLLAGE ITEM DRAG ───
     let dragItem = null;
@@ -887,8 +894,6 @@
 
     function initDrag(e, item) {
         const rect = item.getBoundingClientRect();
-        const wrapperRect = document.getElementById('collageWrapper').getBoundingClientRect();
-
         const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
         const clientY = e.clientY || e.touches?.[0]?.clientY || 0;
 
@@ -901,8 +906,8 @@
 
         item.classList.add('dragging');
         item.style.zIndex = 100;
+        item.style.transition = 'none';
 
-        // Prevent click events from firing on drop
         e.preventDefault?.();
         if (e.type === 'touchstart') {
             e.preventDefault();
@@ -912,8 +917,8 @@
     function moveDrag(e) {
         if (!dragItem) return;
 
-        const wrapper = document.getElementById('collageWrapper');
-        const wrapperRect = wrapper.getBoundingClientRect();
+        const desktop = document.getElementById('desktop');
+        const desktopRect = desktop.getBoundingClientRect();
 
         const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
         const clientY = e.clientY || e.touches?.[0]?.clientY || 0;
@@ -934,11 +939,11 @@
         // Keep within bounds
         const itemWidth = parseFloat(dragItem.style.width);
         const itemHeight = parseFloat(dragItem.style.height);
-        const wrapperWidth = wrapperRect.width;
-        const wrapperHeight = wrapperRect.height;
+        const desktopWidth = desktopRect.width;
+        const desktopHeight = desktopRect.height;
 
-        newX = Math.max(0, Math.min(newX, wrapperWidth - itemWidth));
-        newY = Math.max(0, Math.min(newY, wrapperHeight - itemHeight));
+        newX = Math.max(0, Math.min(newX, desktopWidth - itemWidth));
+        newY = Math.max(0, Math.min(newY, desktopHeight - itemHeight - 50));
 
         dragItem.style.left = newX + 'px';
         dragItem.style.top = newY + 'px';
@@ -957,17 +962,18 @@
         if (!dragItem) return;
 
         dragItem.classList.remove('dragging');
+        dragItem.style.transition = '';
 
-        // If no drag occurred, treat as a click
         if (!hasDragged) {
             const projectId = dragItem.dataset.projectId;
             const project = projects.find(p => p.id === projectId);
             if (project) {
                 openProject(project);
             }
+        } else {
+            saveCollagePositions(getAllCollagePositions());
         }
 
-        // Reset z-index
         setTimeout(() => {
             if (dragItem) {
                 dragItem.style.zIndex = '';
@@ -980,6 +986,18 @@
         if (e?.type === 'touchend') {
             e.preventDefault();
         }
+    }
+
+    function getAllCollagePositions() {
+        const items = document.querySelectorAll('.collage-item');
+        const positions = {};
+        items.forEach(item => {
+            const id = item.dataset.projectId;
+            const left = parseFloat(item.dataset.left) || parseFloat(item.style.left) || 0;
+            const top = parseFloat(item.dataset.top) || parseFloat(item.style.top) || 0;
+            positions[id] = { x: left, y: top };
+        });
+        return positions;
     }
 
     // ─── MOUSE DRAG EVENTS ───
@@ -1022,7 +1040,7 @@
         }
     }, { passive: true });
 
-    // ─── COLLAGE LAYOUT ───
+    // ─── GENERATE COLLAGE ───
     const sizes = [
         { w: 48, h: 48 }, { w: 36, h: 36 }, { w: 28, h: 28 },
         { w: 36, h: 28 }, { w: 28, h: 36 }, { w: 48, h: 36 },
@@ -1030,37 +1048,17 @@
         { w: 28, h: 48 }, { w: 36, h: 36 }
     ];
 
-    // ─── STORE POSITIONS IN LOCAL STORAGE ───
-    const STORAGE_KEY = 'monica_collage_positions';
-
-    function loadPositions() {
-        try {
-            const data = localStorage.getItem(STORAGE_KEY);
-            return data ? JSON.parse(data) : {};
-        } catch (e) {
-            return {};
-        }
-    }
-
-    function savePositions(positions) {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(positions));
-        } catch (e) {
-            // ignore
-        }
-    }
-
     function generateCollage() {
-        const collageEl = document.getElementById('collage');
-        const rect = collageEl.getBoundingClientRect();
-        const W = rect.width || 600;
-        const H = rect.height || 400;
+        const desktop = document.getElementById('desktop');
+        const rect = desktop.getBoundingClientRect();
+        const W = rect.width || window.innerWidth;
+        const H = rect.height || window.innerHeight;
 
-        // Expand the collage area slightly
-        const expandedW = W * 1.1;
-        const expandedH = H * 1.1;
-        collageEl.style.width = expandedW + 'px';
-        collageEl.style.height = expandedH + 'px';
+        const padding = 20;
+        const sidebarWidth = 120;
+        const startX = sidebarWidth + 40;
+
+        const savedPositions = loadCollagePositions();
 
         const shuffled = projects.map((p, i) => ({
             ...p,
@@ -1069,36 +1067,33 @@
             y: 0
         }));
 
-        const savedPositions = loadPositions();
-
-        const padding = 16;
         const placed = [];
 
         shuffled.forEach((project, index) => {
-            const sw = (project.size.w / 100) * expandedW * 0.85;
-            const sh = (project.size.h / 100) * expandedH * 0.85;
+            const sw = Math.max(120, (project.size.w / 100) * (W * 0.15));
+            const sh = Math.max(120, (project.size.h / 100) * (H * 0.25));
 
-            // Check if we have a saved position for this project
-            const saved = savedPositions[project.id];
             let x, y;
 
+            // Check saved position
+            const saved = savedPositions[project.id];
             if (saved && saved.x !== undefined && saved.y !== undefined &&
-                saved.x + sw <= expandedW && saved.y + sh <= expandedH) {
+                saved.x + sw <= W && saved.y + sh <= H - 60) {
                 x = saved.x;
                 y = saved.y;
             } else {
-                // Random placement
+                // Random placement with overlap avoidance
                 let attempts = 0;
                 let placedOk = false;
 
-                while (!placedOk && attempts < 300) {
-                    x = padding + Math.random() * (expandedW - sw - padding * 2);
-                    y = padding + Math.random() * (expandedH - sh - padding * 2);
+                while (!placedOk && attempts < 200) {
+                    x = startX + padding + Math.random() * (W - startX - sw - padding * 2);
+                    y = padding + Math.random() * (H - sh - padding * 2 - 60);
                     let overlap = false;
 
                     for (const p of placed) {
-                        if (x < p.x + p.w + 8 && x + sw + 8 > p.x &&
-                            y < p.y + p.h + 8 && y + sh + 8 > p.y) {
+                        if (x < p.x + p.w + 12 && x + sw + 12 > p.x &&
+                            y < p.y + p.h + 12 && y + sh + 12 > p.y) {
                             overlap = true;
                             break;
                         }
@@ -1111,8 +1106,8 @@
                 }
 
                 if (!placedOk) {
-                    x = padding + Math.random() * (expandedW - sw - padding * 2);
-                    y = padding + Math.random() * (expandedH - sh - padding * 2);
+                    x = startX + padding + Math.random() * (W - startX - sw - padding * 2);
+                    y = padding + Math.random() * (H - sh - padding * 2 - 60);
                 }
             }
 
@@ -1126,10 +1121,12 @@
             el.style.top = y + 'px';
             el.style.width = sw + 'px';
             el.style.height = sh + 'px';
+            el.style.transform = `rotate(${project.rotation || (Math.random() - 0.5) * 3}deg)`;
             el.dataset.left = x;
             el.dataset.top = y;
             el.dataset.projectId = project.id;
 
+            // Image
             const img = document.createElement('img');
             img.src = project.image;
             img.alt = project.name;
@@ -1141,6 +1138,7 @@
             };
             el.appendChild(img);
 
+            // Overlay
             const overlay = document.createElement('div');
             overlay.className = 'item-overlay';
             overlay.innerHTML = `
@@ -1149,54 +1147,9 @@
             `;
             el.appendChild(overlay);
 
-            collageEl.appendChild(el);
+            desktop.appendChild(el);
         });
     }
-
-    // ─── SAVE POSITIONS ON DRAG END ───
-    function saveAllPositions() {
-        const items = document.querySelectorAll('.collage-item');
-        const positions = {};
-        items.forEach(item => {
-            const id = item.dataset.projectId;
-            const left = parseFloat(item.dataset.left) || parseFloat(item.style.left) || 0;
-            const top = parseFloat(item.dataset.top) || parseFloat(item.style.top) || 0;
-            positions[id] = { x: left, y: top };
-        });
-        savePositions(positions);
-    }
-
-    // Override endDrag to save positions
-    const originalEndDrag = endDrag;
-    endDrag = function(e) {
-        if (!dragItem) return;
-
-        dragItem.classList.remove('dragging');
-
-        if (!hasDragged) {
-            const projectId = dragItem.dataset.projectId;
-            const project = projects.find(p => p.id === projectId);
-            if (project) {
-                openProject(project);
-            }
-        } else {
-            // Save positions after dragging
-            saveAllPositions();
-        }
-
-        setTimeout(() => {
-            if (dragItem) {
-                dragItem.style.zIndex = '';
-            }
-        }, 100);
-
-        dragItem = null;
-        hasDragged = false;
-
-        if (e?.type === 'touchend') {
-            e.preventDefault();
-        }
-    };
 
     // ─── OPEN PROJECT ───
     function openProject(project) {
@@ -1207,7 +1160,7 @@
         }
     }
 
-    // ─── DRAG LOGIC FOR WINDOWS ───
+    // ─── WINDOW DRAG ───
     let dragData = null;
 
     document.addEventListener('mousedown', function(e) {
@@ -1217,21 +1170,21 @@
         if (!win) return;
         bringToFront(win);
         const rect = win.getBoundingClientRect();
-        const middle = document.getElementById('colMiddle');
-        const mRect = middle.getBoundingClientRect();
+        const desktop = document.getElementById('desktop');
+        const dRect = desktop.getBoundingClientRect();
         dragData = {
             win: win,
             offsetX: e.clientX - rect.left,
             offsetY: e.clientY - rect.top,
-            containerRect: mRect
+            containerRect: dRect
         };
         e.preventDefault();
     });
 
     document.addEventListener('mousemove', function(e) {
         if (!dragData) return;
-        const middle = document.getElementById('colMiddle');
-        const cRect = middle.getBoundingClientRect();
+        const desktop = document.getElementById('desktop');
+        const cRect = desktop.getBoundingClientRect();
         let newX = e.clientX - cRect.left - dragData.offsetX;
         let newY = e.clientY - cRect.top - dragData.offsetY;
         const winRect = dragData.win.getBoundingClientRect();
@@ -1239,6 +1192,8 @@
         newY = Math.max(0, Math.min(newY, cRect.height - 60));
         dragData.win.style.left = newX + 'px';
         dragData.win.style.top = newY + 'px';
+        // Save position
+        saveWindowPosition(dragData.win.id, newX, newY);
     });
 
     document.addEventListener('mouseup', function() {
@@ -1266,8 +1221,8 @@
 
     document.addEventListener('touchmove', function(e) {
         if (!touchDragData) return;
-        const middle = document.getElementById('colMiddle');
-        const cRect = middle.getBoundingClientRect();
+        const desktop = document.getElementById('desktop');
+        const cRect = desktop.getBoundingClientRect();
         const touch = e.touches[0];
         let newX = touch.clientX - cRect.left - touchDragData.offsetX;
         let newY = touch.clientY - cRect.top - touchDragData.offsetY;
@@ -1276,6 +1231,7 @@
         newY = Math.max(0, Math.min(newY, cRect.height - 60));
         touchDragData.win.style.left = newX + 'px';
         touchDragData.win.style.top = newY + 'px';
+        saveWindowPosition(touchDragData.win.id, newX, newY);
         e.preventDefault();
     }, { passive: false });
 
@@ -1283,10 +1239,26 @@
         touchDragData = null;
     });
 
+    // ─── WINDOW POSITION STORAGE ───
+    function saveWindowPosition(id, x, y) {
+        const positions = loadPositions();
+        positions[id] = { x, y };
+        savePositions(positions);
+    }
+
+    function loadWindowPosition(id, defaultX, defaultY) {
+        const positions = loadPositions();
+        const pos = positions[id];
+        if (pos) {
+            return { x: pos.x, y: pos.y };
+        }
+        return { x: defaultX, y: defaultY };
+    }
+
     // ─── BRING TO FRONT ───
     function bringToFront(win) {
-        const middle = document.getElementById('colMiddle');
-        const windows = middle.querySelectorAll('.window');
+        const desktop = document.getElementById('desktop');
+        const windows = desktop.querySelectorAll('.window');
         let maxZ = 50;
         windows.forEach(w => {
             const z = parseInt(w.style.zIndex) || 0;
@@ -1314,15 +1286,16 @@
 
     // ─── WINDOW CASCADE ───
     const CASCADE_STEP = 24;
+    let windowCount = 0;
 
     function getNextPosition() {
-        const middle = document.getElementById('colMiddle');
-        const rect = middle.getBoundingClientRect();
-        const baseX = 16;
-        const baseY = 16;
-        const existing = middle.querySelectorAll('.window:not(#welcome)');
+        const desktop = document.getElementById('desktop');
+        const rect = desktop.getBoundingClientRect();
+        const baseX = 160 + 20;
+        const baseY = 40;
+        const existing = desktop.querySelectorAll('.window:not(#welcome)');
         const count = existing.length;
-        const offset = (count * CASCADE_STEP) % 140;
+        const offset = (count * CASCADE_STEP) % 120;
         return { left: baseX + offset, top: baseY + offset, zIndex: 100 + count };
     }
 
@@ -1330,7 +1303,7 @@
     function openFolder(folderName) {
         const content = getFolderContent(folderName);
         if (!content) return;
-        const middle = document.getElementById('colMiddle');
+        const desktop = document.getElementById('desktop');
         const existingId = 'folder-' + folderName;
         const existing = document.getElementById(existingId);
         if (existing) {
@@ -1362,7 +1335,7 @@
         body.innerHTML = content;
         win.appendChild(header);
         win.appendChild(body);
-        middle.appendChild(win);
+        desktop.appendChild(win);
         bringToFront(win);
     }
 
@@ -1590,8 +1563,10 @@
     });
 
     window.addEventListener('resize', function() {
-        const collageEl = document.getElementById('collage');
-        collageEl.innerHTML = '';
+        // Rebuild collage on resize (keep positions)
+        const desktop = document.getElementById('desktop');
+        const existingItems = desktop.querySelectorAll('.collage-item');
+        existingItems.forEach(el => el.remove());
         generateCollage();
     });
 
