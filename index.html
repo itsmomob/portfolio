@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Monica Bernasconi — International Communications</title>
+    <title>Monica Bernasconi — Desktop</title>
 
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>M</text></svg>" />
@@ -13,367 +13,107 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ─── NAVIGATION ─── -->
-<nav class="nav">
-    <div class="nav-inner">
-        <a href="#home" class="nav-logo">MB</a>
-        <div class="nav-links">
-            <a href="#work">Work</a>
-            <a href="#approach">Approach</a>
-            <a href="#experience">Experience</a>
-            <a href="#research">Research</a>
-            <a href="#about">About</a>
-            <a href="#contact" class="nav-cta">Contact</a>
+<!-- ─── DESKTOP ─── -->
+<div class="desktop">
+
+    <!-- Background -->
+    <div class="desktop-bg"></div>
+
+    <!-- Sticky Note -->
+    <div class="sticky">
+        <strong>"Another thing you did. Another place you've been."</strong>
+        <div class="attribution">— Bourdain</div>
+    </div>
+
+    <!-- ─── SIDEBAR ─── -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-logo">MB</span>
         </div>
-        <button class="nav-toggle" aria-label="Menu">
-            <span></span>
-            <span></span>
-            <span></span>
+
+        <div class="sidebar-nav">
+            <button class="folder active" data-folder="work" onclick="switchFolder('work')">
+                <span class="folder-icon">📁</span>
+                <span class="folder-name">Work</span>
+            </button>
+            <button class="folder" data-folder="map" onclick="switchFolder('map')">
+                <span class="folder-icon">🗺️</span>
+                <span class="folder-name">Map</span>
+            </button>
+            <button class="folder" data-folder="experience" onclick="switchFolder('experience')">
+                <span class="folder-icon">📋</span>
+                <span class="folder-name">Experience</span>
+            </button>
+            <button class="folder" data-folder="approach" onclick="switchFolder('approach')">
+                <span class="folder-icon">🧠</span>
+                <span class="folder-name">Approach</span>
+            </button>
+            <button class="folder" data-folder="skills" onclick="switchFolder('skills')">
+                <span class="folder-icon">🔧</span>
+                <span class="folder-name">Skills</span>
+            </button>
+            <button class="folder" data-folder="about" onclick="switchFolder('about')">
+                <span class="folder-icon">👤</span>
+                <span class="folder-name">About</span>
+            </button>
+            <button class="folder" data-folder="contact" onclick="switchFolder('contact')">
+                <span class="folder-icon">✉️</span>
+                <span class="folder-name">Contact</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ─── MAIN WINDOW ─── -->
+    <div class="main-window">
+        <div class="window-header">
+            <div class="window-controls">
+                <span class="window-dot close"></span>
+                <span class="window-dot minimize"></span>
+                <span class="window-dot expand"></span>
+            </div>
+            <span class="window-title" id="windowTitle">WORK.txt</span>
+        </div>
+        <div class="window-body" id="windowBody">
+            <!-- Content loaded by JavaScript -->
+        </div>
+    </div>
+
+</div>
+
+<!-- ─── TASKBAR ─── -->
+<div class="taskbar">
+    <div class="taskbar-left">
+        <button class="taskbar-icon" onclick="switchFolder('contact')">
+            <span class="emoji">✉️</span> Contact
+        </button>
+        <button class="taskbar-icon" onclick="window.open('https://github.com/itsmomob', '_blank')">
+            <span class="emoji">🐙</span> GitHub
+        </button>
+        <button class="taskbar-icon" onclick="window.open('https://www.linkedin.com/in/monica-bernasconi/', '_blank')">
+            <span class="emoji">🔗</span> LinkedIn
+        </button>
+        <button class="taskbar-icon" onclick="window.open('https://monicabernasconi.my.canva.site/home', '_blank')">
+            <span class="emoji">📁</span> Archive
         </button>
     </div>
-</nav>
-
-<!-- ─── HOME ─── -->
-<section class="section home" id="home">
-    <div class="container">
-        <div class="home-content">
-            <div class="home-tag">Based in Seoul · Available internationally</div>
-            <h1>Monica Bernasconi</h1>
-            <p class="home-subtitle">International Communications &amp; Strategic Storytelling</p>
-            <p class="home-description">I turn complex ideas, policies and organisational priorities into clear, engaging communication for international audiences.</p>
-            <div class="home-languages">Italian · English · Spanish · Korean <span class="home-separator">|</span> Europe ↔ Korea</div>
-            <div class="home-actions">
-                <a href="#work" class="btn-primary">Selected Work</a>
-                <a href="#about" class="btn-secondary">About</a>
-                <a href="Monica_Bernasconi_CV.pdf" target="_blank" class="btn-secondary">CV</a>
-            </div>
-        </div>
+    <div class="taskbar-right">
+        <span class="monica-logo">M</span>
+        <span class="divider">|</span>
+        <span class="time" id="clock">--:--</span>
     </div>
-</section>
-
-<!-- ─── WORK ─── -->
-<section class="section work" id="work">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-label">Selected Work</span>
-            <h2>Problems I Know How to Solve</h2>
-            <p class="section-description">Each project represents a communications challenge—and a clear strategic response.</p>
-        </div>
-
-        <div class="work-grid">
-
-            <!-- Work Item 1: European Parliament -->
-            <div class="work-item featured">
-                <div class="work-meta">
-                    <span class="work-tag">International Communication</span>
-                    <span class="work-org">European Parliament</span>
-                </div>
-                <h3>Communicating Across Languages, Institutions and Audiences</h3>
-                <p>As a Communication Trainee in Luxembourg, I managed website content, digital presence, and social media for the Terminology Coordination Unit. I contributed UI/UX consultancy to the redesign of IATE—the EU's flagship terminology database—and handled copyright compliance for multilingual publications.</p>
-                <ul class="work-outcomes">
-                    <li>Redesigned institutional communication workflows</li>
-                    <li>Contributed to a multilingual platform used daily by thousands of professionals</li>
-                    <li>Managed content across 24 languages</li>
-                </ul>
-                <div class="work-skills">
-                    <span>Institutional Communication</span>
-                    <span>UI/UX Consultancy</span>
-                    <span>Multilingual Content</span>
-                    <span>Digital Strategy</span>
-                </div>
-            </div>
-
-            <!-- Work Item 2: Korea Research -->
-            <div class="work-item">
-                <div class="work-meta">
-                    <span class="work-tag">Narrative &amp; Strategy</span>
-                    <span class="work-org">Master's Research</span>
-                </div>
-                <h3>How Media Narratives Shape Perceptions of Korea</h3>
-                <p>My master's thesis examined how media representations of South Korea construct an idealised image—exploring fandom studies, parasocial relationships, and communication strategies that have positioned Korea prominently in the global market.</p>
-                <ul class="work-outcomes">
-                    <li>Analysis of media representation and narrative construction</li>
-                    <li>Understanding how communication influences public perception</li>
-                    <li>Relevant to international organisations engaging with Korea</li>
-                </ul>
-                <div class="work-skills">
-                    <span>Media Analysis</span>
-                    <span>Fandom Studies</span>
-                    <span>Communication Theory</span>
-                    <span>Narrative Strategy</span>
-                </div>
-            </div>
-
-            <!-- Work Item 3: Brand Strategy -->
-            <div class="work-item">
-                <div class="work-meta">
-                    <span class="work-tag">Brand &amp; Communication Strategy</span>
-                    <span class="work-org">Independent</span>
-                </div>
-                <h3>Building Identities and Communication Systems</h3>
-                <p>Created full brand identities and communication strategies for a Tuscan honey producer, a restaurant magazine, and a wellness studio. Each project involved strategic positioning, editorial direction, and multilingual content creation.</p>
-                <ul class="work-outcomes">
-                    <li>Developed coherent brand identities from zero</li>
-                    <li>Produced bilingual editorial publications</li>
-                    <li>Built digital presence and community engagement</li>
-                </ul>
-                <div class="work-skills">
-                    <span>Brand Strategy</span>
-                    <span>Editorial Direction</span>
-                    <span>Content Strategy</span>
-                    <span>Multilingual Copywriting</span>
-                </div>
-            </div>
-
-            <!-- Work Item 4: Seoul -->
-            <div class="work-item">
-                <div class="work-meta">
-                    <span class="work-tag">Cross-Cultural Communication</span>
-                    <span class="work-org">Seoul · 2025–2026</span>
-                </div>
-                <h3>Marketing &amp; Community Management in Korea</h3>
-                <p>Managed digital communication, participant relations and programme operations for a Seoul-based language programme—coordinating applications, content, community engagement, and day-to-day stakeholder needs across Korean and international participants.</p>
-                <ul class="work-outcomes">
-                    <li>Managed participant relations across cultures</li>
-                    <li>Developed content for Korean and international audiences</li>
-                    <li>Coordinated programme operations and stakeholder communication</li>
-                </ul>
-                <div class="work-skills">
-                    <span>Cross-Cultural Mediation</span>
-                    <span>Community Management</span>
-                    <span>Digital Content</span>
-                    <span>Stakeholder Relations</span>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- ─── APPROACH ─── -->
-<section class="section approach" id="approach">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-label">How I Think</span>
-            <h2>My Approach to Communication</h2>
-            <p class="section-description">I don't just execute. I analyse, structure, and connect before I communicate.</p>
-        </div>
-
-        <div class="approach-grid">
-            <div class="approach-step">
-                <span class="approach-number">01</span>
-                <h3>Understand</h3>
-                <p>I research the context, audience and problem before communicating. What are the underlying dynamics? Who needs to hear what, and why?</p>
-            </div>
-            <div class="approach-step">
-                <span class="approach-number">02</span>
-                <h3>Structure</h3>
-                <p>I turn complex information into a clear narrative and strategic direction. This is where the "manual" gets written—before anything is built.</p>
-            </div>
-            <div class="approach-step">
-                <span class="approach-number">03</span>
-                <h3>Connect</h3>
-                <p>I identify the people, perspectives and cultural contexts that need to be brought together. Communication is about relationships, not just messages.</p>
-            </div>
-            <div class="approach-step">
-                <span class="approach-number">04</span>
-                <h3>Communicate</h3>
-                <p>I translate the strategy into language, content and experiences appropriate to the audience. Every audience needs a different approach.</p>
-            </div>
-            <div class="approach-step">
-                <span class="approach-number">05</span>
-                <h3>Coordinate</h3>
-                <p>I work with specialists and stakeholders to move the idea from strategy to execution. I don't need to do everything—I need to make sure it gets done well.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ─── EXPERIENCE ─── -->
-<section class="section experience" id="experience">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-label">Experience</span>
-            <h2>Where I've Worked</h2>
-        </div>
-
-        <div class="experience-list">
-            <div class="exp-item">
-                <div class="exp-left">
-                    <span class="exp-org">European Parliament</span>
-                    <span class="exp-role">Communication Trainee</span>
-                </div>
-                <div class="exp-right">
-                    <span class="exp-date">2024–2025</span>
-                    <span class="exp-location">Luxembourg</span>
-                </div>
-            </div>
-
-            <div class="exp-item">
-                <div class="exp-left">
-                    <span class="exp-org">Langsyoung</span>
-                    <span class="exp-role">Marketing &amp; Community Manager</span>
-                </div>
-                <div class="exp-right">
-                    <span class="exp-date">2025–2026</span>
-                    <span class="exp-location">Seoul, South Korea</span>
-                </div>
-            </div>
-
-            <div class="exp-item">
-                <div class="exp-left">
-                    <span class="exp-org">Independent</span>
-                    <span class="exp-role">Strategic Communication &amp; Brand</span>
-                </div>
-                <div class="exp-right">
-                    <span class="exp-date">2023–present</span>
-                    <span class="exp-location">Remote · Italy · Korea</span>
-                </div>
-            </div>
-
-            <div class="exp-item">
-                <div class="exp-left">
-                    <span class="exp-org">Nuova Fapam</span>
-                    <span class="exp-role">Interpreter (EN/IT)</span>
-                </div>
-                <div class="exp-right">
-                    <span class="exp-date">2022–2024</span>
-                    <span class="exp-location">Italy</span>
-                </div>
-            </div>
-
-            <div class="exp-item">
-                <div class="exp-left">
-                    <span class="exp-org">Il Polo Positivo</span>
-                    <span class="exp-role">Team Leader · Social Media</span>
-                </div>
-                <div class="exp-right">
-                    <span class="exp-date">2017–2023</span>
-                    <span class="exp-location">Remote</span>
-                </div>
-            </div>
-
-            <div class="exp-item">
-                <div class="exp-left">
-                    <span class="exp-org">Cactus Magazine</span>
-                    <span class="exp-role">Creative Director</span>
-                </div>
-                <div class="exp-right">
-                    <span class="exp-date">2023</span>
-                    <span class="exp-location">Milan, Italy</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ─── RESEARCH & WRITING ─── -->
-<section class="section research" id="research">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-label">Research &amp; Writing</span>
-            <h2>Evidence of Thinking</h2>
-            <p class="section-description">Select pieces that demonstrate analytical and communication capability.</p>
-        </div>
-
-        <div class="research-grid">
-
-            <div class="research-item">
-                <span class="research-type">Thesis</span>
-                <h3>Romanticization and Demystification of Korean Pop Culture Through Media</h3>
-                <p>Master's thesis exploring how media narratives construct an idealised image of South Korea—examining fandom studies, parasocial relationships, and communication strategies that position Korea in the global market.</p>
-                <a href="#" class="research-link">Read summary →</a>
-            </div>
-
-            <div class="research-item">
-                <span class="research-type">Speculative Project</span>
-                <h3>Korea's Climate Narrative — A Communication Analysis</h3>
-                <p>An independent analysis of how Korean institutions and media frame the energy transition. This piece demonstrates understanding of climate communication challenges and the Korean policy context.</p>
-                <a href="#" class="research-link">Read piece →</a>
-            </div>
-
-            <div class="research-item">
-                <span class="research-type">Speculative Project</span>
-                <h3>International Climate Communication: LNG Policy Narrative</h3>
-                <p>A mock communication strategy for a Korean climate NGO: audience analysis, key messages, media angles, and sample press materials. Demonstrates strategic thinking applied to climate communication.</p>
-                <a href="#" class="research-link">Read piece →</a>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- ─── ABOUT ─── -->
-<section class="section about" id="about">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-label">About</span>
-            <h2>Who I Am</h2>
-        </div>
-
-        <div class="about-content">
-            <div class="about-text">
-                <p>I'm Monica Bernasconi. I was born in Italy, educated in Milan, Stockholm, and Genoa, and have worked across London, Luxembourg, and Seoul. I speak five languages and thrive at the intersection of international communication, intercultural mediation, and strategic storytelling.</p>
-                <p>I don't believe in overcomplicating things. I sit with a problem, walk it off, consult with people who know more, and build something clear, human, and scalable.</p>
-                <p>I like thinking more than executing. I am comfortable with public speaking, building relationships, and creating new things. If there is a problem, I will find a solution—creative or not.</p>
-                <p>I want to work in environments that demand intellectual rigour, cross-cultural empathy, and strategic communication. I'm currently based in Seoul and returning to Korea in 2027.</p>
-            </div>
-            <div class="about-footprint">
-                <h3>International Footprint</h3>
-                <ul>
-                    <li><strong>Italy</strong> — Native</li>
-                    <li><strong>English</strong> — Professional / Fluent</li>
-                    <li><strong>Spanish</strong> — Professional / Fluent</li>
-                    <li><strong>Korean</strong> — TOPIK ~3 · TOPIK 4 target 2027</li>
-                    <li><strong>Europe</strong> — European Parliament · Erasmus Stockholm</li>
-                    <li><strong>Korea</strong> — Seoul · Busan · professional experience</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ─── CONTACT ─── -->
-<section class="section contact" id="contact">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-label">Contact</span>
-            <h2>Let's Build Something</h2>
-        </div>
-
-        <div class="contact-content">
-            <p>I'm always open to conversations about international communication, institutional strategy, and creative problem-solving.</p>
-            <div class="contact-links">
-                <a href="mailto:bernasconimonica12@gmail.com" class="contact-link">
-                    <span class="contact-icon">✉️</span> bernasconimonica12@gmail.com
-                </a>
-                <a href="https://www.linkedin.com/in/monica-bernasconi/" target="_blank" class="contact-link">
-                    <span class="contact-icon">🔗</span> LinkedIn
-                </a>
-                <a href="https://github.com/itsmomob" target="_blank" class="contact-link">
-                    <span class="contact-icon">🐙</span> GitHub
-                </a>
-                <a href="Monica_Bernasconi_CV.pdf" target="_blank" class="contact-link">
-                    <span class="contact-icon">📄</span> Download CV (PDF)
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ─── FOOTER ─── -->
-<footer class="footer">
-    <div class="container">
-        <p>&copy; 2026 Monica Bernasconi</p>
-    </div>
-</footer>
+</div>
 
 <!-- ─── SCRIPTS ─── -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
