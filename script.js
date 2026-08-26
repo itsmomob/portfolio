@@ -58,6 +58,7 @@ function savePositions(positions) {
 // ─── GENERATE COLLAGE ───
 function generateCollage() {
     const area = document.getElementById('collageArea');
+    if (!area) return;
     area.innerHTML = '';
 
     const desktop = document.getElementById('desktop');
@@ -65,8 +66,7 @@ function generateCollage() {
     const W = rect.width || window.innerWidth;
     const H = rect.height || window.innerHeight;
 
-    // Calculate available area (subtract skills sidebar)
-    const sidebarWidth = window.innerWidth <= 768 ? 100 : 170;
+    const sidebarWidth = window.innerWidth <= 480 ? 68 : window.innerWidth <= 768 ? 92 : 130;
     const availW = W - sidebarWidth - 24;
     const availH = H - 70;
 
@@ -139,7 +139,6 @@ function generateCollage() {
         el.dataset.left = x;
         el.dataset.top = y;
 
-        // Icon
         const iconDiv = document.createElement('div');
         iconDiv.className = 'item-icon';
         const img = document.createElement('img');
@@ -153,7 +152,6 @@ function generateCollage() {
         iconDiv.appendChild(img);
         el.appendChild(iconDiv);
 
-        // Label
         const label = document.createElement('div');
         label.className = 'item-label';
         label.textContent = item.label;
@@ -166,7 +164,6 @@ function generateCollage() {
             el.appendChild(sub);
         }
 
-        // Click to open folder
         el.addEventListener('click', function(e) {
             if (!e.target.closest('.dragging')) {
                 switchFolder(item.folder || 'work');
@@ -180,6 +177,7 @@ function generateCollage() {
 // ─── GENERATE SKILLS SIDEBAR ───
 function generateSkills() {
     const sidebar = document.getElementById('skillsSidebar');
+    if (!sidebar) return;
     sidebar.innerHTML = '';
 
     skillItems.forEach((item) => {
@@ -189,7 +187,6 @@ function generateSkills() {
             <span class="skill-emoji">${item.icon}</span>
             <span class="skill-label">${item.label}</span>
         `;
-        // Click to open Skills folder
         el.addEventListener('click', function() {
             switchFolder('skills');
         });
@@ -395,12 +392,10 @@ let mapInitialized = false;
 let mapInstance = null;
 
 function switchFolder(folder) {
-    // Update taskbar
     document.querySelectorAll('.taskbar-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.folder === folder);
     });
 
-    // Update window title
     const titles = {
         work: 'Work — Projects & Case Studies',
         map: 'Journey Map — Where I\'ve Been',
@@ -412,19 +407,16 @@ function switchFolder(folder) {
     };
     document.getElementById('windowTitle').textContent = titles[folder] || 'File';
 
-    // Load content
     const body = document.getElementById('windowBody');
     const content = getFolderContent(folder);
     body.innerHTML = content;
 
     openWindow();
 
-    // Initialize map if map folder
     if (folder === 'map') {
         setTimeout(initMap, 400);
     }
 
-    // Clean up map if switching away
     if (folder !== 'map' && mapInstance) {
         mapInstance.remove();
         mapInstance = null;
@@ -706,7 +698,6 @@ function initMap() {
         { lat: 49.6116, lng: 6.1319, city: 'Luxembourg', country: 'Luxembourg', year: '2024-2025', label: 'European Parliament Trainee', color: '#4a6fa5', detail: 'Schuman Communication Trainee' }
     ];
 
-    // Group by city
     const grouped = {};
     locations.forEach(loc => {
         const key = loc.city + ',' + loc.country;
@@ -738,7 +729,6 @@ function initMap() {
         index++;
     });
 
-    // Connecting lines
     const cityList = Object.values(grouped);
     for (let i = 0; i < cityList.length - 1; i++) {
         L.polyline([
@@ -765,12 +755,4 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeWindow();
     }
-});
-
-// ─── WINDOW RESIZE ───
-window.addEventListener('resize', function() {
-    // Regenerate collage with new dimensions
-    const area = document.getElementById('collageArea');
-    // Only regenerate if the window is significantly different
-    // For now, just update positions on next drag
 });
