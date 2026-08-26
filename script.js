@@ -8,124 +8,149 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 10000);
 
-// ─── DESKTOP ITEMS DATA ───
-const desktopItems = [
-    // Project Cards
-    { id: 'iate', type: 'card', label: 'IATE Sketches', sub: 'Luxembourg · 2025', icon: 'images/iate-sketch-1.jpg', folder: 'work' },
-    { id: 'hanabee', type: 'card', label: 'HanaBee', sub: 'Tuscany · 2024', icon: 'images/hanabee-brand-1.jpg', folder: 'work' },
-    { id: 'polo', type: 'card', label: 'Polo Positivo', sub: 'Remote · 2017-2023', icon: 'images/polo-positivo-1.jpg', folder: 'work' },
-    { id: 'cactus', type: 'card', label: 'Cactus Magazine', sub: 'Milan · 2023', icon: 'images/cactus-magazine-1.jpg', folder: 'work' },
-    { id: 'coffee', type: 'card', label: 'Coffee Table Books', sub: 'Remote · Ongoing', icon: 'images/coffee-table-book-1.jpg', folder: 'work' },
-    { id: 'vlog', type: 'card', label: 'Vlog Seoul', sub: 'Seoul · 2024', icon: 'images/vlog-seoul.jpg', folder: 'work' },
-    { id: 'newsletter', type: 'card', label: 'Monthly Newsletter', sub: 'Remote · Ongoing', icon: 'images/newsletter-issue.jpg', folder: 'work' },
-    { id: 'crossword', type: 'card', label: 'Crossword Gift', sub: 'Remote · 2021', icon: 'images/crossword-gift.jpg', folder: 'work' },
-    { id: 'album', type: 'card', label: 'Album Moodboard', sub: 'Milan · 2023', icon: 'images/album-moodboard.jpg', folder: 'work' },
-    { id: 'stretching', type: 'card', label: 'Stretching Poster', sub: 'Luxembourg · 2024', icon: 'images/stretching-poster.jpg', folder: 'work' },
-    { id: 'tomato', type: 'card', label: 'Tomato Poster', sub: 'Luxembourg · 2024', icon: 'images/tomato-poster.jpg', folder: 'work' },
-    // Skill Icons
-    { id: 'excel', type: 'skill', label: 'Excel', icon: '📊', folder: 'skills' },
-    { id: 'canva', type: 'skill', label: 'Canva', icon: '🎨', folder: 'skills' },
-    { id: 'figma', type: 'skill', label: 'Figma', icon: '🖌️', folder: 'skills' },
-    { id: 'wordpress', type: 'skill', label: 'WordPress', icon: '🌐', folder: 'skills' },
-    { id: 'capcut', type: 'skill', label: 'CapCut', icon: '✂️', folder: 'skills' },
-    { id: 'meta', type: 'skill', label: 'Meta', icon: '📱', folder: 'skills' },
-    { id: 'htmlcss', type: 'skill', label: 'HTML/CSS', icon: '💻', folder: 'skills' },
-    { id: 'github', type: 'skill', label: 'GitHub', icon: '🐙', folder: 'skills' },
-    { id: 'google', type: 'skill', label: 'Google', icon: '📁', folder: 'skills' },
-    { id: 'office', type: 'skill', label: 'Office', icon: '🖥️', folder: 'skills' }
+// ─── COLLAGE ITEMS ───
+const collageItems = [
+    { id: 'iate', label: 'IATE Sketches', sub: 'Luxembourg · 2025', icon: 'images/iate-sketch-1.jpg', folder: 'work' },
+    { id: 'hanabee', label: 'HanaBee', sub: 'Tuscany · 2024', icon: 'images/hanabee-brand-1.jpg', folder: 'work' },
+    { id: 'polo', label: 'Polo Positivo', sub: 'Remote · 2017-2023', icon: 'images/polo-positivo-1.jpg', folder: 'work' },
+    { id: 'cactus', label: 'Cactus Magazine', sub: 'Milan · 2023', icon: 'images/cactus-magazine-1.jpg', folder: 'work' },
+    { id: 'coffee', label: 'Coffee Table Books', sub: 'Remote · Ongoing', icon: 'images/coffee-table-book-1.jpg', folder: 'work' },
+    { id: 'vlog', label: 'Vlog Seoul', sub: 'Seoul · 2024', icon: 'images/vlog-seoul.jpg', folder: 'work' },
+    { id: 'newsletter', label: 'Monthly Newsletter', sub: 'Remote · Ongoing', icon: 'images/newsletter-issue.jpg', folder: 'work' },
+    { id: 'crossword', label: 'Crossword Gift', sub: 'Remote · 2021', icon: 'images/crossword-gift.jpg', folder: 'work' },
+    { id: 'album', label: 'Album Moodboard', sub: 'Milan · 2023', icon: 'images/album-moodboard.jpg', folder: 'work' },
+    { id: 'stretching', label: 'Stretching Poster', sub: 'Luxembourg · 2024', icon: 'images/stretching-poster.jpg', folder: 'work' },
+    { id: 'tomato', label: 'Tomato Poster', sub: 'Luxembourg · 2024', icon: 'images/tomato-poster.jpg', folder: 'work' }
+];
+
+// ─── SKILL ITEMS ───
+const skillItems = [
+    { id: 'excel', label: 'Excel', icon: '📊' },
+    { id: 'canva', label: 'Canva', icon: '🎨' },
+    { id: 'figma', label: 'Figma', icon: '🖌️' },
+    { id: 'wordpress', label: 'WordPress', icon: '🌐' },
+    { id: 'capcut', label: 'CapCut', icon: '✂️' },
+    { id: 'meta', label: 'Meta', icon: '📱' },
+    { id: 'htmlcss', label: 'HTML/CSS', icon: '💻' },
+    { id: 'github', label: 'GitHub', icon: '🐙' },
+    { id: 'google', label: 'Google', icon: '📁' },
+    { id: 'office', label: 'Office', icon: '🖥️' },
+    { id: 'appscript', label: 'AppsScript', icon: '⚡' },
+    { id: 'analytics', label: 'Analytics', icon: '📈' }
 ];
 
 // ─── STORAGE ───
-const DESKTOP_STORAGE_KEY = 'monica_desktop_positions';
+const COLLAGE_STORAGE_KEY = 'monica_collage_positions';
 
 function loadPositions() {
     try {
-        const data = localStorage.getItem(DESKTOP_STORAGE_KEY);
+        const data = localStorage.getItem(COLLAGE_STORAGE_KEY);
         return data ? JSON.parse(data) : {};
     } catch (e) { return {}; }
 }
 
 function savePositions(positions) {
     try {
-        localStorage.setItem(DESKTOP_STORAGE_KEY, JSON.stringify(positions));
+        localStorage.setItem(COLLAGE_STORAGE_KEY, JSON.stringify(positions));
     } catch (e) {}
 }
 
-// ─── GENERATE DESKTOP ITEMS ───
-function generateDesktopItems() {
-    const container = document.getElementById('desktopIcons');
-    container.innerHTML = '';
+// ─── GENERATE COLLAGE ───
+function generateCollage() {
+    const area = document.getElementById('collageArea');
+    area.innerHTML = '';
 
     const desktop = document.getElementById('desktop');
     const rect = desktop.getBoundingClientRect();
     const W = rect.width || window.innerWidth;
     const H = rect.height || window.innerHeight;
 
+    // Calculate available area (subtract skills sidebar)
+    const sidebarWidth = window.innerWidth <= 768 ? 100 : 170;
+    const availW = W - sidebarWidth - 24;
+    const availH = H - 70;
+
     const savedPositions = loadPositions();
 
-    // Separate cards and skills for placement
-    const cards = desktopItems.filter(item => item.type === 'card');
-    const skills = desktopItems.filter(item => item.type === 'skill');
+    const shuffled = collageItems.map((item) => ({
+        ...item,
+        w: 80 + Math.random() * 20,
+        h: 80 + Math.random() * 20,
+        rotation: (Math.random() - 0.5) * 4,
+        x: 0,
+        y: 0
+    }));
 
-    const allItems = [...cards, ...skills];
+    const placed = [];
 
-    // Pre-define positions for a nice layout
-    const gridCols = 6;
-    const gridRows = Math.ceil(allItems.length / gridCols);
-    const spacingX = 90;
-    const spacingY = 90;
-    const startX = 24;
-    const startY = 16;
-
-    let index = 0;
-    allItems.forEach((item) => {
-        // Calculate grid position
-        const col = index % gridCols;
-        const row = Math.floor(index / gridCols);
+    shuffled.forEach((item) => {
+        const sw = Math.min(item.w, 100);
+        const sh = Math.min(item.h, 100);
 
         let x, y;
 
         const saved = savedPositions[item.id];
-        if (saved && saved.x !== undefined && saved.y !== undefined) {
+        if (saved && saved.x !== undefined && saved.y !== undefined &&
+            saved.x + sw <= availW && saved.y + sh <= availH) {
             x = saved.x;
             y = saved.y;
         } else {
-            x = startX + col * spacingX + (Math.random() - 0.5) * 8;
-            y = startY + row * spacingY + (Math.random() - 0.5) * 8;
+            let attempts = 0;
+            let placedOk = false;
+
+            while (!placedOk && attempts < 200) {
+                x = 8 + Math.random() * (availW - sw - 16);
+                y = 8 + Math.random() * (availH - sh - 16);
+                let overlap = false;
+
+                for (const p of placed) {
+                    if (x < p.x + p.w + 6 && x + sw + 6 > p.x &&
+                        y < p.y + p.h + 6 && y + sh + 6 > p.y) {
+                        overlap = true;
+                        break;
+                    }
+                }
+
+                if (!overlap) {
+                    placedOk = true;
+                }
+                attempts++;
+            }
+
+            if (!placedOk) {
+                x = 8 + Math.random() * (availW - sw - 16);
+                y = 8 + Math.random() * (availH - sh - 16);
+            }
         }
 
-        // Keep within bounds
-        x = Math.max(4, Math.min(x, W - 80));
-        y = Math.max(4, Math.min(y, H - 100));
+        item.x = x;
+        item.y = y;
+        placed.push({ x, y, w: sw, h: sh });
 
         const el = document.createElement('div');
-        el.className = 'desktop-item';
+        el.className = 'collage-item';
         el.dataset.id = item.id;
-        el.dataset.type = item.type;
         el.dataset.folder = item.folder || 'work';
         el.style.left = x + 'px';
         el.style.top = y + 'px';
+        el.style.width = sw + 'px';
+        el.style.height = sh + 'px';
+        el.style.transform = `rotate(${item.rotation}deg)`;
         el.dataset.left = x;
         el.dataset.top = y;
 
         // Icon
         const iconDiv = document.createElement('div');
-        iconDiv.className = 'item-icon' + (item.type === 'skill' ? ' skill-icon' : '');
-
-        if (item.type === 'skill') {
-            iconDiv.textContent = item.icon;
-        } else {
-            const img = document.createElement('img');
-            img.src = item.icon;
-            img.alt = item.label;
-            img.loading = 'lazy';
-            img.onerror = function() {
-                iconDiv.textContent = '📄';
-                iconDiv.style.fontSize = '24px';
-            };
-            iconDiv.appendChild(img);
-        }
-
+        iconDiv.className = 'item-icon';
+        const img = document.createElement('img');
+        img.src = item.icon;
+        img.alt = item.label;
+        img.loading = 'lazy';
+        img.onerror = function() {
+            iconDiv.textContent = '📄';
+            iconDiv.style.fontSize = '24px';
+        };
+        iconDiv.appendChild(img);
         el.appendChild(iconDiv);
 
         // Label
@@ -134,7 +159,7 @@ function generateDesktopItems() {
         label.textContent = item.label;
         el.appendChild(label);
 
-        if (item.type === 'card' && item.sub) {
+        if (item.sub) {
             const sub = document.createElement('div');
             sub.className = 'item-sub';
             sub.textContent = item.sub;
@@ -148,8 +173,27 @@ function generateDesktopItems() {
             }
         });
 
-        container.appendChild(el);
-        index++;
+        area.appendChild(el);
+    });
+}
+
+// ─── GENERATE SKILLS SIDEBAR ───
+function generateSkills() {
+    const sidebar = document.getElementById('skillsSidebar');
+    sidebar.innerHTML = '';
+
+    skillItems.forEach((item) => {
+        const el = document.createElement('div');
+        el.className = 'skill-item';
+        el.innerHTML = `
+            <span class="skill-emoji">${item.icon}</span>
+            <span class="skill-label">${item.label}</span>
+        `;
+        // Click to open Skills folder
+        el.addEventListener('click', function() {
+            switchFolder('skills');
+        });
+        sidebar.appendChild(el);
     });
 }
 
@@ -197,10 +241,13 @@ function moveDrag(e) {
     let newX = currentLeft + dx;
     let newY = currentTop + dy;
 
-    const desktop = document.getElementById('desktop');
-    const rect = desktop.getBoundingClientRect();
-    newX = Math.max(4, Math.min(newX, rect.width - 80));
-    newY = Math.max(4, Math.min(newY, rect.height - 100));
+    const area = document.getElementById('collageArea');
+    const rect = area.getBoundingClientRect();
+    const elW = parseFloat(dragData.el.style.width) || 80;
+    const elH = parseFloat(dragData.el.style.height) || 80;
+
+    newX = Math.max(0, Math.min(newX, rect.width - elW));
+    newY = Math.max(0, Math.min(newY, rect.height - elH));
 
     dragData.el.style.left = newX + 'px';
     dragData.el.style.top = newY + 'px';
@@ -221,7 +268,6 @@ function endDrag(e) {
     dragData.el.classList.remove('dragging');
 
     if (dragData.hasDragged) {
-        // Save position
         const positions = loadPositions();
         const id = dragData.el.dataset.id;
         const left = parseFloat(dragData.el.dataset.left) || 0;
@@ -241,7 +287,7 @@ function endDrag(e) {
 
 // ─── MOUSE DRAG ───
 document.addEventListener('mousedown', function(e) {
-    const item = e.target.closest('.desktop-item');
+    const item = e.target.closest('.collage-item');
     if (item) {
         initDrag(e, item);
     }
@@ -261,7 +307,7 @@ document.addEventListener('mouseup', function(e) {
 
 // ─── TOUCH DRAG ───
 document.addEventListener('touchstart', function(e) {
-    const item = e.target.closest('.desktop-item');
+    const item = e.target.closest('.collage-item');
     if (item) {
         initDrag(e, item);
     }
@@ -279,18 +325,68 @@ document.addEventListener('touchend', function(e) {
     }
 }, { passive: true });
 
+// ─── WINDOW DRAG ───
+let windowDragData = null;
+
+document.addEventListener('mousedown', function(e) {
+    const header = e.target.closest('.window-header');
+    if (!header) return;
+    const win = header.closest('.window');
+    if (!win || !win.classList.contains('open')) return;
+
+    const rect = win.getBoundingClientRect();
+    windowDragData = {
+        win: win,
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top,
+        startX: rect.left,
+        startY: rect.top
+    };
+    e.preventDefault();
+});
+
+document.addEventListener('mousemove', function(e) {
+    if (!windowDragData) return;
+
+    const desktop = document.getElementById('desktop');
+    const dRect = desktop.getBoundingClientRect();
+
+    let newX = e.clientX - dRect.left - windowDragData.offsetX;
+    let newY = e.clientY - dRect.top - windowDragData.offsetY;
+
+    const winRect = windowDragData.win.getBoundingClientRect();
+    newX = Math.max(0, Math.min(newX, dRect.width - winRect.width));
+    newY = Math.max(0, Math.min(newY, dRect.height - winRect.height));
+
+    windowDragData.win.style.left = newX + 'px';
+    windowDragData.win.style.top = newY + 'px';
+    windowDragData.win.style.transform = 'none';
+});
+
+document.addEventListener('mouseup', function(e) {
+    if (windowDragData) {
+        windowDragData = null;
+    }
+});
+
 // ─── WINDOW FUNCTIONS ───
 function closeWindow() {
     const win = document.getElementById('mainWindow');
     win.classList.add('closing');
     setTimeout(() => {
         win.classList.remove('open', 'closing');
+        win.style.transform = '';
+        win.style.left = '';
+        win.style.top = '';
     }, 200);
 }
 
 function openWindow() {
     const win = document.getElementById('mainWindow');
     win.classList.remove('closing');
+    win.style.transform = '';
+    win.style.left = '';
+    win.style.top = '';
     win.classList.add('open');
 }
 
@@ -659,9 +755,9 @@ function initMap() {
 
 // ─── INIT ───
 document.addEventListener('DOMContentLoaded', function() {
-    generateDesktopItems();
-    // Load default folder (work) after a tiny delay
-    setTimeout(() => switchFolder('work'), 200);
+    generateSkills();
+    generateCollage();
+    setTimeout(() => switchFolder('work'), 300);
 });
 
 // ─── KEYBOARD SHORTCUT: ESC ───
@@ -669,4 +765,12 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeWindow();
     }
+});
+
+// ─── WINDOW RESIZE ───
+window.addEventListener('resize', function() {
+    // Regenerate collage with new dimensions
+    const area = document.getElementById('collageArea');
+    // Only regenerate if the window is significantly different
+    // For now, just update positions on next drag
 });
