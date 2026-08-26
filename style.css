@@ -29,11 +29,9 @@ body {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse at 25% 40%, rgba(60, 50, 80, 0.25) 0%, transparent 55%),
-        radial-gradient(ellipse at 75% 30%, rgba(40, 60, 80, 0.18) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 75%, rgba(80, 60, 50, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 10% 80%, rgba(100, 80, 60, 0.08) 0%, transparent 40%),
-        #1a1a22;
+        radial-gradient(ellipse at 30% 40%, rgba(80, 70, 60, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(60, 50, 70, 0.1) 0%, transparent 50%),
+        #1a1816;
     z-index: 0;
 }
 
@@ -41,8 +39,7 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none;
 }
 
@@ -50,8 +47,7 @@ body {
 .sticky {
     position: absolute;
     bottom: 72px;
-    left: 50%;
-    transform: translateX(-50%) rotate(-1deg);
+    right: 24px;
     z-index: 10;
     background: #f9f0d8;
     padding: 10px 18px;
@@ -60,12 +56,23 @@ body {
     font-style: italic;
     font-size: 13px;
     color: #4a3f35;
-    max-width: 260px;
+    max-width: 220px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     line-height: 1.5;
     border-left: 3px solid #d4a373;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+    .sticky {
+        right: 12px;
+        bottom: 56px;
+        font-size: 11px;
+        max-width: 150px;
+        padding: 8px 12px;
+    }
+}
+
 
 .sticky strong {
     font-style: normal;
@@ -85,11 +92,24 @@ body {
 .collage-area {
     position: absolute;
     top: 8px;
-    left: 8px;
-    right: 170px;
+    left: 130px;  /* Increased to make room for sidebar */
+    right: 16px;
     bottom: 8px;
     z-index: 1;
     overflow: hidden;
+}
+@media (max-width: 768px) {
+    .collage-area {
+        left: 95px;
+        right: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .collage-area {
+        left: 72px;
+        right: 4px;
+    }
 }
 
 /* ─── COLLAGE ITEMS ─── */
@@ -168,12 +188,12 @@ body {
     line-height: 1.1;
 }
 
-/* ─── SKILLS SIDEBAR ─── */
+/* ─── SKILLS SIDEBAR (LEFT) ─── */
 .skills-sidebar {
     position: absolute;
     top: 8px;
     right: 8px;
-    width: 155px;
+    width: 110px;
     bottom: 8px;
     z-index: 2;
     background: rgba(26, 26, 34, 0.5);
@@ -187,6 +207,23 @@ body {
     align-content: flex-start;
     gap: 4px;
     overflow-y: auto;
+}
+
+* Smaller screens */
+@media (max-width: 768px) {
+    .skills-sidebar {
+        width: 80px;
+        padding: 8px 4px;
+        left: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-sidebar {
+        width: 60px;
+        padding: 4px 2px;
+        left: 2px;
+    }
 }
 
 .skills-sidebar::-webkit-scrollbar {
