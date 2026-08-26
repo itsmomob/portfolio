@@ -24,14 +24,16 @@ body {
     padding: 8px 8px 52px 8px;
 }
 
+/* ─── DESKTOP BACKGROUND ─── */
 .desktop-bg {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse at 20% 50%, rgba(60, 50, 80, 0.2) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(40, 60, 80, 0.12) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 80%, rgba(80, 60, 50, 0.12) 0%, transparent 50%),
-        #1E1E24;
+        radial-gradient(ellipse at 25% 40%, rgba(60, 50, 80, 0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 30%, rgba(40, 60, 80, 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 75%, rgba(80, 60, 50, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 10% 80%, rgba(100, 80, 60, 0.08) 0%, transparent 40%),
+        #1a1a22;
     z-index: 0;
 }
 
@@ -39,7 +41,8 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
     pointer-events: none;
 }
 
@@ -47,20 +50,21 @@ body {
 .sticky {
     position: absolute;
     bottom: 72px;
-    right: 24px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-1deg);
     z-index: 10;
     background: #f9f0d8;
-    padding: 10px 14px;
+    padding: 10px 18px;
     border-radius: 4px;
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 12px;
+    font-size: 13px;
     color: #4a3f35;
-    max-width: 190px;
+    max-width: 260px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    transform: rotate(-2deg);
     line-height: 1.5;
     border-left: 3px solid #d4a373;
+    text-align: center;
 }
 
 .sticky strong {
@@ -77,94 +81,163 @@ body {
     margin-top: 2px;
 }
 
-/* ─── DESKTOP ICONS ─── */
-.desktop-icons {
-    position: relative;
-    width: 100%;
-    height: 100%;
+/* ─── COLLAGE AREA ─── */
+.collage-area {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 170px;
+    bottom: 8px;
     z-index: 1;
+    overflow: hidden;
 }
 
-/* ─── DESKTOP ITEM (Card or Skill) ─── */
-.desktop-item {
+/* ─── COLLAGE ITEMS ─── */
+.collage-item {
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: default;
-    transition: transform 0.15s;
     touch-action: none;
+    border-radius: 6px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    background: rgba(30, 30, 36, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
     padding: 4px;
-    border-radius: 4px;
     min-width: 64px;
 }
 
-.desktop-item:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.06);
+.collage-item:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.1);
+    z-index: 15;
 }
 
-.desktop-item.dragging {
+.collage-item.dragging {
     transition: none !important;
     z-index: 100 !important;
-    opacity: 0.85;
     cursor: grabbing;
+    opacity: 0.85;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
 }
 
-.desktop-item .item-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 6px;
+.collage-item .item-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: 28px;
     overflow: hidden;
-    transition: background 0.2s;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.desktop-item:hover .item-icon {
-    background: rgba(255, 255, 255, 0.12);
-}
-
-.desktop-item .item-icon img {
+.collage-item .item-icon img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.desktop-item .item-label {
-    font-size: 10px;
+.collage-item .item-label {
+    font-size: 9px;
     color: #f9f6f0;
     text-align: center;
     margin-top: 4px;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
     font-weight: 400;
     letter-spacing: 0.1px;
-    max-width: 80px;
+    max-width: 70px;
     line-height: 1.2;
     word-wrap: break-word;
 }
 
-.desktop-item .item-sub {
-    font-size: 8px;
+.collage-item .item-sub {
+    font-size: 7px;
     color: #b0a89c;
     text-align: center;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-    max-width: 80px;
+    max-width: 70px;
+    line-height: 1.1;
 }
 
-.desktop-item .item-icon.skill-icon {
-    font-size: 24px;
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.03);
+/* ─── SKILLS SIDEBAR ─── */
+.skills-sidebar {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 155px;
+    bottom: 8px;
+    z-index: 2;
+    background: rgba(26, 26, 34, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 12px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 4px;
+    overflow-y: auto;
 }
 
-/* ─── WINDOW (Windows Classic Style) ─── */
+.skills-sidebar::-webkit-scrollbar {
+    width: 3px;
+}
+
+.skills-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.skills-sidebar::-webkit-scrollbar-thumb {
+    background: #4a4038;
+    border-radius: 10px;
+}
+
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    padding: 6px 4px;
+    border-radius: 6px;
+    cursor: default;
+    transition: background 0.15s, transform 0.15s;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.skill-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: scale(1.05);
+}
+
+.skill-item .skill-emoji {
+    font-size: 22px;
+    line-height: 1;
+}
+
+.skill-item .skill-label {
+    font-size: 8px;
+    color: #d4c8bc;
+    text-align: center;
+    margin-top: 3px;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+    max-width: 60px;
+    line-height: 1.1;
+}
+
+/* ─── WINDOW (Draggable, Bigger) ─── */
 .window {
     display: none;
     position: absolute;
@@ -173,14 +246,15 @@ body {
     transform: translate(-50%, -50%);
     z-index: 100;
     background: #f0ebe4;
-    border-radius: 6px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-    width: 560px;
-    max-width: 88vw;
-    max-height: 82vh;
-    min-height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    width: 700px;
+    max-width: 85vw;
+    max-height: 80vh;
+    min-height: 300px;
     flex-direction: column;
     animation: windowOpen 0.2s ease-out;
+    cursor: default;
 }
 
 .window.open {
@@ -188,7 +262,7 @@ body {
 }
 
 @keyframes windowOpen {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.94); }
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
     100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
@@ -198,25 +272,29 @@ body {
 
 @keyframes windowClose {
     0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.94); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
 }
 
-/* ─── WINDOW HEADER (Windows Classic) ─── */
+/* ─── WINDOW HEADER (Draggable) ─── */
 .window-header {
     background: linear-gradient(to right, #1a3b5c, #2a5a7c);
-    padding: 6px 10px;
-    border-radius: 6px 6px 0 0;
+    padding: 8px 12px;
+    border-radius: 8px 8px 0 0;
     display: flex;
     align-items: center;
     gap: 8px;
     flex-shrink: 0;
-    cursor: default;
-    min-height: 32px;
+    cursor: grab;
+    min-height: 36px;
+}
+
+.window-header:active {
+    cursor: grabbing;
 }
 
 .window-controls {
     display: flex;
-    gap: 4px;
+    gap: 5px;
     margin-right: 4px;
 }
 
@@ -233,19 +311,13 @@ body {
     opacity: 0.75;
 }
 
-.win-close {
-    background: #e07a5f;
-}
-.win-minimize {
-    background: #f4c542;
-}
-.win-maximize {
-    background: #5fa87f;
-}
+.win-close { background: #e07a5f; }
+.win-minimize { background: #f4c542; }
+.win-maximize { background: #5fa87f; }
 
 .window-title {
     font-family: 'Segoe UI', 'Inter', sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     color: #f9f6f0;
     letter-spacing: 0.2px;
@@ -258,13 +330,13 @@ body {
 /* ─── WINDOW BODY ─── */
 .window-body {
     background: #f9f6f0;
-    padding: 24px 28px 28px 28px;
+    padding: 28px 32px 32px 32px;
     overflow-y: auto;
     flex: 1;
     font-size: 13px;
     line-height: 1.7;
     color: #2c2a2a;
-    border-radius: 0 0 6px 6px;
+    border-radius: 0 0 8px 8px;
     max-height: 65vh;
 }
 
@@ -284,7 +356,7 @@ body {
 .window-body h1 {
     font-family: 'Playfair Display', serif;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 8px;
     color: #2c2a2a;
     letter-spacing: -0.3px;
@@ -293,7 +365,7 @@ body {
 .window-body h2 {
     font-family: 'Playfair Display', serif;
     font-weight: 400;
-    font-size: 17px;
+    font-size: 18px;
     margin-top: 20px;
     margin-bottom: 4px;
     color: #c87a5a;
@@ -502,7 +574,7 @@ body {
 /* ─── MAP ─── */
 .map-container {
     width: 100%;
-    height: 360px;
+    height: 380px;
     border-radius: 4px;
     overflow: hidden;
     margin: 12px 0 16px 0;
@@ -682,38 +754,113 @@ body {
 }
 
 /* ─── RESPONSIVE ─── */
-@media (max-width: 768px) {
-    .desktop {
-        padding: 4px 4px 44px 4px;
+@media (max-width: 900px) {
+    .skills-sidebar {
+        width: 120px;
+        right: 4px;
+        padding: 8px 4px;
     }
 
-    .desktop-item .item-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 22px;
+    .skill-item {
+        width: 50px;
+        padding: 4px 2px;
     }
 
-    .desktop-item .item-label {
-        font-size: 9px;
-        max-width: 60px;
+    .skill-item .skill-emoji {
+        font-size: 18px;
     }
 
-    .desktop-item .item-sub {
-        display: none;
+    .skill-item .skill-label {
+        font-size: 7px;
     }
 
-    .sticky {
-        bottom: 56px;
-        right: 12px;
-        max-width: 140px;
-        font-size: 10px;
-        padding: 8px 10px;
+    .collage-area {
+        right: 135px;
     }
 
     .window {
         width: 92vw;
         max-width: 92vw;
         max-height: 85vh;
+    }
+
+    .window-body {
+        padding: 20px 22px 24px 22px;
+        font-size: 12px;
+        max-height: 55vh;
+    }
+
+    .window-body h1 {
+        font-size: 20px;
+    }
+
+    .window-body h2 {
+        font-size: 16px;
+    }
+
+    .map-container {
+        height: 260px;
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop {
+        padding: 4px 4px 44px 4px;
+    }
+
+    .sticky {
+        bottom: 56px;
+        font-size: 11px;
+        max-width: 180px;
+        padding: 8px 14px;
+    }
+
+    .collage-area {
+        right: 100px;
+        top: 4px;
+        left: 4px;
+        bottom: 4px;
+    }
+
+    .collage-item .item-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+    }
+
+    .collage-item .item-label {
+        font-size: 8px;
+        max-width: 56px;
+    }
+
+    .collage-item .item-sub {
+        display: none;
+    }
+
+    .skills-sidebar {
+        width: 90px;
+        padding: 6px 3px;
+        gap: 2px;
+    }
+
+    .skill-item {
+        width: 40px;
+        padding: 3px 2px;
+    }
+
+    .skill-item .skill-emoji {
+        font-size: 16px;
+    }
+
+    .skill-item .skill-label {
+        font-size: 6px;
+        max-width: 38px;
+    }
+
+    .window {
+        width: 95vw;
+        max-width: 95vw;
+        max-height: 88vh;
     }
 
     .window-body {
@@ -780,15 +927,39 @@ body {
 }
 
 @media (max-width: 480px) {
-    .desktop-item .item-icon {
-        width: 32px;
-        height: 32px;
+    .collage-area {
+        right: 80px;
+    }
+
+    .collage-item .item-icon {
+        width: 36px;
+        height: 36px;
         font-size: 18px;
     }
 
-    .desktop-item .item-label {
-        font-size: 8px;
-        max-width: 48px;
+    .collage-item .item-label {
+        font-size: 7px;
+        max-width: 44px;
+    }
+
+    .skills-sidebar {
+        width: 72px;
+        padding: 4px 2px;
+        gap: 1px;
+    }
+
+    .skill-item {
+        width: 34px;
+        padding: 2px 1px;
+    }
+
+    .skill-item .skill-emoji {
+        font-size: 14px;
+    }
+
+    .skill-item .skill-label {
+        font-size: 5px;
+        max-width: 32px;
     }
 
     .window-body {
