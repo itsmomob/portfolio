@@ -1068,6 +1068,7 @@ function initMap() {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; CartoDB'
     }).addTo(map);
 
+    // ─── ALL 16 LOCATIONS ───
     const locations = [{
         lat: 51.8985,
         lng: -8.4756,
@@ -1214,17 +1215,51 @@ function initMap() {
         detail: 'Seoul & Jeju · Summer immersion'
     }];
 
-    locations.forEach((loc, index) => {
-        const popupContent = `
-            <strong>${loc.city}</strong>, ${loc.country}<br />
-            <span class="popup-meta">${loc.year}</span><br />
-            <span style="font-size: 11px; color: #7a6a5a;">${loc.label}</span><br />
-            <span style="font-size: 10px; color: #b0a89c;">${loc.detail}</span>
+    // ─── GROUP LOCATIONS BY CITY + COUNTRY ───
+    const grouped = {};
+    locations.forEach(loc => {
+        const key = loc.city + ',' + loc.country;
+        if (!grouped[key]) {
+            grouped[key] = {
+                lat: loc.lat,
+                lng: loc.lng,
+                city: loc.city,
+                country: loc.country,
+                color: loc.color,
+                experiences: []
+            };
+        }
+        grouped[key].experiences.push({
+            year: loc.year,
+            label: loc.label,
+            detail: loc.detail
+        });
+    });
+
+    // ─── ADD PINS FOR EACH GROUP ───
+    Object.values(grouped).forEach((group, index) => {
+        let popupContent = `
+            <strong>${group.city}</strong>, ${group.country}<br />
+            <span class="popup-meta">${group.experiences.length} experience${group.experiences.length > 1 ? 's' : ''}</span>
+            <hr style="margin: 4px 0; border: none; border-top: 1px solid #e8ddd0;" />
         `;
 
-        const circle = L.circleMarker([loc.lat, loc.lng], {
-            radius: 7,
-            fillColor: loc.color,
+        group.experiences.forEach(exp => {
+            popupContent += `
+                <div style="margin-bottom: 4px;">
+                    <span style="font-weight: 500; font-size: 11px;">${exp.year}</span>
+                    <span style="font-size: 11px; color: #2c2a2a;"> — ${exp.label}</span><br />
+                    <span style="font-size: 10px; color: #7a6a5a;">${exp.detail}</span>
+                </div>
+            `;
+        });
+
+        const latOffset = (index % 3) * 0.04 - 0.04;
+        const lngOffset = Math.floor(index / 3) * 0.04 - 0.04;
+
+        const circle = L.circleMarker([group.lat + latOffset, group.lng + lngOffset], {
+            radius: 8,
+            fillColor: group.color,
             color: '#fff',
             weight: 2,
             opacity: 1,
@@ -1233,29 +1268,32 @@ function initMap() {
 
         circle.bindPopup(popupContent);
 
-        if (index < locations.length - 1) {
-            const next = locations[index + 1];
-            L.polyline([
-                [loc.lat, loc.lng],
-                [next.lat, next.lng]
-            ], {
-                color: 'rgba(200, 200, 200, 0.15)',
-                weight: 1.5,
-                dashArray: '5, 8',
-                opacity: 0.6
-            }).addTo(map);
-        }
-
         circle.on('mouseover', function() {
-            this.setRadius(10);
+            this.setRadius(11);
             this.setStyle({ fillOpacity: 1 });
         });
 
         circle.on('mouseout', function() {
-            this.setRadius(7);
+            this.setRadius(8);
             this.setStyle({ fillOpacity: 0.9 });
         });
     });
+
+    // ─── ADD CONNECTING LINES BETWEEN CITIES ───
+    const uniqueCities = Object.values(grouped);
+    for (let i = 0; i < uniqueCities.length - 1; i++) {
+        const current = uniqueCities[i];
+        const next = uniqueCities[i + 1];
+        L.polyline([
+            [current.lat, current.lng],
+            [next.lat, next.lng]
+        ], {
+            color: 'rgba(200, 200, 200, 0.15)',
+            weight: 1.5,
+            dashArray: '5, 8',
+            opacity: 0.6
+        }).addTo(map);
+    }
 
     map.zoomControl.setPosition('bottomright');
 
