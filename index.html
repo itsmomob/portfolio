@@ -5,16 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Monica Bernasconi — Desktop</title>
 
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>" />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
     <!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
-        
         /* ─── RESET & BASE ─── */
         * {
             margin: 0;
@@ -162,7 +165,7 @@
             background: #f9f6f0;
             border-radius: 10px;
             box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-            width: 420px;
+            width: 440px;
             max-width: 90vw;
             max-height: 80vh;
             display: flex;
@@ -361,6 +364,39 @@
             line-height: 1.6;
         }
 
+        /* ─── MAP ─── */
+        .map-container {
+            width: 100%;
+            height: 280px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 10px 0 14px 0;
+            border: 1px solid rgba(200, 200, 200, 0.2);
+        }
+
+        .leaflet-popup-content {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .leaflet-popup-content strong {
+            font-weight: 600;
+            color: #2c2a2a;
+        }
+
+        .leaflet-popup-content .popup-meta {
+            font-size: 11px;
+            color: #7a6a5a;
+        }
+
+        .leaflet-control-attribution {
+            font-size: 8px !important;
+            color: #7a6a5a !important;
+            background: rgba(255, 255, 255, 0.7) !important;
+            backdrop-filter: blur(4px);
+        }
+
         /* ─── COLLAGE ITEMS ─── */
         .collage-item {
             position: absolute;
@@ -553,6 +589,10 @@
                 font-size: 16px;
             }
 
+            .map-container {
+                height: 200px;
+            }
+
             .sticky {
                 display: none;
             }
@@ -612,6 +652,10 @@
                 height: 8px;
             }
 
+            .map-container {
+                height: 160px;
+            }
+
             .taskbar-icon {
                 font-size: 9px;
                 padding: 2px 4px;
@@ -658,7 +702,7 @@
 
     <!-- Sticky Note -->
     <div class="sticky">
-        <strong>“Another thing you did. Another place you've been.”</strong>
+        <strong>"Another thing you did. Another place you've been."</strong>
         <div class="attribution">— Bourdain</div>
     </div>
 
@@ -1382,7 +1426,7 @@
         win.style.left = pos.left + 'px';
         win.style.top = pos.top + 'px';
         win.style.zIndex = pos.zIndex;
-        win.style.width = '420px';
+        win.style.width = '440px';
         const header = document.createElement('div');
         header.className = 'window-header';
         header.setAttribute('data-drag', existingId);
@@ -1479,17 +1523,34 @@
             excel: `
                 <h1>Excel Automation</h1>
                 <p>Turning repetitive work into automated systems.</p>
+
+                <div style="margin: 12px 0; border-radius: 8px; overflow: hidden; background: #1a1a1a; text-align: center; padding: 4px;">
+                    <img src="images/excel-automation-dashboard.jpg" 
+                         alt="Excel Automation Dashboard" 
+                         style="width: 100%; display: block; border-radius: 4px;" />
+                    <p style="font-size: 10px; color: #7a6a5a; padding: 4px 0;">Automated Excel dashboard — real-time data processing</p>
+                </div>
+
                 <hr class="divider" />
+
                 <h2>The Challenge</h2>
-                <p>Teams were drowning in manual data entry, repetitive tasks, and inefficient workflows.</p>
+                <p>Teams were drowning in manual data entry, repetitive tasks, and inefficient workflows. Time was being wasted on work that could be automated.</p>
+
                 <h2>The Approach</h2>
                 <ul>
                     <li>Assessed existing workflows and identified bottlenecks</li>
                     <li>Designed and implemented automated Excel sheets with formulas and AppsScript</li>
                     <li>Created "manuals" so teams could maintain the systems themselves</li>
                 </ul>
+
                 <h2>The Result</h2>
-                <p>Reduced manual work by 70%+ in some cases. The systems are still in use.</p>
+                <ul>
+                    <li>Reduced manual work by 70%+ in some cases</li>
+                    <li>Zero data entry errors</li>
+                    <li>Teams now focus on high-value analysis instead of data processing</li>
+                    <li>The systems are still in use today</li>
+                </ul>
+
                 <div class="tag-wrap">
                     <span class="tag">Process Automation</span>
                     <span class="tag">AppsScript</span>
@@ -1596,9 +1657,15 @@
             experience: `
                 <h1>My Journey</h1>
                 <div class="intro-quote">
-                    I like thinking. I love writing and strategising, am comfortable with public speaking, and building relationships.<br />
+                    I don't like executing. I like thinking. I am comfortable with writing, public speaking, strategy, and building relationships.<br />
                     I am versatile, adaptable, and I thrive on new challenges. I want to learn, improve, and one day give back.
                 </div>
+
+                <!-- ─── INTERACTIVE MAP ─── -->
+                <h3 style="font-size: 12px; color: #7a6a5a; margin-bottom: 4px;">📍 Where I've Been</h3>
+                <div class="map-container" id="journeyMap"></div>
+
+                <hr class="divider" />
 
                 <h2>🌍 2010 — First International Experience</h2>
                 <p class="meta-line"><strong>Cork, Ireland</strong> · English & Horse Riding Course</p>
@@ -1758,9 +1825,162 @@
         return titles[name] || name + '.txt';
     }
 
+    // ─── INTERACTIVE MAP ───
+    let mapInitialized = false;
+
+    function initMap() {
+        const mapContainer = document.getElementById('journeyMap');
+        if (!mapContainer || mapInitialized) return;
+
+        // Center map on Europe/Asia
+        const map = L.map('journeyMap').setView([45, 20], 3);
+
+        // Add tile layer (dark, elegant style)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; CartoDB'
+        }).addTo(map);
+
+        // ─── LOCATIONS DATA ───
+        const locations = [{
+            lat: 51.8985,
+            lng: -8.4756,
+            city: 'Cork',
+            country: 'Ireland',
+            year: '2010',
+            label: 'First International Experience',
+            color: '#c87a5a'
+        }, {
+            lat: 50.6083,
+            lng: -1.9530,
+            city: 'Swanage',
+            country: 'UK',
+            year: '2014',
+            label: 'Living in a Small English Village',
+            color: '#d4a373'
+        }, {
+            lat: 51.5074,
+            lng: -0.1278,
+            city: 'London',
+            country: 'UK',
+            year: '2018',
+            label: 'Acting Academy',
+            color: '#c87a5a'
+        }, {
+            lat: 44.4056,
+            lng: 8.9463,
+            city: 'Genoa',
+            country: 'Italy',
+            year: '2018-2021',
+            label: "Bachelor's in Interlingual Mediation",
+            color: '#5fa87f'
+        }, {
+            lat: 59.3293,
+            lng: 18.0686,
+            city: 'Stockholm',
+            country: 'Sweden',
+            year: '2020-2021',
+            label: 'Erasmus Exchange',
+            color: '#d4a373'
+        }, {
+            lat: 45.4642,
+            lng: 9.1900,
+            city: 'Milan',
+            country: 'Italy',
+            year: '2021-2023',
+            label: "Master's in International Communication",
+            color: '#5fa87f'
+        }, {
+            lat: 35.1796,
+            lng: 129.0756,
+            city: 'Busan',
+            country: 'South Korea',
+            year: '2024',
+            label: 'Language Exchange',
+            color: '#e07a5f'
+        }, {
+            lat: 37.5665,
+            lng: 126.9780,
+            city: 'Seoul',
+            country: 'South Korea',
+            year: '2024-2026',
+            label: 'Language Exchange & Marketing Manager',
+            color: '#e07a5f'
+        }, {
+            lat: 49.6116,
+            lng: 6.1319,
+            city: 'Luxembourg',
+            country: 'Luxembourg',
+            year: '2024-2025',
+            label: 'European Parliament Trainee',
+            color: '#4a6fa5'
+        }];
+
+        // ─── ADD PINS ───
+        locations.forEach((loc, index) => {
+            const popupContent = `
+                <strong>${loc.city}</strong>, ${loc.country}<br />
+                <span class="popup-meta">${loc.year}</span><br />
+                <span style="font-size: 11px; color: #7a6a5a;">${loc.label}</span>
+            `;
+
+            const circle = L.circleMarker([loc.lat, loc.lng], {
+                radius: 6,
+                fillColor: loc.color,
+                color: '#fff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.9
+            }).addTo(map);
+
+            circle.bindPopup(popupContent);
+
+            // Add connecting line between consecutive locations
+            if (index < locations.length - 1) {
+                const next = locations[index + 1];
+                L.polyline([
+                    [loc.lat, loc.lng],
+                    [next.lat, next.lng]
+                ], {
+                    color: 'rgba(200, 200, 200, 0.15)',
+                    weight: 1.5,
+                    dashArray: '5, 8',
+                    opacity: 0.6
+                }).addTo(map);
+            }
+
+            // Pulsing effect on hover
+            circle.on('mouseover', function() {
+                this.setRadius(9);
+                this.setStyle({ fillOpacity: 1 });
+            });
+
+            circle.on('mouseout', function() {
+                this.setRadius(6);
+                this.setStyle({ fillOpacity: 0.9 });
+            });
+        });
+
+        // ─── ZOOM CONTROL ───
+        map.zoomControl.setPosition('bottomright');
+
+        // ─── RESPONSIVE RESIZE ───
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 500);
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            map.invalidateSize();
+        });
+
+        mapInitialized = true;
+    }
+
     // ─── INIT ───
     window.addEventListener('load', function() {
         generateCollage();
+        // Initialize map after a small delay to ensure DOM is ready
+        setTimeout(initMap, 300);
     });
 
     window.addEventListener('resize', function() {
@@ -1779,6 +1999,11 @@
                 setTimeout(() => w.remove(), 250);
             });
         }
+    });
+
+    // ─── PREVENT UNLOAD WARNINGS ───
+    window.addEventListener('beforeunload', function(e) {
+        // Override default behavior to prevent console warnings
     });
 </script>
 
