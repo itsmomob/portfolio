@@ -8,36 +8,331 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 10000);
 
-// ─── FOLDER SWITCHING ───
+// ─── DESKTOP ITEMS DATA ───
+const desktopItems = [
+    // Project Cards
+    { id: 'iate', type: 'card', label: 'IATE Sketches', sub: 'Luxembourg · 2025', icon: 'images/iate-sketch-1.jpg', folder: 'work' },
+    { id: 'hanabee', type: 'card', label: 'HanaBee', sub: 'Tuscany · 2024', icon: 'images/hanabee-brand-1.jpg', folder: 'work' },
+    { id: 'polo', type: 'card', label: 'Polo Positivo', sub: 'Remote · 2017-2023', icon: 'images/polo-positivo-1.jpg', folder: 'work' },
+    { id: 'cactus', type: 'card', label: 'Cactus Magazine', sub: 'Milan · 2023', icon: 'images/cactus-magazine-1.jpg', folder: 'work' },
+    { id: 'coffee', type: 'card', label: 'Coffee Table Books', sub: 'Remote · Ongoing', icon: 'images/coffee-table-book-1.jpg', folder: 'work' },
+    { id: 'vlog', type: 'card', label: 'Vlog Seoul', sub: 'Seoul · 2024', icon: 'images/vlog-seoul.jpg', folder: 'work' },
+    { id: 'newsletter', type: 'card', label: 'Monthly Newsletter', sub: 'Remote · Ongoing', icon: 'images/newsletter-issue.jpg', folder: 'work' },
+    { id: 'crossword', type: 'card', label: 'Crossword Gift', sub: 'Remote · 2021', icon: 'images/crossword-gift.jpg', folder: 'work' },
+    { id: 'album', type: 'card', label: 'Album Moodboard', sub: 'Milan · 2023', icon: 'images/album-moodboard.jpg', folder: 'work' },
+    { id: 'stretching', type: 'card', label: 'Stretching Poster', sub: 'Luxembourg · 2024', icon: 'images/stretching-poster.jpg', folder: 'work' },
+    { id: 'tomato', type: 'card', label: 'Tomato Poster', sub: 'Luxembourg · 2024', icon: 'images/tomato-poster.jpg', folder: 'work' },
+    // Skill Icons
+    { id: 'excel', type: 'skill', label: 'Excel', icon: '📊', folder: 'skills' },
+    { id: 'canva', type: 'skill', label: 'Canva', icon: '🎨', folder: 'skills' },
+    { id: 'figma', type: 'skill', label: 'Figma', icon: '🖌️', folder: 'skills' },
+    { id: 'wordpress', type: 'skill', label: 'WordPress', icon: '🌐', folder: 'skills' },
+    { id: 'capcut', type: 'skill', label: 'CapCut', icon: '✂️', folder: 'skills' },
+    { id: 'meta', type: 'skill', label: 'Meta', icon: '📱', folder: 'skills' },
+    { id: 'htmlcss', type: 'skill', label: 'HTML/CSS', icon: '💻', folder: 'skills' },
+    { id: 'github', type: 'skill', label: 'GitHub', icon: '🐙', folder: 'skills' },
+    { id: 'google', type: 'skill', label: 'Google', icon: '📁', folder: 'skills' },
+    { id: 'office', type: 'skill', label: 'Office', icon: '🖥️', folder: 'skills' }
+];
+
+// ─── STORAGE ───
+const DESKTOP_STORAGE_KEY = 'monica_desktop_positions';
+
+function loadPositions() {
+    try {
+        const data = localStorage.getItem(DESKTOP_STORAGE_KEY);
+        return data ? JSON.parse(data) : {};
+    } catch (e) { return {}; }
+}
+
+function savePositions(positions) {
+    try {
+        localStorage.setItem(DESKTOP_STORAGE_KEY, JSON.stringify(positions));
+    } catch (e) {}
+}
+
+// ─── GENERATE DESKTOP ITEMS ───
+function generateDesktopItems() {
+    const container = document.getElementById('desktopIcons');
+    container.innerHTML = '';
+
+    const desktop = document.getElementById('desktop');
+    const rect = desktop.getBoundingClientRect();
+    const W = rect.width || window.innerWidth;
+    const H = rect.height || window.innerHeight;
+
+    const savedPositions = loadPositions();
+
+    // Separate cards and skills for placement
+    const cards = desktopItems.filter(item => item.type === 'card');
+    const skills = desktopItems.filter(item => item.type === 'skill');
+
+    const allItems = [...cards, ...skills];
+
+    // Pre-define positions for a nice layout
+    const gridCols = 6;
+    const gridRows = Math.ceil(allItems.length / gridCols);
+    const spacingX = 90;
+    const spacingY = 90;
+    const startX = 24;
+    const startY = 16;
+
+    let index = 0;
+    allItems.forEach((item) => {
+        // Calculate grid position
+        const col = index % gridCols;
+        const row = Math.floor(index / gridCols);
+
+        let x, y;
+
+        const saved = savedPositions[item.id];
+        if (saved && saved.x !== undefined && saved.y !== undefined) {
+            x = saved.x;
+            y = saved.y;
+        } else {
+            x = startX + col * spacingX + (Math.random() - 0.5) * 8;
+            y = startY + row * spacingY + (Math.random() - 0.5) * 8;
+        }
+
+        // Keep within bounds
+        x = Math.max(4, Math.min(x, W - 80));
+        y = Math.max(4, Math.min(y, H - 100));
+
+        const el = document.createElement('div');
+        el.className = 'desktop-item';
+        el.dataset.id = item.id;
+        el.dataset.type = item.type;
+        el.dataset.folder = item.folder || 'work';
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.dataset.left = x;
+        el.dataset.top = y;
+
+        // Icon
+        const iconDiv = document.createElement('div');
+        iconDiv.className = 'item-icon' + (item.type === 'skill' ? ' skill-icon' : '');
+
+        if (item.type === 'skill') {
+            iconDiv.textContent = item.icon;
+        } else {
+            const img = document.createElement('img');
+            img.src = item.icon;
+            img.alt = item.label;
+            img.loading = 'lazy';
+            img.onerror = function() {
+                iconDiv.textContent = '📄';
+                iconDiv.style.fontSize = '24px';
+            };
+            iconDiv.appendChild(img);
+        }
+
+        el.appendChild(iconDiv);
+
+        // Label
+        const label = document.createElement('div');
+        label.className = 'item-label';
+        label.textContent = item.label;
+        el.appendChild(label);
+
+        if (item.type === 'card' && item.sub) {
+            const sub = document.createElement('div');
+            sub.className = 'item-sub';
+            sub.textContent = item.sub;
+            el.appendChild(sub);
+        }
+
+        // Click to open folder
+        el.addEventListener('click', function(e) {
+            if (!e.target.closest('.dragging')) {
+                switchFolder(item.folder || 'work');
+            }
+        });
+
+        container.appendChild(el);
+        index++;
+    });
+}
+
+// ─── DRAG LOGIC ───
+let dragData = null;
+
+function initDrag(e, item) {
+    const rect = item.getBoundingClientRect();
+    const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
+    const clientY = e.clientY || e.touches?.[0]?.clientY || 0;
+
+    dragData = {
+        el: item,
+        offsetX: clientX - rect.left,
+        offsetY: clientY - rect.top,
+        startX: clientX,
+        startY: clientY,
+        hasDragged: false
+    };
+
+    item.classList.add('dragging');
+    item.style.zIndex = 100;
+
+    if (e.type === 'touchstart') {
+        e.preventDefault();
+    }
+}
+
+function moveDrag(e) {
+    if (!dragData) return;
+
+    const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
+    const clientY = e.clientY || e.touches?.[0]?.clientY || 0;
+
+    const dx = clientX - dragData.startX;
+    const dy = clientY - dragData.startY;
+
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+        dragData.hasDragged = true;
+    }
+
+    const currentLeft = parseFloat(dragData.el.dataset.left) || 0;
+    const currentTop = parseFloat(dragData.el.dataset.top) || 0;
+
+    let newX = currentLeft + dx;
+    let newY = currentTop + dy;
+
+    const desktop = document.getElementById('desktop');
+    const rect = desktop.getBoundingClientRect();
+    newX = Math.max(4, Math.min(newX, rect.width - 80));
+    newY = Math.max(4, Math.min(newY, rect.height - 100));
+
+    dragData.el.style.left = newX + 'px';
+    dragData.el.style.top = newY + 'px';
+    dragData.el.dataset.left = newX;
+    dragData.el.dataset.top = newY;
+
+    dragData.startX = clientX;
+    dragData.startY = clientY;
+
+    if (e.type === 'touchmove') {
+        e.preventDefault();
+    }
+}
+
+function endDrag(e) {
+    if (!dragData) return;
+
+    dragData.el.classList.remove('dragging');
+
+    if (dragData.hasDragged) {
+        // Save position
+        const positions = loadPositions();
+        const id = dragData.el.dataset.id;
+        const left = parseFloat(dragData.el.dataset.left) || 0;
+        const top = parseFloat(dragData.el.dataset.top) || 0;
+        positions[id] = { x: left, y: top };
+        savePositions(positions);
+    }
+
+    setTimeout(() => {
+        if (dragData) {
+            dragData.el.style.zIndex = '';
+        }
+    }, 100);
+
+    dragData = null;
+}
+
+// ─── MOUSE DRAG ───
+document.addEventListener('mousedown', function(e) {
+    const item = e.target.closest('.desktop-item');
+    if (item) {
+        initDrag(e, item);
+    }
+});
+
+document.addEventListener('mousemove', function(e) {
+    if (dragData) {
+        moveDrag(e);
+    }
+});
+
+document.addEventListener('mouseup', function(e) {
+    if (dragData) {
+        endDrag(e);
+    }
+});
+
+// ─── TOUCH DRAG ───
+document.addEventListener('touchstart', function(e) {
+    const item = e.target.closest('.desktop-item');
+    if (item) {
+        initDrag(e, item);
+    }
+}, { passive: true });
+
+document.addEventListener('touchmove', function(e) {
+    if (dragData) {
+        moveDrag(e);
+    }
+}, { passive: false });
+
+document.addEventListener('touchend', function(e) {
+    if (dragData) {
+        endDrag(e);
+    }
+}, { passive: true });
+
+// ─── WINDOW FUNCTIONS ───
+function closeWindow() {
+    const win = document.getElementById('mainWindow');
+    win.classList.add('closing');
+    setTimeout(() => {
+        win.classList.remove('open', 'closing');
+    }, 200);
+}
+
+function openWindow() {
+    const win = document.getElementById('mainWindow');
+    win.classList.remove('closing');
+    win.classList.add('open');
+}
+
+// ─── SWITCH FOLDER ───
 let mapInitialized = false;
 let mapInstance = null;
 
 function switchFolder(folder) {
-    // Update active folder in sidebar
-    document.querySelectorAll('.folder').forEach(btn => {
+    // Update taskbar
+    document.querySelectorAll('.taskbar-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.folder === folder);
     });
 
     // Update window title
     const titles = {
-        work: 'WORK.txt',
-        map: 'JOURNEY_MAP.txt',
-        experience: 'EXPERIENCE.txt',
-        approach: 'APPROACH.txt',
-        skills: 'SKILLS_&_TOOLS.txt',
-        about: 'ABOUT_MONICA.txt',
-        contact: 'CONTACT.txt'
+        work: 'Work — Projects & Case Studies',
+        map: 'Journey Map — Where I\'ve Been',
+        experience: 'Experience — Professional History',
+        approach: 'Approach — How I Think',
+        skills: 'Skills & Tools',
+        about: 'About Monica',
+        contact: 'Contact'
     };
-    document.getElementById('windowTitle').textContent = titles[folder] || 'FILE.txt';
+    document.getElementById('windowTitle').textContent = titles[folder] || 'File';
 
     // Load content
     const body = document.getElementById('windowBody');
     const content = getFolderContent(folder);
     body.innerHTML = content;
 
+    openWindow();
+
     // Initialize map if map folder
     if (folder === 'map') {
-        setTimeout(initMap, 300);
+        setTimeout(initMap, 400);
+    }
+
+    // Clean up map if switching away
+    if (folder !== 'map' && mapInstance) {
+        mapInstance.remove();
+        mapInstance = null;
+        mapInitialized = false;
     }
 }
 
@@ -150,27 +445,27 @@ function getFolderContent(folder) {
             <p style="color: #7a6a5a; margin-bottom: 16px;">Where I've worked and what I've built.</p>
 
             <div style="display: flex; flex-direction: column; gap: 4px;">
-                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 8px; background: #fff; border: 1px solid #f0ebe4;">
+                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 6px; background: #fff; border: 1px solid #f0ebe4;">
                     <div><strong>European Parliament</strong><br /><span style="font-size: 12px; color: #5a5a5a;">Communication Trainee</span></div>
                     <div style="text-align: right; flex-shrink: 0;"><span style="font-size: 12px; font-weight: 500;">2024–2025</span><br /><span style="font-size: 11px; color: #7a6a5a;">Luxembourg</span></div>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 8px; background: #fff; border: 1px solid #f0ebe4;">
+                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 6px; background: #fff; border: 1px solid #f0ebe4;">
                     <div><strong>Langsyoung</strong><br /><span style="font-size: 12px; color: #5a5a5a;">Marketing & Community Manager</span></div>
                     <div style="text-align: right; flex-shrink: 0;"><span style="font-size: 12px; font-weight: 500;">2025–2026</span><br /><span style="font-size: 11px; color: #7a6a5a;">Seoul, South Korea</span></div>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 8px; background: #fff; border: 1px solid #f0ebe4;">
+                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 6px; background: #fff; border: 1px solid #f0ebe4;">
                     <div><strong>Independent</strong><br /><span style="font-size: 12px; color: #5a5a5a;">Strategic Communication & Brand</span></div>
                     <div style="text-align: right; flex-shrink: 0;"><span style="font-size: 12px; font-weight: 500;">2023–present</span><br /><span style="font-size: 11px; color: #7a6a5a;">Remote · Italy · Korea</span></div>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 8px; background: #fff; border: 1px solid #f0ebe4;">
+                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 6px; background: #fff; border: 1px solid #f0ebe4;">
                     <div><strong>Nuova Fapam</strong><br /><span style="font-size: 12px; color: #5a5a5a;">Interpreter (EN/IT)</span></div>
                     <div style="text-align: right; flex-shrink: 0;"><span style="font-size: 12px; font-weight: 500;">2022–2024</span><br /><span style="font-size: 11px; color: #7a6a5a;">Italy</span></div>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 8px; background: #fff; border: 1px solid #f0ebe4;">
+                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 6px; background: #fff; border: 1px solid #f0ebe4;">
                     <div><strong>Il Polo Positivo</strong><br /><span style="font-size: 12px; color: #5a5a5a;">Team Leader · Social Media</span></div>
                     <div style="text-align: right; flex-shrink: 0;"><span style="font-size: 12px; font-weight: 500;">2017–2023</span><br /><span style="font-size: 11px; color: #7a6a5a;">Remote</span></div>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 8px; background: #fff; border: 1px solid #f0ebe4;">
+                <div style="display: flex; justify-content: space-between; padding: 12px 16px; border-radius: 6px; background: #fff; border: 1px solid #f0ebe4;">
                     <div><strong>Cactus Magazine</strong><br /><span style="font-size: 12px; color: #5a5a5a;">Creative Director</span></div>
                     <div style="text-align: right; flex-shrink: 0;"><span style="font-size: 12px; font-weight: 500;">2023</span><br /><span style="font-size: 11px; color: #7a6a5a;">Milan, Italy</span></div>
                 </div>
@@ -364,14 +659,14 @@ function initMap() {
 
 // ─── INIT ───
 document.addEventListener('DOMContentLoaded', function() {
-    // Load default folder (work)
-    switchFolder('work');
+    generateDesktopItems();
+    // Load default folder (work) after a tiny delay
+    setTimeout(() => switchFolder('work'), 200);
 });
 
 // ─── KEYBOARD SHORTCUT: ESC ───
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        // Reset to work folder
-        switchFolder('work');
+        closeWindow();
     }
 });
