@@ -98,7 +98,7 @@
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
             z-index: 20;
             padding: 12px 8px;
             background: rgba(30, 30, 36, 0.6);
@@ -106,6 +106,21 @@
             -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.04);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .folder-sidebar::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .folder-sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .folder-sidebar::-webkit-scrollbar-thumb {
+            background: #4a4038;
+            border-radius: 10px;
         }
 
         .folder {
@@ -113,7 +128,7 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            padding: 6px 10px;
+            padding: 5px 10px;
             border-radius: 6px;
             transition: background 0.2s, transform 0.15s;
             background: transparent;
@@ -123,6 +138,7 @@
             font-family: 'Inter', sans-serif;
             font-size: 11px;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .folder:hover {
@@ -132,7 +148,7 @@
         }
 
         .folder-icon {
-            font-size: 18px;
+            font-size: 16px;
             line-height: 1;
             filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
         }
@@ -142,7 +158,7 @@
             background: #f9f6f0;
             border-radius: 10px;
             box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-            width: 400px;
+            width: 420px;
             max-width: 90vw;
             max-height: 80vh;
             display: flex;
@@ -152,7 +168,6 @@
             position: absolute;
             z-index: 100;
             min-height: 120px;
-            resize: none;
         }
 
         .window:hover {
@@ -261,10 +276,21 @@
             font-family: 'Playfair Display', serif;
             font-weight: 400;
             font-size: 14px;
-            margin-top: 12px;
+            margin-top: 14px;
             margin-bottom: 3px;
             color: #c87a5a;
             letter-spacing: -0.1px;
+        }
+
+        .window-body h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #a08474;
+            margin-top: 12px;
+            margin-bottom: 2px;
         }
 
         .window-body p {
@@ -297,6 +323,9 @@
 
         .window-body .tag-wrap {
             margin-top: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
         }
 
         .window-body a {
@@ -309,6 +338,23 @@
 
         .window-body a:hover {
             border-bottom-color: #c87a5a;
+        }
+
+        .window-body .meta-line {
+            font-size: 11px;
+            color: #7a6a5a;
+            margin-bottom: 4px;
+        }
+
+        .window-body .intro-quote {
+            font-size: 13px;
+            color: #7a6a5a;
+            margin-bottom: 12px;
+            padding: 12px 16px;
+            background: #f0ebe4;
+            border-radius: 6px;
+            border-left: 3px solid #c87a5a;
+            line-height: 1.6;
         }
 
         /* ─── COLLAGE ITEMS ─── */
@@ -466,9 +512,11 @@
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 4px;
+                gap: 2px;
                 padding: 8px 12px;
-                max-width: 90%;
+                max-width: 92%;
+                max-height: 120px;
+                overflow-y: auto;
                 backdrop-filter: blur(12px);
             }
 
@@ -476,6 +524,7 @@
                 padding: 4px 8px;
                 font-size: 10px;
                 width: auto;
+                white-space: nowrap;
             }
 
             .folder-icon {
@@ -579,6 +628,21 @@
             .collage-item .item-sub {
                 font-size: 8px;
             }
+
+            .folder-sidebar {
+                max-height: 100px;
+                padding: 6px 8px;
+                gap: 2px;
+            }
+
+            .folder {
+                font-size: 9px;
+                padding: 3px 6px;
+            }
+
+            .folder-icon {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -616,6 +680,9 @@
         </button>
         <button class="folder" onclick="openFolder('personal')">
             <span class="folder-icon">📁</span> Personal
+        </button>
+        <button class="folder" onclick="openFolder('experience')">
+            <span class="folder-icon">📁</span> Experience
         </button>
         <button class="folder" onclick="openFolder('contact')">
             <span class="folder-icon">📁</span> Contact
@@ -936,7 +1003,6 @@
         let newX = currentLeft + dx;
         let newY = currentTop + dy;
 
-        // Keep within bounds
         const itemWidth = parseFloat(dragItem.style.width);
         const itemHeight = parseFloat(dragItem.style.height);
         const desktopWidth = desktopRect.width;
@@ -1075,14 +1141,12 @@
 
             let x, y;
 
-            // Check saved position
             const saved = savedPositions[project.id];
             if (saved && saved.x !== undefined && saved.y !== undefined &&
                 saved.x + sw <= W && saved.y + sh <= H - 60) {
                 x = saved.x;
                 y = saved.y;
             } else {
-                // Random placement with overlap avoidance
                 let attempts = 0;
                 let placedOk = false;
 
@@ -1126,7 +1190,6 @@
             el.dataset.top = y;
             el.dataset.projectId = project.id;
 
-            // Image
             const img = document.createElement('img');
             img.src = project.image;
             img.alt = project.name;
@@ -1138,7 +1201,6 @@
             };
             el.appendChild(img);
 
-            // Overlay
             const overlay = document.createElement('div');
             overlay.className = 'item-overlay';
             overlay.innerHTML = `
@@ -1192,7 +1254,6 @@
         newY = Math.max(0, Math.min(newY, cRect.height - 60));
         dragData.win.style.left = newX + 'px';
         dragData.win.style.top = newY + 'px';
-        // Save position
         saveWindowPosition(dragData.win.id, newX, newY);
     });
 
@@ -1286,7 +1347,6 @@
 
     // ─── WINDOW CASCADE ───
     const CASCADE_STEP = 24;
-    let windowCount = 0;
 
     function getNextPosition() {
         const desktop = document.getElementById('desktop');
@@ -1318,7 +1378,7 @@
         win.style.left = pos.left + 'px';
         win.style.top = pos.top + 'px';
         win.style.zIndex = pos.zIndex;
-        win.style.width = '400px';
+        win.style.width = '420px';
         const header = document.createElement('div');
         header.className = 'window-header';
         header.setAttribute('data-drag', existingId);
@@ -1478,7 +1538,12 @@
                     <li>CMS (WordPress, etc.)</li>
                     <li>Web Analytics</li>
                     <li>Canva (advanced)</li>
+                    <li>Figma (basic)</li>
+                    <li>CapCut</li>
+                    <li>Meta Business Suite</li>
                     <li>GitHub</li>
+                    <li>Google Suite</li>
+                    <li>Microsoft Office</li>
                 </ul>
                 <h2>Strategic & Creative</h2>
                 <ul>
@@ -1489,6 +1554,8 @@
                     <li>Project Management</li>
                     <li>Editorial Management</li>
                     <li>Translation & Interpretation</li>
+                    <li>Public Speaking</li>
+                    <li>Mediation & Stakeholder Relations</li>
                 </ul>
                 <h2>Certifications</h2>
                 <ul>
@@ -1522,10 +1589,139 @@
                     <span class="tag">Graphic Design</span>
                 </div>
             `,
+            experience: `
+                <h1>My Journey</h1>
+                <div class="intro-quote">
+                    I don't like executing. I like thinking. I am comfortable with writing, public speaking, strategy, and building relationships.<br />
+                    I am versatile, adaptable, and I thrive on new challenges. I want to learn, improve, and one day give back.
+                </div>
+
+                <h2>🌍 2010 — First International Experience</h2>
+                <p class="meta-line"><strong>Cork, Ireland</strong> · English & Horse Riding Course</p>
+                <p>Two weeks in Ireland at 12 years old. Studied English in the mornings, horse-riding in the afternoons. A first taste of the world.</p>
+
+                <hr class="divider" />
+
+                <h2>🏴󠁧󠁢󠁥󠁮󠁧󠁿 2014 — Living in a Small English Village</h2>
+                <p class="meta-line"><strong>Swanage, UK</strong> · 3 Weeks with a Local Family</p>
+                <p>Stayed with an elderly couple in a small fishing village. Lived and breathed life in another country. This experience shaped my love for cross-cultural living.</p>
+
+                <hr class="divider" />
+
+                <h2>🎭 2016 — High School Acting Club | Team Leader</h2>
+                <p class="meta-line"><strong>Italy</strong> · Crowdfunding & Project Management</p>
+                <p>Led a crowdfunding campaign for the acting club. Managed communication and mediation between the club, professors, and stakeholders. Funded the project, and the performance made it to the National Theatre and the International Festival of Classical Theatre for Youth.</p>
+
+                <hr class="divider" />
+
+                <h2>📰 2017 — Press Office Intern | National Theatre</h2>
+                <p class="meta-line"><strong>Italy</strong> · 1 Month Internship</p>
+                <p>Wrote blogs, handled external communications, invitations, and event organisation for the national theatre.</p>
+
+                <hr class="divider" />
+
+                <h2>💡 2017–2023 — Il Polo Positivo | Team Leader</h2>
+                <p class="meta-line"><strong>Remote</strong> · Positive News Association</p>
+                <p>Started as a volunteer writer, then took on the lead position of the social media team. Prepared editorial plans, posting, and overseeing everything. Grew Instagram from 0 to nearly 4,000 followers.</p>
+
+                <hr class="divider" />
+
+                <h2>📄 2018–2020 — Public Contest Questionnaire Drafter</h2>
+                <p class="meta-line"><strong>Italy</strong> · External Contractor</p>
+                <p>Worked on drafting public contest questionnaires. Developed strong attention to detail to avoid lawsuits.</p>
+
+                <hr class="divider" />
+
+                <h2>🎭 2018 — Acting Academy | London</h2>
+                <p class="meta-line"><strong>London, UK</strong> · 2 Months Summer Course</p>
+                <p>Spent my days at the acting academy, befriending mostly people from the UK. An amazing experience.</p>
+
+                <hr class="divider" />
+
+                <h2>🎓 2018–2021 — Bachelor's in Interlingual Mediation</h2>
+                <p class="meta-line"><strong>University of Genoa, Italy</strong> · English & Spanish</p>
+                <p>Programmed number course with admission test. Provided solid written and oral skills in Italian and two foreign languages. Included a mandatory semester abroad (Erasmus).</p>
+
+                <hr class="divider" />
+
+                <h2>📚 2019–2020 — Translator | Museum & Magazine</h2>
+                <p class="meta-line"><strong>Italy</strong> · University Collaboration</p>
+                <p>Worked as a translator for a museum and a magazine, handling transcription, translation, and proofreading.</p>
+
+                <hr class="divider" />
+
+                <h2>✈️ 2020–2021 — Erasmus | Stockholm University</h2>
+                <p class="meta-line"><strong>Stockholm, Sweden</strong> · 6 Months</p>
+                <p>Six months in Stockholm studying Media Studies, Cultures, and Languages. Broadened my perspective on media, culture, and international communication.</p>
+
+                <hr class="divider" />
+
+                <h2>🎓 2021–2023 — Master's in International Communication</h2>
+                <p class="meta-line"><strong>University of Milan, Italy</strong> · English, Spanish & Korean</p>
+                <p>Graduated with a thesis on the romanticization and demystification of Korean pop culture through media. Explored fandom studies, parasocial relationships, and media propaganda.</p>
+                <p style="font-size: 11px; color: #7a6a5a;"><em>— Thesis on how the perception of South Korea is deeply distorted, selling a delusion to fans through marketing.</em></p>
+
+                <hr class="divider" />
+
+                <h2>📱 2023 — Digital Marketing Specialization</h2>
+                <p class="meta-line"><strong>Milan, Italy</strong> · FORMAPER & Chamber of Commerce</p>
+                <p>Course focused on digital marketing, social media, and new technologies for business communication and sustainability.</p>
+
+                <hr class="divider" />
+
+                <h2>🍯 2023–2024 — Freelance Creative Director & Brand Strategist</h2>
+                <p class="meta-line"><strong>Remote · Italy</strong></p>
+                <p>Created a full brand identity for a Tuscan honey producer. Produced 2 magazines for a restaurant in Italian and English, handling the creative process from ideation to print. Worked on copywriting for a pilates studio and wellness brand.</p>
+
+                <hr class="divider" />
+
+                <h2>🇰🇷 2024 — Language Exchange | Busan & Seoul</h2>
+                <p class="meta-line"><strong>South Korea</strong> · 6 Months</p>
+                <p>Intensive language exchange in Busan and Seoul. Deepened my understanding of Korean culture and language.</p>
+
+                <hr class="divider" />
+
+                <h2>🇪🇺 2024–2025 — Communication Trainee | European Parliament</h2>
+                <p class="meta-line"><strong>Luxembourg</strong> · Schuman Communication Trainee</p>
+                <p>Handled website content, digital presence, social media, and copyright infringements for the Terminology Coordination Unit. Worked as a consultant for the UI of the new IATE—all my suggestions were implemented.</p>
+                <p style="font-size: 11px; color: #7a6a5a;"><em>— Successfully redesigned the EU's flagship terminology database interface.</em></p>
+
+                <hr class="divider" />
+
+                <h2>🇰🇷 2025 — Summer Language Exchange | Seoul & Jeju</h2>
+                <p class="meta-line"><strong>South Korea</strong> · Summer Immersion</p>
+                <p>Continued language and cultural immersion in Seoul and Jeju.</p>
+
+                <hr class="divider" />
+
+                <h2>🇰🇷 2025–2026 — Marketing Manager | Language Cafe Seoul</h2>
+                <p class="meta-line"><strong>Seoul, South Korea</strong></p>
+                <p>Marketing manager for a language cafe in Seoul. Handle social media, Naver, and content creation for digital marketing and language sessions. Mediate debating sessions. Manage all incoming requests, review applications, and resolve arising issues. Ensure everyone has a good experience.</p>
+                <p style="font-size: 11px; color: #7a6a5a;"><em>— I hate administration, but I'm terribly good at it.</em></p>
+
+                <hr class="divider" />
+
+                <div class="tag-wrap">
+                    <span class="tag">Leadership</span>
+                    <span class="tag">Strategy</span>
+                    <span class="tag">Public Speaking</span>
+                    <span class="tag">Writing</span>
+                    <span class="tag">Cross-Cultural Mediation</span>
+                    <span class="tag">Brand Strategy</span>
+                    <span class="tag">UI/UX Consultancy</span>
+                    <span class="tag">Social Media</span>
+                    <span class="tag">Content Creation</span>
+                    <span class="tag">Translation</span>
+                    <span class="tag">Event Organisation</span>
+                    <span class="tag">Project Management</span>
+                    <span class="tag">Adaptability</span>
+                    <span class="tag">Versatility</span>
+                </div>
+            `,
             contact: `
                 <h1>Let's Build Something</h1>
                 <hr class="divider" />
-                <p><strong>📍 Based in Seoul, South Korea</strong><br />🌍 Worked in Italy, UK, Luxembourg, and South Korea</p>
+                <p><strong>📍 Based in Seoul, South Korea</strong><br />🌍 Worked in Italy, UK, Luxembourg, Sweden, and South Korea</p>
                 <p style="margin-top: 12px;">
                     <strong>📧 Email:</strong> <a href="mailto:bernasconimonica12@gmail.com">bernasconimonica12@gmail.com</a><br />
                     <strong>🐙 GitHub:</strong> <a href="https://github.com/itsmomob" target="_blank">github.com/itsmomob</a><br />
@@ -1552,6 +1748,7 @@
             brand: 'BRAND_STORIES.md',
             skills: 'SKILLS_&_TOOLS.txt',
             personal: 'WANDERLUST.txt',
+            experience: 'MY_JOURNEY.txt',
             contact: 'CONTACT.txt'
         };
         return titles[name] || name + '.txt';
@@ -1563,7 +1760,6 @@
     });
 
     window.addEventListener('resize', function() {
-        // Rebuild collage on resize (keep positions)
         const desktop = document.getElementById('desktop');
         const existingItems = desktop.querySelectorAll('.collage-item');
         existingItems.forEach(el => el.remove());
