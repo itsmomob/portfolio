@@ -1,9 +1,5 @@
-/* ─── RESET & BASE ─── */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ─── RESET ─── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: 'Segoe UI', 'Inter', sans-serif;
@@ -24,7 +20,6 @@ body {
     padding: 8px 8px 52px 8px;
 }
 
-/* ─── DESKTOP BACKGROUND ─── */
 .desktop-bg {
     position: absolute;
     inset: 0;
@@ -34,7 +29,6 @@ body {
         radial-gradient(ellipse at 70% 60%, rgba(60, 50, 80, 0.2) 0%, transparent 50%),
         radial-gradient(ellipse at 50% 80%, rgba(40, 60, 80, 0.15) 0%, transparent 50%),
         #1a1a22;
-    /* Background image — replace with your own */
     background-image: url('images/desktop-bg.jpg');
     background-size: cover;
     background-position: center;
@@ -49,7 +43,7 @@ body {
     pointer-events: none;
 }
 
-/* ─── STICKY NOTE (RIGHT) ─── */
+/* ─── STICKY NOTE ─── */
 .sticky {
     position: absolute;
     bottom: 72px;
@@ -68,13 +62,7 @@ body {
     border-left: 3px solid #d4a373;
     text-align: center;
 }
-
-.sticky strong {
-    font-style: normal;
-    font-weight: 600;
-    color: #2c2a2a;
-}
-
+.sticky strong { font-style: normal; font-weight: 600; color: #2c2a2a; }
 .sticky .attribution {
     font-family: 'Segoe UI', 'Inter', sans-serif;
     font-style: normal;
@@ -88,75 +76,63 @@ body {
     position: absolute;
     top: 8px;
     left: 8px;
-    width: 110px;
+    width: 130px;
     bottom: 8px;
     z-index: 2;
-    background: rgba(26, 26, 34, 0.5);
+    background: rgba(26, 26, 34, 0.55);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 12px 8px;
     display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
+    flex-direction: column;
     gap: 4px;
     overflow-y: auto;
 }
+.skills-sidebar::-webkit-scrollbar { width: 3px; }
+.skills-sidebar::-webkit-scrollbar-thumb { background: #4a4038; border-radius: 10px; }
 
-.skills-sidebar::-webkit-scrollbar {
-    width: 3px;
+.skill-group-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #7a6a5a;
+    margin: 8px 0 2px 4px;
+    font-weight: 500;
 }
-
-.skills-sidebar::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.skills-sidebar::-webkit-scrollbar-thumb {
-    background: #4a4038;
-    border-radius: 10px;
-}
+.skill-group-label:first-child { margin-top: 0; }
 
 .skill-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 64px;
-    padding: 6px 4px;
-    border-radius: 6px;
+    gap: 8px;
+    padding: 5px 8px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background 0.15s, transform 0.15s;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.02);
+    transition: background 0.15s;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    color: #d4c8bc;
+    font-family: 'Segoe UI', 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
 }
-
 .skill-item:hover {
     background: rgba(255, 255, 255, 0.06);
-    transform: scale(1.05);
+    color: #f9f6f0;
 }
-
-.skill-item .skill-emoji {
-    font-size: 22px;
-    line-height: 1;
-}
-
-.skill-item .skill-label {
-    font-size: 8px;
-    color: #d4c8bc;
-    text-align: center;
-    margin-top: 3px;
-    font-weight: 400;
-    letter-spacing: 0.1px;
-    max-width: 60px;
-    line-height: 1.1;
-}
+.skill-emoji { font-size: 14px; line-height: 1; flex-shrink: 0; }
+.skill-label { line-height: 1.2; }
 
 /* ─── COLLAGE AREA ─── */
 .collage-area {
     position: absolute;
     top: 8px;
-    left: 130px;
+    left: 150px;
     right: 16px;
     bottom: 8px;
     z-index: 1;
@@ -174,7 +150,7 @@ body {
     touch-action: none;
     border-radius: 6px;
     transition: transform 0.15s, box-shadow 0.15s;
-    background: rgba(30, 30, 36, 0.6);
+    background: rgba(30, 30, 36, 0.65);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -182,14 +158,12 @@ body {
     padding: 4px;
     min-width: 64px;
 }
-
 .collage-item:hover {
     transform: scale(1.04);
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.12);
     z-index: 15;
 }
-
 .collage-item.dragging {
     transition: none !important;
     z-index: 100 !important;
@@ -197,7 +171,6 @@ body {
     opacity: 0.85;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
 }
-
 .collage-item .item-icon {
     width: 56px;
     height: 56px;
@@ -210,13 +183,7 @@ body {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.03);
 }
-
-.collage-item .item-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
+.collage-item .item-icon img { width: 100%; height: 100%; object-fit: cover; }
 .collage-item .item-label {
     font-size: 9px;
     color: #f9f6f0;
@@ -224,18 +191,16 @@ body {
     margin-top: 4px;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
     font-weight: 400;
-    letter-spacing: 0.1px;
-    max-width: 70px;
+    max-width: 72px;
     line-height: 1.2;
     word-wrap: break-word;
 }
-
 .collage-item .item-sub {
     font-size: 7px;
     color: #b0a89c;
     text-align: center;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-    max-width: 70px;
+    max-width: 72px;
     line-height: 1.1;
 }
 
@@ -250,28 +215,19 @@ body {
     background: #f0ebe4;
     border-radius: 8px;
     box-shadow: 0 16px 64px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
-    width: 700px;
-    max-width: 85vw;
-    max-height: 80vh;
+    width: 780px;
+    max-width: 88vw;
+    max-height: 82vh;
     min-height: 300px;
     flex-direction: column;
     animation: windowOpen 0.2s ease-out;
-    cursor: default;
 }
-
-.window.open {
-    display: flex;
-}
-
+.window.open { display: flex; }
 @keyframes windowOpen {
     0% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
     100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
-
-.window.closing {
-    animation: windowClose 0.15s ease-in forwards;
-}
-
+.window.closing { animation: windowClose 0.15s ease-in forwards; }
 @keyframes windowClose {
     0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     100% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
@@ -289,40 +245,24 @@ body {
     cursor: grab;
     min-height: 36px;
 }
-
-.window-header:active {
-    cursor: grabbing;
-}
-
-.window-controls {
-    display: flex;
-    gap: 5px;
-    margin-right: 4px;
-}
-
+.window-header:active { cursor: grabbing; }
+.window-controls { display: flex; gap: 5px; margin-right: 4px; }
 .window-controls span {
-    width: 16px;
-    height: 16px;
+    width: 16px; height: 16px;
     border-radius: 2px;
     display: block;
     cursor: pointer;
     transition: opacity 0.15s;
 }
-
-.window-controls span:hover {
-    opacity: 0.75;
-}
-
+.window-controls span:hover { opacity: 0.75; }
 .win-close { background: #e07a5f; }
 .win-minimize { background: #f4c542; }
 .win-maximize { background: #5fa87f; }
-
 .window-title {
     font-family: 'Segoe UI', 'Inter', sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: #f9f6f0;
-    letter-spacing: 0.2px;
     flex: 1;
     white-space: nowrap;
     overflow: hidden;
@@ -332,293 +272,278 @@ body {
 /* ─── WINDOW BODY ─── */
 .window-body {
     background: #f9f6f0;
-    padding: 28px 32px 32px 32px;
+    padding: 32px 40px 40px 40px;
     overflow-y: auto;
     flex: 1;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.7;
     color: #2c2a2a;
     border-radius: 0 0 8px 8px;
-    max-height: 65vh;
+    max-height: 68vh;
 }
-
-.window-body::-webkit-scrollbar {
-    width: 6px;
-}
-
-.window-body::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.window-body::-webkit-scrollbar-thumb {
-    background: #d4c8bc;
-    border-radius: 3px;
-}
+.window-body::-webkit-scrollbar { width: 6px; }
+.window-body::-webkit-scrollbar-thumb { background: #d4c8bc; border-radius: 3px; }
 
 .window-body h1 {
     font-family: 'Playfair Display', serif;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 28px;
     margin-bottom: 8px;
-    color: #2c2a2a;
-    letter-spacing: -0.3px;
+    color: #1a1a1a;
+    letter-spacing: -0.4px;
 }
-
+.window-body .subtitle {
+    font-size: 15px;
+    color: #7a6a5a;
+    margin-bottom: 24px;
+    font-style: italic;
+}
 .window-body h2 {
     font-family: 'Playfair Display', serif;
-    font-weight: 400;
-    font-size: 18px;
-    margin-top: 20px;
-    margin-bottom: 4px;
-    color: #c87a5a;
-    letter-spacing: -0.2px;
-}
-
-.window-body h3 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #a08474;
-    margin-top: 16px;
-    margin-bottom: 4px;
-}
-
-.window-body p {
-    margin-bottom: 8px;
-    font-weight: 300;
-    color: #3a3530;
-}
-
-.window-body ul {
-    margin-left: 18px;
+    font-weight: 600;
+    font-size: 19px;
+    margin-top: 28px;
     margin-bottom: 10px;
+    color: #1a1a1a;
+    letter-spacing: -0.2px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e8ddd0;
 }
-
-.window-body ul li {
-    margin-bottom: 3px;
-    font-weight: 300;
+.window-body h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-top: 18px;
+    margin-bottom: 6px;
+}
+.window-body p {
+    margin-bottom: 10px;
+    font-weight: 400;
     color: #3a3530;
 }
-
+.window-body ul { margin-left: 20px; margin-bottom: 12px; }
+.window-body ul li {
+    margin-bottom: 4px;
+    font-weight: 400;
+    color: #3a3530;
+}
 .window-body .divider {
     border: none;
     border-top: 1px solid #e8ddd0;
-    margin: 16px 0;
+    margin: 24px 0;
 }
-
-.window-body .tag {
-    display: inline-block;
-    background: #e8ddd0;
-    color: #5a4a3a;
-    font-size: 9px;
-    font-weight: 500;
-    padding: 2px 10px;
-    border-radius: 20px;
-    margin: 2px 4px 2px 0;
-    letter-spacing: 0.2px;
-}
-
-.window-body .tag-wrap {
-    margin-top: 8px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-}
-
 .window-body a {
     color: #c87a5a;
     text-decoration: none;
     font-weight: 500;
-    border-bottom: 1px solid rgba(200, 122, 90, 0.25);
-    transition: border-color 0.2s;
+    border-bottom: 1px solid rgba(200, 122, 90, 0.3);
 }
+.window-body a:hover { border-bottom-color: #c87a5a; }
+.window-body strong { font-weight: 600; color: #1a1a1a; }
+.window-body em { font-style: italic; color: #5a4a3a; }
 
-.window-body a:hover {
-    border-bottom-color: #c87a5a;
-}
-
-.window-body .meta-line {
-    font-size: 11px;
-    color: #7a6a5a;
-    margin-bottom: 4px;
-}
-
-.window-body .intro-quote {
-    font-size: 14px;
-    color: #5a4a3a;
-    margin-bottom: 16px;
-    padding: 14px 18px;
-    background: #f0ebe4;
-    border-radius: 6px;
-    border-left: 3px solid #c87a5a;
-    line-height: 1.6;
-}
-
-.window-body .work-item {
+/* Case study blocks */
+.case-study {
     background: #fff;
-    border-radius: 6px;
-    padding: 18px 22px;
-    margin-bottom: 14px;
-    border: 1px solid #f0ebe4;
-    transition: border-color 0.2s;
-}
-
-.window-body .work-item:hover {
-    border-color: #e8ddd0;
-}
-
-.window-body .work-item.featured {
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    border: 1px solid #efe8de;
     border-left: 3px solid #c87a5a;
 }
-
-.window-body .work-meta {
+.case-study .cs-meta {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 6px;
+    gap: 14px;
+    margin-bottom: 8px;
     flex-wrap: wrap;
+    align-items: center;
 }
-
-.window-body .work-tag {
-    font-size: 10px;
+.case-study .cs-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     color: #c87a5a;
     font-weight: 600;
 }
-
-.window-body .work-org {
+.case-study .cs-org {
     font-size: 11px;
     color: #7a6a5a;
     font-weight: 500;
 }
-
-.window-body .work-item h3 {
+.case-study h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 600;
-    color: #2c2a2a;
-    margin-bottom: 4px;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.2px;
 }
-
-.window-body .work-item p {
-    font-size: 12px;
-    color: #4a4a4a;
-    margin-bottom: 6px;
+.case-study .cs-section {
+    margin-top: 12px;
 }
-
-.window-body .work-outcomes {
+.case-study .cs-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #a08474;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 3px;
+}
+.case-study p, .case-study ul {
+    font-size: 13px;
+    color: #3a3530;
+    line-height: 1.65;
+}
+.case-study .cs-outcomes {
     list-style: none;
+    margin: 0;
     padding: 0;
-    margin: 6px 0 8px 0;
 }
-
-.window-body .work-outcomes li {
-    font-size: 11px;
-    color: #4a4a4a;
-    padding: 2px 0 2px 18px;
+.case-study .cs-outcomes li {
+    padding-left: 18px;
     position: relative;
-    margin-bottom: 0;
+    font-size: 13px;
+    margin-bottom: 3px;
+    color: #3a3530;
 }
-
-.window-body .work-outcomes li::before {
-    content: '→';
+.case-study .cs-outcomes li::before {
+    content: '▸';
     position: absolute;
     left: 0;
     color: #c87a5a;
 }
 
-.window-body .work-skills {
+.cs-skills {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 6px;
+    gap: 5px;
+    margin-top: 14px;
 }
-
-.window-body .work-skills span {
-    font-size: 9px;
-    background: #f0ebe4;
-    padding: 2px 10px;
+.cs-skills span {
+    font-size: 10px;
+    background: #f4f0ea;
+    padding: 3px 10px;
     border-radius: 20px;
-    color: #4a4a4a;
+    color: #5a4a3a;
     font-weight: 500;
 }
 
-.window-body .contact-links {
+/* Timeline experience */
+.exp-timeline {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 2px;
 }
-
-.window-body .contact-link {
+.exp-row {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: #2c2a2a;
-    text-decoration: none;
-    padding: 6px 0;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 14px 18px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #efe8de;
+    gap: 16px;
 }
-
-.window-body .contact-link:hover {
-    border-bottom-color: #d4c8bc;
-}
-
-.window-body .contact-icon {
-    font-size: 16px;
-}
-
-/* ─── MAP ─── */
-.map-container {
-    width: 100%;
-    height: 380px;
-    border-radius: 4px;
-    overflow: hidden;
-    margin: 12px 0 16px 0;
-    border: 1px solid rgba(200, 200, 200, 0.2);
-}
-
-.leaflet-popup-content {
-    font-family: 'Segoe UI', 'Inter', sans-serif;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-.leaflet-popup-content strong {
+.exp-row.highlight { border-left: 3px solid #c87a5a; }
+.exp-left { flex: 1; }
+.exp-org {
     font-weight: 600;
-    color: #2c2a2a;
+    font-size: 14px;
+    color: #1a1a1a;
+    display: block;
+    margin-bottom: 2px;
 }
-
-.leaflet-popup-content .popup-meta {
+.exp-role {
+    font-size: 12px;
+    color: #7a6a5a;
+    display: block;
+    line-height: 1.4;
+}
+.exp-right {
+    text-align: right;
+    flex-shrink: 0;
     font-size: 11px;
     color: #7a6a5a;
 }
-
-.leaflet-control-attribution {
-    font-size: 8px !important;
-    color: #7a6a5a !important;
-    background: rgba(255, 255, 255, 0.7) !important;
+.exp-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    color: #3a3530;
+    display: block;
+    margin-bottom: 2px;
+    font-size: 11px;
 }
 
+/* Contact */
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 12px;
+}
+.contact-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #1a1a1a;
+    font-size: 13px;
+    background: #fff;
+    border: 1px solid #efe8de;
+    transition: border-color 0.15s;
+}
+.contact-row:hover { border-color: #c87a5a; }
+.contact-row .ci { font-size: 16px; }
+
+/* Map */
+.map-container {
+    width: 100%;
+    height: 400px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0 16px 0;
+    border: 1px solid #efe8de;
+}
+.leaflet-popup-content {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+}
+.leaflet-popup-content strong { font-weight: 600; color: #1a1a1a; }
+.leaflet-popup-content .popup-meta { font-size: 11px; color: #7a6a5a; }
+.leaflet-control-attribution {
+    font-size: 8px !important;
+    background: rgba(255, 255, 255, 0.7) !important;
+}
 .map-tip {
     font-size: 11px;
     color: #7a6a5a;
     text-align: center;
     margin: 6px 0 2px 0;
-    font-weight: 300;
+}
+
+/* Tags */
+.tag-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.tag {
+    display: inline-block;
+    background: #f4f0ea;
+    color: #5a4a3a;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
 }
 
 /* ─── TASKBAR ─── */
 .taskbar {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 0; left: 0; right: 0;
     height: 48px;
     background: rgba(26, 26, 26, 0.92);
     backdrop-filter: blur(16px);
@@ -629,12 +554,8 @@ body {
     padding: 0 4px 0 2px;
     z-index: 1000;
 }
-
-/* Start Button */
 .start-btn {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    display: flex; align-items: center; gap: 4px;
     padding: 4px 12px 4px 8px;
     border-radius: 4px;
     cursor: pointer;
@@ -643,46 +564,22 @@ body {
     color: #d4c8bc;
     font-family: 'Segoe UI', 'Inter', sans-serif;
     font-size: 13px;
-    font-weight: 400;
     transition: all 0.15s;
     height: 36px;
     min-width: 64px;
 }
+.start-btn:hover { background: rgba(255, 255, 255, 0.08); color: #f9f6f0; }
+.start-icon { font-size: 18px; color: #5fa87f; }
 
-.start-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #f9f6f0;
-}
-
-.start-icon {
-    font-size: 18px;
-    font-weight: 300;
-    color: #5fa87f;
-}
-
-/* Pinned Folders */
 .taskbar-pinned {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    flex: 1;
-    padding: 0 8px;
-    overflow-x: auto;
+    display: flex; align-items: center; gap: 2px;
+    flex: 1; padding: 0 8px; overflow-x: auto;
 }
-
-.taskbar-pinned::-webkit-scrollbar {
-    height: 2px;
-}
-
-.taskbar-pinned::-webkit-scrollbar-thumb {
-    background: #4a4038;
-    border-radius: 10px;
-}
+.taskbar-pinned::-webkit-scrollbar { height: 2px; }
+.taskbar-pinned::-webkit-scrollbar-thumb { background: #4a4038; border-radius: 10px; }
 
 .taskbar-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    display: flex; align-items: center; gap: 5px;
     padding: 4px 12px;
     border-radius: 4px;
     cursor: pointer;
@@ -691,31 +588,16 @@ body {
     color: #b0a89c;
     font-family: 'Segoe UI', 'Inter', sans-serif;
     font-size: 12px;
-    font-weight: 400;
     transition: all 0.15s;
     white-space: nowrap;
     height: 32px;
 }
+.taskbar-btn:hover { background: rgba(255, 255, 255, 0.08); color: #f9f6f0; }
+.taskbar-btn.active { background: rgba(200, 122, 90, 0.15); color: #f9f6f0; }
+.taskbar-btn .tb-icon { font-size: 14px; }
 
-.taskbar-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #f9f6f0;
-}
-
-.taskbar-btn.active {
-    background: rgba(200, 122, 90, 0.15);
-    color: #f9f6f0;
-}
-
-.taskbar-btn .tb-icon {
-    font-size: 14px;
-}
-
-/* System Tray */
 .system-tray {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: flex; align-items: center; gap: 6px;
     color: #b0a89c;
     font-size: 12px;
     flex-shrink: 0;
@@ -723,244 +605,56 @@ body {
     height: 100%;
     border-left: 1px solid rgba(255, 255, 255, 0.04);
 }
-
 .tray-icon {
-    background: transparent;
-    border: none;
-    color: #b0a89c;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 4px;
-    border-radius: 4px;
-    transition: all 0.15s;
-    line-height: 1;
+    background: transparent; border: none; color: #b0a89c;
+    cursor: pointer; font-size: 14px; padding: 4px;
+    border-radius: 4px; transition: all 0.15s; line-height: 1;
 }
-
-.tray-icon:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #f9f6f0;
-}
-
-.tray-divider {
-    color: #4a4038;
-    margin: 0 4px;
-}
-
+.tray-icon:hover { background: rgba(255, 255, 255, 0.08); color: #f9f6f0; }
+.tray-divider { color: #4a4038; margin: 0 4px; }
 .tray-clock {
     font-family: 'Segoe UI', 'Inter', sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    color: #d4c8bc;
-    min-width: 48px;
-    text-align: center;
+    font-size: 12px; color: #d4c8bc;
+    min-width: 48px; text-align: center;
 }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
-    .desktop {
-        padding: 4px 4px 44px 4px;
-    }
-
+    .desktop { padding: 4px 4px 44px 4px; }
     .skills-sidebar {
-        width: 80px;
-        padding: 8px 4px;
-        left: 4px;
+        width: 90px; padding: 8px 4px; left: 4px;
     }
-
-    .skill-item {
-        width: 54px;
-        padding: 4px 2px;
-    }
-
-    .skill-item .skill-emoji {
-        font-size: 18px;
-    }
-
-    .skill-item .skill-label {
-        font-size: 7px;
-        max-width: 48px;
-    }
-
-    .collage-area {
-        left: 92px;
-        right: 4px;
-        top: 4px;
-        bottom: 4px;
-    }
-
-    .collage-item .item-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 22px;
-    }
-
-    .collage-item .item-label {
-        font-size: 8px;
-        max-width: 56px;
-    }
-
-    .collage-item .item-sub {
-        display: none;
-    }
-
-    .sticky {
-        right: 12px;
-        bottom: 56px;
-        font-size: 11px;
-        max-width: 150px;
-        padding: 8px 12px;
-    }
-
-    .window {
-        width: 95vw;
-        max-width: 95vw;
-        max-height: 88vh;
-    }
-
-    .window-body {
-        padding: 16px 18px 20px 18px;
-        font-size: 12px;
-        max-height: 55vh;
-    }
-
-    .window-body h1 {
-        font-size: 18px;
-    }
-
-    .window-body h2 {
-        font-size: 15px;
-    }
-
-    .map-container {
-        height: 220px;
-    }
-
-    .taskbar {
-        height: 40px;
-        padding: 0 2px;
-    }
-
-    .start-btn {
-        padding: 2px 8px;
-        font-size: 11px;
-        min-width: 48px;
-        height: 32px;
-    }
-
-    .start-label {
-        display: none;
-    }
-
-    .start-icon {
-        font-size: 16px;
-    }
-
-    .taskbar-btn {
-        font-size: 10px;
-        padding: 2px 8px;
-        height: 28px;
-    }
-
-    .taskbar-btn .tb-icon {
-        font-size: 12px;
-    }
-
-    .system-tray {
-        font-size: 10px;
-        padding: 0 4px;
-    }
-
-    .tray-icon {
-        font-size: 12px;
-    }
-
-    .tray-clock {
-        font-size: 10px;
-        min-width: 36px;
-    }
+    .skill-item { font-size: 9px; padding: 4px 6px; }
+    .skill-group-label { font-size: 7px; margin: 6px 0 2px 2px; }
+    .collage-area { left: 100px; right: 4px; top: 4px; bottom: 4px; }
+    .collage-item .item-icon { width: 44px; height: 44px; font-size: 22px; }
+    .collage-item .item-label { font-size: 8px; max-width: 56px; }
+    .collage-item .item-sub { display: none; }
+    .sticky { right: 12px; bottom: 56px; font-size: 11px; max-width: 150px; padding: 8px 12px; }
+    .window { width: 95vw; max-width: 95vw; max-height: 88vh; }
+    .window-body { padding: 20px 22px 24px 22px; font-size: 13px; max-height: 58vh; }
+    .window-body h1 { font-size: 22px; }
+    .window-body h2 { font-size: 17px; }
+    .map-container { height: 240px; }
+    .taskbar { height: 40px; padding: 0 2px; }
+    .start-btn { padding: 2px 8px; font-size: 11px; min-width: 48px; height: 32px; }
+    .start-label { display: none; }
+    .taskbar-btn { font-size: 10px; padding: 2px 8px; height: 28px; }
+    .taskbar-btn .tb-icon { font-size: 12px; }
+    .system-tray { font-size: 10px; padding: 0 4px; }
+    .tray-icon { font-size: 12px; }
+    .tray-clock { font-size: 10px; min-width: 36px; }
 }
 
 @media (max-width: 480px) {
-    .skills-sidebar {
-        width: 60px;
-        padding: 4px 2px;
-        left: 2px;
-    }
-
-    .skill-item {
-        width: 42px;
-        padding: 3px 1px;
-    }
-
-    .skill-item .skill-emoji {
-        font-size: 14px;
-    }
-
-    .skill-item .skill-label {
-        font-size: 6px;
-        max-width: 38px;
-    }
-
-    .collage-area {
-        left: 68px;
-        right: 2px;
-        top: 2px;
-        bottom: 2px;
-    }
-
-    .collage-item .item-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
-    }
-
-    .collage-item .item-label {
-        font-size: 7px;
-        max-width: 44px;
-    }
-
-    .window-body {
-        padding: 12px 14px 16px 14px;
-        font-size: 11px;
-        max-height: 50vh;
-    }
-
-    .window-body h1 {
-        font-size: 16px;
-    }
-
-    .window-body h2 {
-        font-size: 13px;
-    }
-
-    .window-body .work-item {
-        padding: 12px 14px;
-    }
-
-    .map-container {
-        height: 160px;
-    }
-
-    .taskbar-pinned {
-        gap: 0;
-        padding: 0 4px;
-    }
-
-    .taskbar-btn {
-        font-size: 9px;
-        padding: 2px 6px;
-    }
-
-    .taskbar-btn .tb-icon {
-        font-size: 10px;
-    }
-
-    .system-tray {
-        gap: 3px;
-    }
-
-    .tray-icon {
-        font-size: 10px;
-        padding: 2px;
-    }
+    .skills-sidebar { width: 70px; padding: 4px 2px; left: 2px; }
+    .skill-item { font-size: 8px; padding: 3px 4px; gap: 4px; }
+    .skill-emoji { font-size: 12px; }
+    .collage-area { left: 76px; right: 2px; top: 2px; bottom: 2px; }
+    .collage-item .item-icon { width: 36px; height: 36px; font-size: 18px; }
+    .collage-item .item-label { font-size: 7px; max-width: 44px; }
+    .window-body { padding: 16px 18px 20px 18px; font-size: 12px; }
+    .window-body h1 { font-size: 20px; }
+    .map-container { height: 180px; }
+    .taskbar-btn { font-size: 9px; padding: 2px 6px; }
 }
