@@ -358,7 +358,7 @@ function getContent(folder) {
 
             <hr class="divider" />
 
-            <p><em>Based in Seoul. Available internationally. Returning to Korea 2027.</em></p>
+            <p><em>Based in Seoul, back in Europe 2027. Available internationally.</em></p>
             <p><a href="Monica_Bernasconi_CV.pdf" target="_blank">Download CV →</a></p>
         `,
 
