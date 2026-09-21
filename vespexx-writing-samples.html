@@ -15,7 +15,7 @@
 :root{
   --cream:#FBF7F2; --cream-deep:#F4EDE4; --ink:#1B1815; --ink-soft:#3D3733;
   --muted:#7A716B; --line:#E6DDD2; --accent:#B4553F; --accent-soft:#F2E2DC;
-  --plum:#6E3B52; --white:#FFFFFF;
+  --white:#FFFFFF;
   --display:'Fraunces',Georgia,serif;
   --body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
   --maxw:920px;
@@ -33,47 +33,83 @@ h1,h2,h3,h4{ font-family:var(--display); font-weight:600; line-height:1.15; lett
 p{ margin:0 0 1.1em; }
 a{ color:inherit; }
 :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
-.skip{ position:absolute; left:-9999px; background:var(--ink); color:var(--cream); padding:12px 20px; }
-.skip:focus{ left:0; top:0; z-index:999; }
+.skip{ position:absolute; left:-9999px; background:var(--ink); color:var(--cream); padding:12px 20px; z-index:999; }
+.skip:focus{ left:0; top:0; }
 .wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:26px; }
 
-.fill{ background:var(--accent-soft); color:var(--accent); padding:1px 7px; border-radius:5px; font-weight:600; font-size:.92em; }
-
 /* ---------- HEADER ---------- */
-.masthead{ border-bottom:1px solid var(--line); padding-block:clamp(56px,8vw,92px) clamp(36px,5vw,56px); }
+.masthead{ padding-block:clamp(48px,7vw,80px) clamp(28px,4vw,44px); border-bottom:1px solid var(--line); }
 .eyebrow{
   display:inline-flex; align-items:center; gap:10px;
   font-size:.72rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--accent); margin-bottom:22px;
+  color:var(--accent); margin-bottom:20px;
 }
 .eyebrow::before{ content:""; width:30px; height:1px; background:currentColor; }
-.masthead h1{ font-size:clamp(2rem,5vw,3.2rem); margin-bottom:20px; letter-spacing:-.035em; }
+.masthead h1{ font-size:clamp(1.9rem,4.6vw,2.9rem); margin-bottom:18px; letter-spacing:-.035em; }
 .masthead h1 em{ font-style:italic; font-weight:400; color:var(--accent); }
-.masthead__sub{ font-size:1.08em; color:var(--ink-soft); max-width:60ch; margin-bottom:32px; }
+.masthead__sub{ font-size:1.02em; color:var(--ink-soft); max-width:62ch; margin-bottom:28px; }
 .meta-grid{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:22px 32px; padding-top:30px; border-top:1px solid var(--line);
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:18px 28px; padding-top:24px; border-top:1px solid var(--line);
 }
-.meta-grid dt{ font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
-.meta-grid dd{ margin:0; font-size:.94rem; font-weight:500; }
+.meta-grid dt{ font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+.meta-grid dd{ margin:0; font-size:.92rem; font-weight:500; }
 
-/* ---------- INTRO ---------- */
-.intro{ padding-block:clamp(52px,7vw,80px); border-bottom:1px solid var(--line); }
-.intro p{ max-width:66ch; }
-.intro p:last-child{ margin-bottom:0; }
+/* ---------- TABS ---------- */
+.tabs{
+  position:sticky; top:0; z-index:50;
+  background:rgba(251,247,242,.92);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.tabs__inner{
+  width:100%; max-width:var(--maxw); margin-inline:auto;
+  padding-inline:26px;
+  display:flex; gap:4px;
+  overflow-x:auto; -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.tabs__inner::-webkit-scrollbar{ display:none; }
+.tab{
+  flex:none;
+  display:inline-flex; align-items:center; gap:10px;
+  padding:18px 18px 16px;
+  background:none; border:none; cursor:pointer;
+  font-family:var(--body); font-size:.86rem; font-weight:600;
+  color:var(--muted);
+  border-bottom:2px solid transparent;
+  transition:color .18s ease, border-color .18s ease;
+  white-space:nowrap;
+}
+.tab:hover{ color:var(--ink); }
+.tab[aria-selected="true"]{
+  color:var(--ink);
+  border-bottom-color:var(--accent);
+}
+.tab__num{
+  font-family:var(--display); font-size:.78rem; font-weight:700;
+  color:var(--accent); opacity:.75;
+}
+.tab[aria-selected="true"] .tab__num{ opacity:1; }
+.tab__label{ display:inline; }
 
-/* ---------- SAMPLE ---------- */
-.sample{ padding-block:clamp(64px,8vw,104px); border-bottom:1px solid var(--line); }
-.sample:last-of-type{ border-bottom:none; }
+/* ---------- PANELS ---------- */
+.panel{ display:none; animation:fade .35s cubic-bezier(.22,.8,.3,1); }
+.panel.is-active{ display:block; }
+@keyframes fade{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+
+.sample{ padding-block:clamp(52px,7vw,80px); }
+.sample:first-child{ padding-top:clamp(40px,5vw,60px); }
 
 .sample__num{
   font-family:var(--display); font-size:.82rem; font-weight:700;
-  letter-spacing:.16em; color:var(--accent); margin-bottom:14px;
+  letter-spacing:.16em; color:var(--accent); margin-bottom:12px;
 }
-.sample h2{ font-size:clamp(1.6rem,3.4vw,2.4rem); margin-bottom:20px; max-width:22ch; }
+.sample h2{ font-size:clamp(1.55rem,3.3vw,2.3rem); margin-bottom:18px; max-width:26ch; }
 .sample h2.wide{ max-width:none; }
 
-.specs{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:34px; }
+/* Specs */
+.specs{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px; }
 .spec{
   font-size:.76rem; font-weight:600; letter-spacing:.04em;
   padding:6px 14px; border-radius:100px;
@@ -82,7 +118,8 @@ a{ color:inherit; }
 .spec--accent{ background:var(--accent-soft); border-color:transparent; color:var(--accent); }
 .spec--live{ background:var(--ink); border-color:transparent; color:var(--cream); }
 
-.block{ margin-bottom:32px; }
+/* Blocks */
+.block{ margin-bottom:30px; }
 .block:last-child{ margin-bottom:0; }
 .block__label{
   display:flex; align-items:center; gap:11px;
@@ -114,19 +151,6 @@ a{ color:inherit; }
 }
 .demos li strong{ color:var(--ink); font-weight:600; }
 
-.links{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
-.btn{
-  display:inline-flex; align-items:center; gap:9px;
-  font-size:.88rem; font-weight:600; padding:13px 24px; border-radius:100px;
-  text-decoration:none; border:1px solid transparent;
-  transition:transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
-}
-.btn:hover{ transform:translateY(-2px); }
-.btn--primary{ background:var(--accent); color:#fff; }
-.btn--primary:hover{ background:#9E4632; }
-.btn--outline{ border-color:var(--ink); color:var(--ink); }
-.btn--outline:hover{ background:var(--ink); color:var(--cream); }
-
 /* Excerpt */
 .excerpt{
   background:var(--white); border:1px solid var(--line);
@@ -152,43 +176,42 @@ a{ color:inherit; }
 }
 .aside strong{ font-weight:700; }
 
-/* ---------- SUMMARY ---------- */
-.summary{ padding-block:clamp(64px,8vw,96px); background:var(--cream-deep); }
-.summary h2{ font-size:clamp(1.6rem,3.4vw,2.3rem); margin-bottom:34px; }
-.table-scroll{ overflow-x:auto; }
-table{ width:100%; border-collapse:collapse; font-size:.91rem; min-width:520px; }
-th,td{ text-align:left; padding:18px 20px; border-bottom:1px solid var(--line); vertical-align:top; }
-th{
-  font-size:.7rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
-  color:var(--muted); border-bottom:1px solid var(--ink);
-}
-td:first-child{ font-weight:600; white-space:nowrap; }
-tbody tr:last-child td{ border-bottom:none; }
-
 /* ---------- CONTACT ---------- */
 .contact{
   background:var(--ink); color:var(--cream);
-  padding-block:clamp(64px,9vw,110px); text-align:center;
+  padding-block:clamp(56px,8vw,90px); text-align:center;
+  margin-top:clamp(48px,6vw,72px);
 }
-.contact h2{ font-size:clamp(1.7rem,4.2vw,2.8rem); margin-bottom:20px; }
-.contact p{ max-width:52ch; margin-inline:auto; color:rgba(251,247,242,.78); margin-bottom:34px; }
-.contact__links{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
-.contact .btn--primary{ background:var(--accent); }
-.contact .btn--ghost{ border:1px solid rgba(251,247,242,.4); color:var(--cream); }
-.contact .btn--ghost:hover{ background:rgba(251,247,242,.1); }
+.contact h2{ font-size:clamp(1.6rem,3.8vw,2.4rem); margin-bottom:18px; }
+.contact p{ max-width:54ch; margin-inline:auto; color:rgba(251,247,242,.78); margin-bottom:30px; }
+.contact__links{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+.btn{
+  display:inline-flex; align-items:center; gap:9px;
+  font-size:.88rem; font-weight:600; padding:13px 24px; border-radius:100px;
+  text-decoration:none; border:1px solid transparent;
+  transition:transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+}
+.btn:hover{ transform:translateY(-2px); }
+.btn--primary{ background:var(--accent); color:#fff; }
+.btn--primary:hover{ background:#9E4632; }
+.btn--ghost{ border:1px solid rgba(251,247,242,.4); color:var(--cream); background:transparent; }
+.btn--ghost:hover{ background:rgba(251,247,242,.1); }
 
-footer{ background:var(--cream-deep); padding-block:34px; font-size:.79rem; color:var(--muted); }
-footer .wrap{ display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; }
+footer{
+  background:var(--cream-deep); padding-block:28px;
+  font-size:.79rem; color:var(--muted);
+}
+footer .wrap{ display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; }
 
 /* ---------- REVEAL ---------- */
-.reveal{ opacity:0; transform:translateY(18px); transition:opacity .65s cubic-bezier(.22,.8,.3,1), transform .65s cubic-bezier(.22,.8,.3,1); }
+.reveal{ opacity:0; transform:translateY(14px); transition:opacity .55s cubic-bezier(.22,.8,.3,1), transform .55s cubic-bezier(.22,.8,.3,1); }
 .reveal.is-in{ opacity:1; transform:none; }
 
 @media (max-width:600px){
-  .specs{ gap:6px; }
-  .btn{ padding:12px 20px; font-size:.85rem; }
+  .tab{ padding:16px 12px 14px; font-size:.8rem; }
+  .tab__num{ font-size:.72rem; }
   .contact__links{ flex-direction:column; align-items:stretch; }
-  th,td{ padding:14px 12px; }
+  .btn{ justify-content:center; }
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
@@ -196,8 +219,9 @@ footer .wrap{ display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betw
   .reveal{ opacity:1; transform:none; }
 }
 @media print{
-  .contact__links, .links{ display:none; }
+  .contact__links, .tabs{ display:none; }
   body{ background:#fff; font-size:11pt; }
+  .panel{ display:block !important; }
   .sample{ break-inside:avoid-page; page-break-inside:avoid; }
   .contact{ background:#fff; color:var(--ink); }
   .contact p{ color:var(--ink-soft); }
@@ -231,321 +255,266 @@ footer .wrap{ display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betw
   </div>
 </header>
 
+<!-- ============================================================
+     TABS
+     ============================================================ -->
+<nav class="tabs" aria-label="Writing samples">
+  <div class="tabs__inner" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" data-target="panel-1">
+      <span class="tab__num">01</span>
+      <span class="tab__label">KFS2026 Recap Redesign</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" data-target="panel-2">
+      <span class="tab__num">02</span>
+      <span class="tab__label">The Fangirls Made the Beatles</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3" data-target="panel-3">
+      <span class="tab__num">03</span>
+      <span class="tab__label">AI 시대, 영어를 더 인간답게</span>
+    </button>
+  </div>
+</nav>
+
 <main id="main">
 
   <!-- ==========================================================
-       INTRO
+       SAMPLE 01 — KFS2026 REDESIGN
        ========================================================== -->
-  <section class="intro">
-    <div class="wrap reveal">
-      <p>
-        These three samples were selected to cover the range the role requires. Sample 01 is a
-        work sample built on Vespexx's own KFS2026 recap, showing what the same content looks
-        like when it is structured for a global audience. Sample 02 is English longform with a
-        defended argument. Sample 03 is a shortform piece with a strong audience read, included
-        as evidence of how a skeptical reader is met where they actually are.
-      </p>
-      <p>
-        All three are original writing. Published pieces are labeled with their outlet and date.
-        The work sample is labeled as such, with a note on what would be tracked once it is live.
-      </p>
-    </div>
-  </section>
+  <section class="panel is-active" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
+    <div class="sample">
+      <div class="wrap">
+        <p class="sample__num reveal">SAMPLE 01</p>
+        <h2 class="reveal">Korea Femtech Summit 2026 — Recap Redesign</h2>
 
-  <!-- ==========================================================
-       SAMPLE 01
-       ========================================================== -->
-  <section class="sample">
-    <div class="wrap">
-      <p class="sample__num reveal">SAMPLE 01</p>
-      <h2 class="reveal">Korea Femtech Summit 2026 — Recap Redesign</h2>
-
-      <div class="specs reveal">
-        <span class="spec spec--accent">English</span>
-        <span class="spec">Blog post / event recap</span>
-        <span class="spec">Editorial redesign &amp; rewrite</span>
-        <span class="spec spec--live">Work sample</span>
-      </div>
-
-      <div class="block reveal">
-        <div class="block__label"><span class="block__mark">1</span> Why this topic</div>
-        <p>
-          A work sample built on Vespexx's existing KFS2026 recap. The topic was selected because
-          it sits at the intersection of everything this role touches: femtech, Korea, global
-          expansion, and community building.
-        </p>
-        <p>
-          The original post carried strong content in a single column of text — no visual
-          hierarchy, no navigation, and the Femtech Korea membership CTA at the bottom. The
-          redesign restructures the same content for a global audience: readers who scan, who
-          care about market numbers, and who need a reason to join the community.
-        </p>
-        <p>
-          Every number, quote, and speaker reference is preserved from the original. Only the
-          structure and presentation change.
-        </p>
-      </div>
-
-      <div class="block reveal">
-        <div class="block__label"><span class="block__mark">2</span> Target audience</div>
-        <ul class="demos">
-          <li><strong>Primary:</strong> North American founders, clinicians, investors, and women's health leaders evaluating whether Korea is a serious femtech market.</li>
-          <li><strong>Secondary:</strong> Potential Femtech Korea members and KFS2027 partners.</li>
-          <li><strong>Tertiary:</strong> Vespexx's existing community and summit attendees.</li>
-        </ul>
-      </div>
-
-      <div class="block reveal">
-        <div class="block__label"><span class="block__mark">3</span> Performance / reception</div>
-        <p>
-          Work sample. Not yet published, so there is no performance data.
-        </p>
-        <p>
-          If published, the metrics that would matter: scroll depth, time on page, and
-          click-through on the Femtech Korea membership CTA. The page is also built so that
-          individual sections — the stat cards, the timeline, the pull quotes — can be pulled
-          directly as shortform content for LinkedIn and X, mirroring how the role describes the
-          blog's relationship to social.
-        </p>
-      </div>
-
-      <div class="block reveal">
-        <p class="subhead">What this demonstrates</p>
-        <ul class="demos">
-          <li><strong>Editorial judgment:</strong> structuring a long recap so it is scannable without losing narrative flow.</li>
-          <li><strong>Visual hierarchy:</strong> pull quotes, stat cards, a timeline, and a panel grid replace flat paragraphs.</li>
-          <li><strong>Global framing:</strong> North America-facing context added at key moments — Soonr launching in North America, the investability of Korean teams.</li>
-          <li><strong>Conversion focus:</strong> the Femtech Korea membership and KFS2027 CTA now has its own full-width section.</li>
-          <li><strong>Technical execution:</strong> hand-coded HTML, CSS, and vanilla JS. No framework. Deployed via CodePen.</li>
-        </ul>
-      </div>
-
-      <div class="links reveal">
-        <a class="btn btn--primary" href="FILL: CodePen URL" target="_blank" rel="noopener">View live redesign</a>
-        <a class="btn btn--outline" href="FILL: original post URL" target="_blank" rel="noopener">Original post</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================
-       SAMPLE 02
-       ========================================================== -->
-  <section class="sample">
-    <div class="wrap">
-      <p class="sample__num reveal">SAMPLE 02</p>
-      <h2 class="wide reveal">The Fangirls Made the Beatles</h2>
-
-      <div class="specs reveal">
-        <span class="spec spec--accent">English</span>
-        <span class="spec">Longform editorial</span>
-        <span class="spec">Writer &amp; researcher</span>
-        <span class="spec spec--live">Published</span>
-      </div>
-
-      <div class="block reveal">
-        <div class="block__label"><span class="block__mark">1</span> Why this topic</div>
-        <p>
-          The argument draws on Master's-level work in fandom studies: the Beatles would not have
-          become the Beatles without the fangirls. The piece takes female enthusiasm seriously —
-          not as a punchline, but as cultural infrastructure.
-        </p>
-        <p>
-          The structure uses a personal chain (father → daughter → Beatles) as the thesis.
-          Fandom is transmission, not consumption.
-        </p>
-        <p>
-          The register is deliberately accessible: academic subject matter, conversational tone.
-          That is the register a North American blog audience expects, and the balance this role
-          would need to strike between rigor and readability.
-        </p>
-      </div>
-
-      <div class="block reveal">
-        <div class="block__label"><span class="block__mark">2</span> Target audience</div>
-        <ul class="demos">
-          <li><strong>Primary:</strong> Music and culture readers, especially those interested in the Beatles, fandom, and women's cultural history.</li>
-          <li><strong>Secondary:</strong> Readers interested in fandom studies, parasocial relationships, and the sociology of taste.</li>
-          <li><strong>Tertiary:</strong> Anyone who has ever been dismissed for liking something "too much."</li>
-        </ul>
-      </div>
-
-      <div class="block reveal">
-        <div class="block__label"><span class="block__mark">3</span> Performance / reception</div>
-        <p>
-          <span class="fill">FILL: published at [outlet], on [date].</span>
-          Contributor-level analytics are not available from the outlet, so traffic and share
-          counts cannot be quoted. Publication itself is the external signal: an editor read the
-          piece and decided it was worth running.
-        </p>
-        <p>
-          It is included primarily for the argument, the research, and the voice.
-        </p>
-      </div>
-
-      <div class="block reveal">
-        <p class="subhead">What this demonstrates</p>
-        <ul class="demos">
-          <li><strong>Argument:</strong> a clear thesis developed across a long piece, with evidence and counterargument.</li>
-          <li><strong>Research:</strong> seven cited academic and journalistic sources on Beatlemania, fandom, and women's cultural participation.</li>
-          <li><strong>Voice:</strong> conversational, funny, and precise — the register a North American blog audience expects.</li>
-          <li><strong>Cultural translation:</strong> an academic subject made accessible without being dumbed down.</li>
-          <li><strong>Relevance:</strong> a piece about how communities form around shared enthusiasm — the same mechanic Femtech Korea is built on.</li>
-        </ul>
-      </div>
-
-      <div class="links reveal">
-        <a class="btn btn--primary" href="FILL: link to published piece" target="_blank" rel="noopener">Read the full piece</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================
-       SAMPLE 03
-       ========================================================== -->
-  <section class="sample">
-    <div class="wrap">
-      <p class="sample__num reveal">SAMPLE 03</p>
-      <h2 class="wide reveal">AI 시대에 우리가 영어를 더 '인간답게' 써야 하는 이유</h2>
-
-      <div class="specs reveal">
-        <span class="spec">Korean</span>
-        <span class="spec">Shortform marketing post</span>
-        <span class="spec">Writer &amp; content strategist</span>
-        <span class="spec spec--live">Published · strongest audience response in current role</span>
-      </div>
-
-      <div class="aside reveal">
-        <strong>Note:</strong> This piece is in Korean. It is included as evidence of audience
-        instinct and content performance, with an English rendering below. The English longform
-        samples are Samples 01 and 02.
-      </div>
-
-      <div class="block reveal" style="margin-top:32px;">
-        <div class="block__label"><span class="block__mark">1</span> Why this topic</div>
-        <p>
-          The topic was chosen in response to a specific market observation: AI translation tools
-          were improving quickly, and the readers most anxious about them were the ones with the
-          most to gain from learning English anyway.
-        </p>
-        <p>
-          The piece answers the objection directly — <em>"이제 영어 공부 안 해도 되는 거 아냐?"</em>
-          — before any product or service is mentioned. Feature promotion alone would not have
-          landed against that objection.
-        </p>
-        <p>
-          The argument is deliberately concrete: AI transfers information, but not trust, warmth,
-          or timing. Eye contact with a business partner and "I totally get you" said at the right
-          moment are specific enough to be believed. Abstract claims about human connection are
-          not.
-        </p>
-      </div>
-
-      <div class="block reveal">
-        <div class="block__label"><span class="block__mark">2</span> Target audience</div>
-        <ul class="demos">
-          <li><strong>Primary:</strong> Gangnam-area professionals in their 20s and 30s who are curious about English study groups but have not committed — the exact people who would use AI as a reason not to start.</li>
-          <li><strong>Secondary:</strong> Existing study group members who share posts with friends.</li>
-          <li><strong>Tertiary:</strong> Search traffic around "AI 번역기," "영어회화 스터디," and "강남 영어 스터디."</li>
-        </ul>
-      </div>
-
-      <div class="block reveal">
-        <div class="block__label"><span class="block__mark">3</span> Performance / reception</div>
-        <p>
-          Published on Naver. Strongest response of any post written in the current role, measured
-          by reader reaction rather than traffic.
-        </p>
-        <p>
-          <span class="fill">FILL: one or two qualitative signals — comments, direct messages, shares, internal recognition.</span>
-          Analytics access is not available, so the reaction is described rather than quantified.
-        </p>
-        <p>
-          The signal that mattered most: readers responded to the argument, not the promotion.
-          The piece worked because it took the reader's objection seriously instead of dismissing
-          it — the same approach this role would need for a North American audience that is
-          skeptical, informed, and not easily impressed.
-        </p>
-      </div>
-
-      <div class="excerpt reveal">
-        <div class="excerpt__label">Original — Korean</div>
-        <div lang="ko">
-          <p class="ko">요즘 AI 번역기나 통역 이어폰 성능, 정말 놀랍죠?</p>
-          <p class="ko">"이제 영어 공부 안 해도 되는 거 아냐?"라는 생각이 드는 것도 당연해요.</p>
-          <p class="ko">하지만 강남 직장인 영어 회화 스터디 랭스영이 내린 결론은 확고합니다. AI는 '정보'를 전달할 수 있지만, 사람 사이의 '신뢰'와 '온도'는 전달할 수 없거든요.</p>
-          <p class="ko">비즈니스 파트너와 눈을 맞추며 건네는 위트 한마디, 친구의 고민에 진심으로 공감하며 내뱉는 "I totally get you"는 기계가 대신해 줄 수 없는 영역이에요.</p>
-          <p class="ko">강남역 근처에서 영어를 쓸 기회는 생각보다 적지만, 우리가 영어를 배우는 진짜 이유는 '기계 없이도 온전한 나로서 소통하기 위해서'죠.</p>
-          <p class="ko">강남역 영어회화 스터디 랭스영은 단순히 문장을 만드는 법을 가르치지 않아요. AI는 절대 따라 할 수 없는 '사람 냄새 나는 대화의 기술'을 연습하는 곳이죠.</p>
+        <div class="specs reveal">
+          <span class="spec spec--accent">English</span>
+          <span class="spec">Blog post / event recap</span>
+          <span class="spec">Editorial redesign &amp; rewrite</span>
+          <span class="spec spec--live">Work sample · Unpublished</span>
         </div>
 
-        <hr />
-
-        <div class="excerpt__label">English rendering</div>
-        <div>
-          <p class="en">These days, AI translators and interpretation earbuds are genuinely impressive. It is only natural to wonder: "Do I even need to study English anymore?"</p>
-          <p class="en">But the conclusion we reached at 랭스영, a Gangnam English conversation study group, is firm. AI can deliver <em>information</em>. It cannot deliver <em>trust</em> or <em>warmth</em> between people.</p>
-          <p class="en">The wit you exchange while making eye contact with a business partner. The "I totally get you" you say when a friend needs to hear it. These are not things a machine can do for you.</p>
-          <p class="en">Near Gangnam Station, the chances to actually use English are fewer than you would think. The real reason we learn it is to communicate as ourselves, fully, without a machine in between.</p>
-          <p class="en">랭스영 does not just teach you how to build sentences. It is a place to practice a kind of conversation AI can never imitate — one that still smells like a person.</p>
+        <div class="block reveal">
+          <div class="block__label"><span class="block__mark">1</span> Why this topic</div>
+          <p>
+            A work sample built on Vespexx's existing KFS2026 recap. The topic was selected because
+            it sits at the intersection of everything this role touches: femtech, Korea, global
+            expansion, and community building.
+          </p>
+          <p>
+            The original post carried strong content in a single column of text — no visual
+            hierarchy, no navigation, and the Femtech Korea membership CTA at the bottom. The
+            redesign restructures the same content for a global audience: readers who scan, who
+            care about market numbers, and who need a reason to join the community.
+          </p>
+          <p>
+            Every number, quote, and speaker reference is preserved from the original. Only the
+            structure and presentation change.
+          </p>
         </div>
-      </div>
 
-      <div class="block reveal" style="margin-top:32px;">
-        <p class="subhead">What this demonstrates</p>
-        <ul class="demos">
-          <li><strong>Objection-first writing:</strong> the reader's real hesitation is named in line two and answered before anything is sold. Same skill Vespexx needs for a skeptical North American audience.</li>
-          <li><strong>Concrete over abstract:</strong> "trust and warmth" would be empty. Eye contact and "I totally get you" are not.</li>
-          <li><strong>Soft CTA discipline:</strong> the post earns attention before it asks for anything.</li>
-          <li><strong>Bilingual range:</strong> publishing-standard writing in both Korean and English — not translation between them.</li>
-          <li><strong>Proof of audience read:</strong> included as evidence of performance, not as an English longform sample.</li>
-        </ul>
-      </div>
+        <div class="block reveal">
+          <div class="block__label"><span class="block__mark">2</span> Target audience</div>
+          <ul class="demos">
+            <li><strong>Primary:</strong> North American founders, clinicians, investors, and women's health leaders evaluating whether Korea is a serious femtech market.</li>
+            <li><strong>Secondary:</strong> Potential Femtech Korea members and KFS2027 partners.</li>
+            <li><strong>Tertiary:</strong> Vespexx's existing community and summit attendees.</li>
+          </ul>
+        </div>
 
-      <div class="links reveal">
-        <a class="btn btn--primary" href="FILL: link to original Naver post" target="_blank" rel="noopener">View original post</a>
+        <div class="block reveal">
+          <div class="block__label"><span class="block__mark">3</span> Performance / reception</div>
+          <p>
+            Unpublished work sample. No performance data available.
+          </p>
+          <p>
+            If published, the metrics that would matter: scroll depth, time on page, and
+            click-through on the Femtech Korea membership CTA. The page is also built so that
+            individual sections — the stat cards, the timeline, the pull quotes — can be pulled
+            directly as shortform content for LinkedIn and X, mirroring how the role describes the
+            blog's relationship to social.
+          </p>
+        </div>
+
+        <div class="block reveal">
+          <p class="subhead">What this demonstrates</p>
+          <ul class="demos">
+            <li><strong>Editorial judgment:</strong> structuring a long recap so it is scannable without losing narrative flow.</li>
+            <li><strong>Visual hierarchy:</strong> pull quotes, stat cards, a timeline, and a panel grid replace flat paragraphs.</li>
+            <li><strong>Global framing:</strong> North America-facing context added at key moments — Soonr launching in North America, the investability of Korean teams.</li>
+            <li><strong>Conversion focus:</strong> the Femtech Korea membership and KFS2027 CTA now has its own full-width section.</li>
+            <li><strong>Technical execution:</strong> hand-coded HTML, CSS, and vanilla JS. No framework.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ==========================================================
-       SUMMARY
+       SAMPLE 02 — BEATLES ESSAY
        ========================================================== -->
-  <section class="summary">
-    <div class="wrap">
-      <h2 class="reveal">Why these three together</h2>
-      <div class="table-scroll reveal">
-        <table>
-          <thead>
-            <tr>
-              <th>Sample</th>
-              <th>Shows</th>
-              <th>Vespexx relevance</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>01 · KFS2026 Redesign</td>
-              <td>Editorial structure, visual hierarchy, global framing, conversion focus</td>
-              <td>Directly product- and market-adjacent. Turns an event into a community asset.</td>
-            </tr>
-            <tr>
-              <td>02 · Beatles Essay</td>
-              <td>Research, voice, longform argument, cultural translation</td>
-              <td>Shows how a niche topic travels, and how fandoms become movements.</td>
-            </tr>
-            <tr>
-              <td>03 · 랭스영 Post</td>
-              <td>Objection-first writing, audience instinct, bilingual range</td>
-              <td>Shows the market is read before writing, in both languages.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <section class="panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2">
+    <div class="sample">
+      <div class="wrap">
+        <p class="sample__num reveal">SAMPLE 02</p>
+        <h2 class="wide reveal">The Fangirls Made the Beatles</h2>
 
-      <div class="aside reveal" style="margin-top:36px;">
-        <strong>On AI:</strong> Used as a tool, not a substitute for thinking. Every piece here is
-        original writing — argued, structured, and edited by the applicant. Good drafts are
-        distinguishable from bad ones, and the difference is knowing what to fix and how.
+        <div class="specs reveal">
+          <span class="spec spec--accent">English</span>
+          <span class="spec">Longform editorial</span>
+          <span class="spec">Writer &amp; researcher</span>
+          <span class="spec spec--live">Published · Substack</span>
+        </div>
+
+        <div class="block reveal">
+          <div class="block__label"><span class="block__mark">1</span> Why this topic</div>
+          <p>
+            The argument draws on Master's-level work in fandom studies: the Beatles would not have
+            become the Beatles without the fangirls. The piece takes female enthusiasm seriously —
+            not as a punchline, but as cultural infrastructure.
+          </p>
+          <p>
+            The structure uses a personal chain (father → daughter → Beatles) as the thesis.
+            Fandom is transmission, not consumption.
+          </p>
+          <p>
+            The register is deliberately accessible: academic subject matter, conversational tone.
+            That is the register a North American blog audience expects, and the balance this role
+            would need to strike between rigor and readability.
+          </p>
+        </div>
+
+        <div class="block reveal">
+          <div class="block__label"><span class="block__mark">2</span> Target audience</div>
+          <ul class="demos">
+            <li><strong>Primary:</strong> Music and culture readers, especially those interested in the Beatles, fandom, and women's cultural history.</li>
+            <li><strong>Secondary:</strong> Readers interested in fandom studies, parasocial relationships, and the sociology of taste.</li>
+            <li><strong>Tertiary:</strong> Anyone who has ever been dismissed for liking something "too much."</li>
+          </ul>
+        </div>
+
+        <div class="block reveal">
+          <div class="block__label"><span class="block__mark">3</span> Performance / reception</div>
+          <p>
+            Published on Substack. The publication itself is the external signal: an editor read
+            the piece and decided it was worth running.
+          </p>
+          <p>
+            It is included primarily for the argument, the research, and the voice.
+          </p>
+        </div>
+
+        <div class="block reveal">
+          <p class="subhead">What this demonstrates</p>
+          <ul class="demos">
+            <li><strong>Argument:</strong> a clear thesis developed across a long piece, with evidence and counterargument.</li>
+            <li><strong>Research:</strong> seven cited academic and journalistic sources on Beatlemania, fandom, and women's cultural participation.</li>
+            <li><strong>Voice:</strong> conversational, funny, and precise — the register a North American blog audience expects.</li>
+            <li><strong>Cultural translation:</strong> an academic subject made accessible without being dumbed down.</li>
+            <li><strong>Relevance:</strong> a piece about how communities form around shared enthusiasm — the same mechanic Femtech Korea is built on.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SAMPLE 03 — KOREAN SHORTFORM
+       ========================================================== -->
+  <section class="panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3">
+    <div class="sample">
+      <div class="wrap">
+        <p class="sample__num reveal">SAMPLE 03</p>
+        <h2 class="wide reveal">AI 시대에 우리가 영어를 더 '인간답게' 써야 하는 이유</h2>
+
+        <div class="specs reveal">
+          <span class="spec">Korean</span>
+          <span class="spec">Shortform marketing post</span>
+          <span class="spec">Writer &amp; content strategist</span>
+          <span class="spec spec--live">Published · Naver Cafe · strongest audience response in current role</span>
+        </div>
+
+        <div class="aside reveal">
+          <strong>Note:</strong> This piece is in Korean. It is included as evidence of audience
+          instinct and content performance, with an English rendering below. The English longform
+          samples are Samples 01 and 02.
+        </div>
+
+        <div class="block reveal" style="margin-top:32px;">
+          <div class="block__label"><span class="block__mark">1</span> Why this topic</div>
+          <p>
+            The topic was chosen in response to a specific market observation: AI translation tools
+            were improving quickly, and the readers most anxious about them were the ones with the
+            most to gain from learning English anyway.
+          </p>
+          <p>
+            The piece answers the objection directly — <em>"이제 영어 공부 안 해도 되는 거 아냐?"</em>
+            — before any product or service is mentioned. Feature promotion alone would not have
+            landed against that objection.
+          </p>
+          <p>
+            The argument is deliberately concrete: AI transfers information, but not trust, warmth,
+            or timing. Eye contact with a business partner and "I totally get you" said at the right
+            moment are specific enough to be believed. Abstract claims about human connection are
+            not.
+          </p>
+        </div>
+
+        <div class="block reveal">
+          <div class="block__label"><span class="block__mark">2</span> Target audience</div>
+          <ul class="demos">
+            <li><strong>Primary:</strong> Gangnam-area professionals in their 20s and 30s who are curious about English study groups but have not committed — the exact people who would use AI as a reason not to start.</li>
+            <li><strong>Secondary:</strong> Existing study group members who share posts with friends.</li>
+            <li><strong>Tertiary:</strong> Search traffic around "AI 번역기," "영어회화 스터디," and "강남 영어 스터디."</li>
+          </ul>
+        </div>
+
+        <div class="block reveal">
+          <div class="block__label"><span class="block__mark">3</span> Performance / reception</div>
+          <p>
+            Published on Naver Cafe. Strongest response of any post written in the current role,
+            measured by reader reaction rather than traffic.
+          </p>
+          <p>
+            The signal that mattered most: readers responded to the argument, not the promotion.
+            The piece worked because it took the reader's objection seriously instead of dismissing
+            it — the same approach this role would need for a North American audience that is
+            skeptical, informed, and not easily impressed.
+          </p>
+        </div>
+
+        <div class="excerpt reveal">
+          <div class="excerpt__label">Original — Korean</div>
+          <div lang="ko">
+            <p class="ko">요즘 AI 번역기나 통역 이어폰 성능, 정말 놀랍죠?</p>
+            <p class="ko">"이제 영어 공부 안 해도 되는 거 아냐?"라는 생각이 드는 것도 당연해요.</p>
+            <p class="ko">하지만 강남 직장인 영어 회화 스터디 랭스영이 내린 결론은 확고합니다. AI는 '정보'를 전달할 수 있지만, 사람 사이의 '신뢰'와 '온도'는 전달할 수 없거든요.</p>
+            <p class="ko">비즈니스 파트너와 눈을 맞추며 건네는 위트 한마디, 친구의 고민에 진심으로 공감하며 내뱉는 "I totally get you"는 기계가 대신해 줄 수 없는 영역이에요.</p>
+            <p class="ko">강남역 근처에서 영어를 쓸 기회는 생각보다 적지만, 우리가 영어를 배우는 진짜 이유는 '기계 없이도 온전한 나로서 소통하기 위해서'죠.</p>
+            <p class="ko">강남역 영어회화 스터디 랭스영은 단순히 문장을 만드는 법을 가르치지 않아요. AI는 절대 따라 할 수 없는 '사람 냄새 나는 대화의 기술'을 연습하는 곳이죠.</p>
+          </div>
+
+          <hr />
+
+          <div class="excerpt__label">English rendering</div>
+          <div>
+            <p class="en">These days, AI translators and interpretation earbuds are genuinely impressive. It is only natural to wonder: "Do I even need to study English anymore?"</p>
+            <p class="en">But the conclusion we reached at 랭스영, a Gangnam English conversation study group, is firm. AI can deliver <em>information</em>. It cannot deliver <em>trust</em> or <em>warmth</em> between people.</p>
+            <p class="en">The wit you exchange while making eye contact with a business partner. The "I totally get you" you say when a friend needs to hear it. These are not things a machine can do for you.</p>
+            <p class="en">Near Gangnam Station, the chances to actually use English are fewer than you would think. The real reason we learn it is to communicate as ourselves, fully, without a machine in between.</p>
+            <p class="en">랭스영 does not just teach you how to build sentences. It is a place to practice a kind of conversation AI can never imitate — one that still smells like a person.</p>
+          </div>
+        </div>
+
+        <div class="block reveal" style="margin-top:32px;">
+          <p class="subhead">What this demonstrates</p>
+          <ul class="demos">
+            <li><strong>Objection-first writing:</strong> the reader's real hesitation is named in line two and answered before anything is sold. Same skill Vespexx needs for a skeptical North American audience.</li>
+            <li><strong>Concrete over abstract:</strong> "trust and warmth" would be empty. Eye contact and "I totally get you" are not.</li>
+            <li><strong>Soft CTA discipline:</strong> the post earns attention before it asks for anything.</li>
+            <li><strong>Bilingual range:</strong> publishing-standard writing in both Korean and English — not translation between them.</li>
+            <li><strong>Proof of audience read:</strong> included as evidence of performance, not as an English longform sample.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -579,8 +548,59 @@ footer .wrap{ display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betw
 
 <script>
 (function(){
+  /* ---------- TABS ---------- */
+  var tabs = document.querySelectorAll('.tab');
+  var panels = document.querySelectorAll('.panel');
+
+  function activate(id, pushHash){
+    tabs.forEach(function(t){
+      var on = t.dataset.target === id;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(function(p){
+      p.classList.toggle('is-active', p.id === id);
+    });
+
+    /* re-run reveal for the newly shown panel */
+    var active = document.getElementById(id);
+    if (active){
+      var items = active.querySelectorAll('.reveal');
+      items.forEach(function(el){ el.classList.add('is-in'); });
+    }
+
+    if (pushHash !== false){
+      history.replaceState(null, '', '#' + id);
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      activate(tab.dataset.target);
+    });
+
+    /* keyboard: left / right arrows between tabs */
+    tab.addEventListener('keydown', function(e){
+      var i = Array.prototype.indexOf.call(tabs, tab);
+      var next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      if (e.key === 'ArrowLeft')  next = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (next){ e.preventDefault(); next.focus(); activate(next.dataset.target); }
+    });
+  });
+
+  /* ---------- INITIAL STATE FROM HASH ---------- */
+  var hash = window.location.hash.replace('#','');
+  if (hash && document.getElementById(hash)){
+    activate(hash, false);
+  } else {
+    activate('panel-1', false);
+  }
+
+  /* ---------- REVEAL ON SCROLL (for content below fold) ---------- */
   var items = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) {
+  if (!('IntersectionObserver' in window)){
     items.forEach(function(el){ el.classList.add('is-in'); });
     return;
   }
@@ -588,7 +608,7 @@ footer .wrap{ display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betw
     entries.forEach(function(e){
       if (e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
     });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
   items.forEach(function(el){ io.observe(el); });
 })();
 </script>
