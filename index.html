@@ -14,7 +14,300 @@
 <body>
 
 <div class="desktop" id="desktop">
-    <div class="desktop-bg"></div>
+    <div class="desktop-bg">
+        <!-- ─── MARKETING MANAGER WINDOW ─── -->
+<div class="window" id="marketingWindow" style="top: 40px; left: 520px; z-index: 55; width: 620px;">
+    <div class="window-header" id="marketingHeader">
+        <div class="window-controls">
+            <span class="win-close" onclick="closeMarketingWindow()"></span>
+            <span class="win-minimize" onclick="closeMarketingWindow()"></span>
+            <span class="win-maximize" onclick="closeMarketingWindow()"></span>
+        </div>
+        <span class="window-title">Marketing Manager — Langsyoung · Seoul · 2025–2026</span>
+    </div>
+    <div class="window-body" id="marketingBody">
+
+        <h1>Marketing Manager</h1>
+        <p class="mkt-subtitle">Langsyoung · Seoul · 2025–2026</p>
+
+        <p class="mkt-intro">
+            I took a language programme with no structured marketing function and built the content system, analytics practice, and community presence that now drives it — across <strong>three platforms</strong>, with measurable results on each.
+        </p>
+
+        <!-- ─── METRIC CARDS ─── -->
+        <div class="metric-grid">
+            <div class="metric-card">
+                <span class="metric-value">217K</span>
+                <span class="metric-label">Instagram Views</span>
+                <span class="metric-sub">Dec '25 – Oct '26</span>
+            </div>
+            <div class="metric-card metric-card--accent">
+                <span class="metric-value">25.9K</span>
+                <span class="metric-label">Peak Single Day</span>
+                <span class="metric-sub">Mar 14, 2026</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">55K</span>
+                <span class="metric-label">Google Views</span>
+                <span class="metric-sub">12-month total</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">230+</span>
+                <span class="metric-label">Naver Posts</span>
+                <span class="metric-sub">Expression lessons &amp; features</span>
+            </div>
+        </div>
+
+        <!-- ─── PLATFORM TABS ─── -->
+        <div class="mkt-tabs">
+            <button class="mkt-tab active" onclick="switchMktTab('ig', event)">Instagram</button>
+            <button class="mkt-tab" onclick="switchMktTab('gbp', event)">Google Business</button>
+            <button class="mkt-tab" onclick="switchMktTab('naver', event)">Naver</button>
+            <button class="mkt-tab" onclick="switchMktTab('feed', event)">Feed</button>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+             INSTAGRAM PANEL
+             ═══════════════════════════════════════════ -->
+        <div class="mkt-panel active" id="mkt-panel-ig">
+
+            <h3>Monthly Views</h3>
+            <p>Steady baseline of ~10K/month, then a viral moment in mid-March 2026 that shifted the account's reach permanently.</p>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <span class="chart-title">Views per Month</span>
+                    <span class="chart-sub">Dec '25 – Sep '26</span>
+                </div>
+                <div class="bar-chart" id="igViewsChart"></div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <span class="chart-title">Content Interactions per Month</span>
+                    <span class="chart-sub">Likes, comments, saves, shares</span>
+                </div>
+                <div class="bar-chart" id="igInteractionsChart"></div>
+            </div>
+
+            <h3>Audience</h3>
+
+            <div class="audience-block">
+                <span class="audience-label">Top Countries</span>
+                <div class="audience-list" id="igCountries"></div>
+            </div>
+
+            <div class="audience-block">
+                <span class="audience-label">Top Cities</span>
+                <div class="audience-list" id="igCities"></div>
+            </div>
+
+            <div class="audience-block">
+                <span class="audience-label">Age &amp; Gender</span>
+                <div class="demographics" id="igDemographics"></div>
+            </div>
+
+            <h3>What I Built</h3>
+            <ul class="mkt-list">
+                <li><strong>Editorial calendar:</strong> 3–5 posts per week across Reels, carousels, and Stories</li>
+                <li><strong>Bilingual copy:</strong> Korean and English captions for local and international audiences</li>
+                <li><strong>Community management:</strong> responding to comments and DMs, driving conversation</li>
+                <li><strong>Analytics practice:</strong> weekly review of reach, saves, and shares to refine content</li>
+                <li><strong>Cross-platform strategy:</strong> repurposing top posts for Naver and Google Business</li>
+            </ul>
+
+            <div class="mkt-skills">
+                <span>Content Strategy</span>
+                <span>Instagram</span>
+                <span>Bilingual Copywriting</span>
+                <span>Community Management</span>
+                <span>Analytics</span>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+             GOOGLE BUSINESS PANEL
+             ═══════════════════════════════════════════ -->
+        <div class="mkt-panel" id="mkt-panel-gbp">
+            <h3>Google Business Profile</h3>
+            <p>Optimised the studio's Google Business presence to capture local search traffic from people looking for English study groups in Gangnam. Over 12 months, this drove <strong>55,000+ profile views</strong>, <strong>28,000+ search appearances</strong>, and 1,051 direct interactions.</p>
+
+            <div class="metric-grid metric-grid--gbp">
+                <div class="metric-card">
+                    <span class="metric-value">55,233</span>
+                    <span class="metric-label">Profile Views</span>
+                    <span class="metric-sub">Sep '25 – Sep '26</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">28,184</span>
+                    <span class="metric-label">Search Appearances</span>
+                    <span class="metric-sub">Local searches</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">1,051</span>
+                    <span class="metric-label">Interactions</span>
+                    <span class="metric-sub">Calls + Directions + Clicks</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">660</span>
+                    <span class="metric-label">Direction Requests</span>
+                    <span class="metric-sub">High-intent traffic</span>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <span class="chart-title">Monthly Profile Views</span>
+                    <span class="chart-sub">Sep '25 – Sep '26</span>
+                </div>
+                <div class="bar-chart" id="gbpViewsChart"></div>
+                <p class="chart-note">Strong baseline → seasonal dip in Feb 2026 → recovery aligned with the Instagram viral moment in March 2026.</p>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <span class="chart-title">Monthly Interactions</span>
+                    <span class="chart-sub">Calls, directions, and website clicks</span>
+                </div>
+                <div class="bar-chart" id="gbpInteractionsChart"></div>
+                <div class="interaction-legend">
+                    <span><span class="legend-dot" style="background:#c87a5a"></span> Calls</span>
+                    <span><span class="legend-dot" style="background:#5fa87f"></span> Directions</span>
+                    <span><span class="legend-dot" style="background:#4a6fa5"></span> Website Clicks</span>
+                </div>
+            </div>
+
+            <div class="audience-block">
+                <span class="audience-label">Top Search Terms</span>
+                <div class="search-terms" id="gbpSearchTerms"></div>
+                <p class="chart-note">The top three search terms are <strong>영어주소</strong> (English address), <strong>영어회화</strong> (English conversation), and <strong>영어</strong> (English). Users find the profile, then search for directions — clear high-intent local traffic.</p>
+            </div>
+
+            <h3>What I Built</h3>
+            <ul class="mkt-list">
+                <li><strong>Complete profile setup:</strong> hours, location, services, Q&amp;A, and category optimisation</li>
+                <li><strong>Photo strategy:</strong> weekly uploads of classes, events, and community moments</li>
+                <li><strong>Review management:</strong> responding to all reviews and encouraging feedback</li>
+                <li><strong>Local SEO:</strong> keyword optimisation for "강남 영어 스터디," "영어회화," and related searches</li>
+                <li><strong>Search term tracking:</strong> monthly review of query data to refine positioning</li>
+            </ul>
+
+            <div class="mkt-skills">
+                <span>Local SEO</span>
+                <span>Google Business</span>
+                <span>Review Management</span>
+                <span>Search Analytics</span>
+                <span>Content Optimisation</span>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+             NAVER PANEL
+             ═══════════════════════════════════════════ -->
+        <div class="mkt-panel" id="mkt-panel-naver">
+            <h3>Naver Blog &amp; Cafe</h3>
+            <p>Naver is the dominant search and content platform in Korea. Over the year I built a publishing rhythm that drove organic discovery and positioned the studio as a serious learning community — <strong>230+ posts</strong> across expression lessons, member features, and studio storytelling.</p>
+
+            <div class="metric-grid metric-grid--naver">
+                <div class="metric-card">
+                    <span class="metric-value">230+</span>
+                    <span class="metric-label">Posts Published</span>
+                    <span class="metric-sub">Dec '25 – Oct '26</span>
+                </div>
+                <div class="metric-card metric-card--accent">
+                    <span class="metric-value">443</span>
+                    <span class="metric-label">Top Post Views</span>
+                    <span class="metric-sub">"내 말이" · Jul 2026</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">~236</span>
+                    <span class="metric-label">Top 10 Avg</span>
+                    <span class="metric-sub">Views per post</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">10×</span>
+                    <span class="metric-label">Lesson vs Promo</span>
+                    <span class="metric-sub">Expression posts win</span>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <span class="chart-title">Top 10 Performing Posts</span>
+                    <span class="chart-sub">By lifetime views</span>
+                </div>
+                <div class="top-posts-chart" id="naverTopPosts"></div>
+                <p class="chart-note">All ten top performers are <strong>expression lessons</strong> — posts that teach one specific English phrase. Promotion-first posts averaged 5–15 views. The lesson format is 10–20× more effective.</p>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <span class="chart-title">Content Mix</span>
+                    <span class="chart-sub">By post type</span>
+                </div>
+                <div class="content-mix" id="naverContentMix"></div>
+                <p class="chart-note">A three-layer strategy: <strong>expression lessons</strong> drive discovery, <strong>foreign friend profiles</strong> build community, and <strong>studio reflections</strong> build trust.</p>
+            </div>
+
+            <div class="insight-callout">
+                <span class="insight-label">Key insight</span>
+                <p>Naver rewards specificity. Posts that solved one small, concrete problem for the reader — "how do you say <em>내 말이</em> in English?" — consistently outperformed posts about the studio itself. This shaped my editorial calendar: <strong>lead with use value, close with community</strong>.</p>
+            </div>
+
+            <h3>What I Built</h3>
+            <ul class="mkt-list">
+                <li><strong>Publishing rhythm:</strong> 2–3 posts per week across expression lessons, member features, and studio updates</li>
+                <li><strong>SEO-driven writing:</strong> keyword research for "영어회화," "강남 스터디," "AI 번역기," and related searches</li>
+                <li><strong>Content series:</strong> recurring formats like <em>Pop-Ref Series</em> and <em>한국어에만 있는 감정 시리즈</em></li>
+                <li><strong>Objection-first writing:</strong> direct responses to AI skepticism and study-group hesitancy</li>
+                <li><strong>Community features:</strong> weekly foreign friend profiles (Alexa, Carmen, Pablo, and 40+ others)</li>
+            </ul>
+
+            <div class="mkt-skills">
+                <span>Naver SEO</span>
+                <span>Content Strategy</span>
+                <span>Korean Copywriting</span>
+                <span>Audience Research</span>
+                <span>Community Building</span>
+                <span>Editorial Series</span>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+             FEED PANEL
+             ═══════════════════════════════════════════ -->
+        <div class="mkt-panel" id="mkt-panel-feed">
+            <h3>Feed &amp; Visual Direction</h3>
+            <p>Across all platforms, my focus was on making the studio feel like a community — not a class. The content had to be useful, warm, and human.</p>
+
+            <div class="feed-grid" id="feedGrid">
+                <div class="feed-slot">Add image<br><code>images/feed-1.jpg</code></div>
+                <div class="feed-slot">Add image<br><code>images/feed-2.jpg</code></div>
+                <div class="feed-slot">Add image<br><code>images/feed-3.jpg</code></div>
+                <div class="feed-slot">Add image<br><code>images/feed-4.jpg</code></div>
+                <div class="feed-slot">Add image<br><code>images/feed-5.jpg</code></div>
+                <div class="feed-slot">Add image<br><code>images/feed-6.jpg</code></div>
+            </div>
+
+            <h3>Content Themes</h3>
+            <ul class="mkt-list">
+                <li><strong>Language tips:</strong> quick, useful posts about English phrases and Korean expressions</li>
+                <li><strong>Behind-the-scenes:</strong> photos and Reels from debate sessions, social events, and daily life</li>
+                <li><strong>Member stories:</strong> features on participants and their progress</li>
+                <li><strong>Objection-first pieces:</strong> directly addressing why people hesitate to join (AI, time, confidence)</li>
+            </ul>
+
+            <div class="mkt-skills">
+                <span>Editorial Direction</span>
+                <span>Visual Identity</span>
+                <span>Audience Research</span>
+                <span>Storytelling</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+    </div>
 
     <!-- SKILLS SIDEBAR (LEFT) -->
     <div class="skills-sidebar" id="skillsSidebar"></div>
