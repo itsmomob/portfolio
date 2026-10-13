@@ -837,3 +837,463 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWindow(); });
+/* ═══════════════════════════════════════════════════
+   MARKETING MANAGER — DATA
+   ═══════════════════════════════════════════════════ */
+
+const marketingData = {
+    igMonthlyViews: [
+        { label: 'Dec \'25', value: 10633 },
+        { label: 'Jan \'26', value: 10283 },
+        { label: 'Feb \'26', value: 10037 },
+        { label: 'Mar \'26', value: 86697, peak: true },
+        { label: 'Apr \'26', value: 20393 },
+        { label: 'May \'26', value: 17756 },
+        { label: 'Jun \'26', value: 22308 },
+        { label: 'Jul \'26', value: 16438 },
+        { label: 'Aug \'26', value: 7811 },
+        { label: 'Sep \'26', value: 14728 }
+    ],
+    igMonthlyInteractions: [
+        { label: 'Dec \'25', value: 70 },
+        { label: 'Jan \'26', value: 127 },
+        { label: 'Feb \'26', value: 268 },
+        { label: 'Mar \'26', value: 13243, peak: true },
+        { label: 'Apr \'26', value: 1429 },
+        { label: 'May \'26', value: 1497 },
+        { label: 'Jun \'26', value: 1379 },
+        { label: 'Jul \'26', value: 370 },
+        { label: 'Aug \'26', value: 115 },
+        { label: 'Sep \'26', value: 174 }
+    ],
+    igCountries: [
+        { name: 'South Korea', pct: 20.1 },
+        { name: 'United States', pct: 12.6 },
+        { name: 'Germany', pct: 7.7 },
+        { name: 'France', pct: 4.9 },
+        { name: 'Italy', pct: 4.7 },
+        { name: 'Australia', pct: 4.4 },
+        { name: 'Netherlands', pct: 3.6 },
+        { name: 'Mexico', pct: 3.3 },
+        { name: 'China', pct: 3.3 },
+        { name: 'United Kingdom', pct: 3.0 }
+    ],
+    igCities: [
+        { name: 'Seoul, KR', pct: 11.5 },
+        { name: 'Busan, KR', pct: 1.9 },
+        { name: 'Yongin, KR', pct: 1.6 },
+        { name: 'Berlin, DE', pct: 1.1 },
+        { name: 'Sydney, AU', pct: 1.1 },
+        { name: 'Bogotá, CO', pct: 0.8 },
+        { name: 'Melbourne, AU', pct: 0.8 },
+        { name: 'San Luis, AR', pct: 0.8 },
+        { name: 'Seongnam, KR', pct: 0.8 },
+        { name: 'New York, US', pct: 0.8 }
+    ],
+    igDemographics: [
+        { age: '18–24', w: 19.0, m: 10.0 },
+        { age: '25–34', w: 35.0, m: 19.3 },
+        { age: '35–44', w: 3.4,  m: 7.1 },
+        { age: '45–54', w: 1.1,  m: 1.8 },
+        { age: '55–64', w: 1.8,  m: 0.7 },
+        { age: '65+',   w: 0.4,  m: 0.4 }
+    ]
+};
+
+const googleBusinessData = {
+    monthlyViews: [
+        { label: 'Sep \'25', value: 6949 },
+        { label: 'Oct \'25', value: 5258 },
+        { label: 'Nov \'25', value: 4651 },
+        { label: 'Dec \'25', value: 4629 },
+        { label: 'Jan \'26', value: 3298 },
+        { label: 'Feb \'26', value: 2562, dip: true },
+        { label: 'Mar \'26', value: 3522 },
+        { label: 'Apr \'26', value: 3547 },
+        { label: 'May \'26', value: 2996 },
+        { label: 'Jun \'26', value: 3095 },
+        { label: 'Jul \'26', value: 3963 },
+        { label: 'Aug \'26', value: 5309 },
+        { label: 'Sep \'26', value: 5454 }
+    ],
+    monthlyInteractions: [
+        { label: 'Sep \'25', calls: 0,  directions: 0,  clicks: 0 },
+        { label: 'Oct \'25', calls: 13, directions: 47, clicks: 25 },
+        { label: 'Nov \'25', calls: 2,  directions: 65, clicks: 17 },
+        { label: 'Dec \'25', calls: 5,  directions: 68, clicks: 34 },
+        { label: 'Jan \'26', calls: 7,  directions: 44, clicks: 26 },
+        { label: 'Feb \'26', calls: 7,  directions: 59, clicks: 27 },
+        { label: 'Mar \'26', calls: 5,  directions: 32, clicks: 31 },
+        { label: 'Apr \'26', calls: 5,  directions: 44, clicks: 16 },
+        { label: 'May \'26', calls: 5,  directions: 58, clicks: 27 },
+        { label: 'Jun \'26', calls: 5,  directions: 58, clicks: 21 },
+        { label: 'Jul \'26', calls: 4,  directions: 62, clicks: 25 },
+        { label: 'Aug \'26', calls: 5,  directions: 60, clicks: 12 },
+        { label: 'Sep \'26', calls: 0,  directions: 63, clicks: 39 }
+    ],
+    searchTerms: [
+        { rank: 1, ko: '영어주소',  en: 'English address' },
+        { rank: 2, ko: '영어회화',  en: 'English conversation' },
+        { rank: 3, ko: '영어',      en: 'English' }
+    ]
+};
+
+const naverData = {
+    topPosts: [
+        { rank: 1,  title: '"내 말이" — tell me about it',                    views: 443, date: 'Jul 2026' },
+        { rank: 2,  title: '"당연하지" — a thousand times yes',                views: 390, date: 'Sep 2026' },
+        { rank: 3,  title: '"됐어" — never mind',                             views: 254, date: 'Aug 2026' },
+        { rank: 4,  title: '"바닥을 쳤어" — hit rock bottom',                  views: 211, date: 'Sep 2026' },
+        { rank: 5,  title: '"you got me" — 맞아 걸렸어',                       views: 197, date: 'Oct 2026' },
+        { rank: 6,  title: '"뭐라고요?" — come again',                        views: 194, date: 'Sep 2026' },
+        { rank: 7,  title: '"뭐든 좋아" — I\'m down for anything',             views: 180, date: 'Jun 2026' },
+        { rank: 8,  title: '"이게 뭐가 어려워" — it\'s not rocket science',    views: 171, date: 'Sep 2026' },
+        { rank: 9,  title: '"별로야 끌리지 않아" — I\'m not feeling it',       views: 163, date: 'Sep 2026' },
+        { rank: 10, title: '"나랑 안 맞아" — not my vibe',                    views: 160, date: 'Jul 2026' }
+    ],
+    contentMix: [
+        { label: 'Expression Lessons', pct: 50, color: '#c87a5a' },
+        { label: 'Studio Reflections', pct: 28, color: '#d4a373' },
+        { label: 'Foreign Friend Profiles', pct: 17, color: '#5fa87f' },
+        { label: 'Culture & Education', pct: 5,  color: '#4a6fa5' }
+    ]
+};
+
+/* ═══════════════════════════════════════════════════
+   RENDER — SHARED HELPERS
+   ═══════════════════════════════════════════════════ */
+
+function renderBarChart(containerId, data, color, formatValue) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const maxVal = Math.max(...data.map(d => d.value), 1);
+    container.innerHTML = '';
+
+    data.forEach(d => {
+        const group = document.createElement('div');
+        group.className = 'bar-group' + (d.peak ? ' is-peak' : '') + (d.dip ? ' is-dip' : '');
+
+        const valueEl = document.createElement('div');
+        valueEl.className = 'bar-value';
+        valueEl.textContent = formatValue ? formatValue(d.value) : d.value;
+
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = Math.max(3, (d.value / maxVal) * 100) + '%';
+        if (color) bar.style.background = color;
+        bar.title = d.label + ': ' + d.value.toLocaleString();
+
+        const label = document.createElement('div');
+        label.className = 'bar-label';
+        label.textContent = d.label;
+
+        group.appendChild(valueEl);
+        group.appendChild(bar);
+        group.appendChild(label);
+        container.appendChild(group);
+    });
+}
+
+function renderAudienceList(containerId, data) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+    const maxPct = Math.max(...data.map(d => d.pct), 1);
+
+    data.forEach(d => {
+        const row = document.createElement('div');
+        row.className = 'audience-row';
+        row.innerHTML = `
+            <span class="audience-name">${d.name}</span>
+            <span class="audience-bar-wrap"><span class="audience-bar" style="width:${(d.pct / maxPct) * 100}%"></span></span>
+            <span class="audience-pct">${d.pct}%</span>
+        `;
+        container.appendChild(row);
+    });
+}
+
+function renderDemographics(containerId, data) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+    const maxVal = Math.max(...data.flatMap(d => [d.w, d.m]), 1);
+
+    data.forEach(d => {
+        const row = document.createElement('div');
+        row.className = 'demo-row';
+        row.innerHTML = `
+            <span class="demo-age">${d.age}</span>
+            <span class="demo-bar-wrap" title="Women ${d.w}%"><span class="demo-bar demo-bar--w" style="width:${(d.w / maxVal) * 100}%"></span></span>
+            <span class="demo-bar-wrap" title="Men ${d.m}%"><span class="demo-bar demo-bar--m" style="width:${(d.m / maxVal) * 100}%"></span></span>
+        `;
+        container.appendChild(row);
+    });
+
+    const legend = document.createElement('div');
+    legend.className = 'demo-legend';
+    legend.innerHTML = `
+        <span><span class="demo-swatch" style="background:#c87a5a"></span> Women</span>
+        <span><span class="demo-swatch" style="background:#7a9bb8"></span> Men</span>
+    `;
+    container.appendChild(legend);
+}
+
+/* ═══════════════════════════════════════════════════
+   RENDER — GOOGLE BUSINESS
+   ═══════════════════════════════════════════════════ */
+
+function renderGbpViewsChart() {
+    const container = document.getElementById('gbpViewsChart');
+    if (!container) return;
+
+    const data = googleBusinessData.monthlyViews;
+    const maxVal = Math.max(...data.map(d => d.value));
+    container.innerHTML = '';
+
+    data.forEach(d => {
+        const group = document.createElement('div');
+        group.className = 'bar-group' + (d.dip ? ' is-dip' : '');
+
+        const valueEl = document.createElement('div');
+        valueEl.className = 'bar-value';
+        valueEl.textContent = (d.value / 1000).toFixed(1) + 'K';
+
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = Math.max(3, (d.value / maxVal) * 100) + '%';
+        if (d.dip) bar.style.background = '#a09488';
+        bar.title = d.label + ': ' + d.value.toLocaleString() + ' views';
+
+        const label = document.createElement('div');
+        label.className = 'bar-label';
+        label.textContent = d.label;
+
+        group.appendChild(valueEl);
+        group.appendChild(bar);
+        group.appendChild(label);
+        container.appendChild(group);
+    });
+}
+
+function renderGbpInteractionsChart() {
+    const container = document.getElementById('gbpInteractionsChart');
+    if (!container) return;
+
+    const data = googleBusinessData.monthlyInteractions;
+    const maxTotal = Math.max(...data.map(d => d.calls + d.directions + d.clicks), 1);
+    container.innerHTML = '';
+
+    data.forEach(d => {
+        const total = d.calls + d.directions + d.clicks;
+        const group = document.createElement('div');
+        group.className = 'bar-group';
+
+        const valueEl = document.createElement('div');
+        valueEl.className = 'bar-value';
+        valueEl.textContent = total > 0 ? total : '';
+
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = Math.max(3, (total / maxTotal) * 100) + '%';
+        bar.style.background = 'transparent';
+        bar.style.display = 'flex';
+        bar.style.flexDirection = 'column-reverse';
+        bar.style.overflow = 'hidden';
+        bar.style.borderRadius = '3px 3px 0 0';
+        bar.title = d.label + '\nCalls: ' + d.calls + '\nDirections: ' + d.directions + '\nClicks: ' + d.clicks;
+
+        [
+            { value: d.calls, color: '#c87a5a' },
+            { value: d.directions, color: '#5fa87f' },
+            { value: d.clicks, color: '#4a6fa5' }
+        ].forEach(seg => {
+            if (seg.value > 0 && total > 0) {
+                const segEl = document.createElement('div');
+                segEl.style.background = seg.color;
+                segEl.style.height = (seg.value / total) * 100 + '%';
+                segEl.style.width = '100%';
+                bar.appendChild(segEl);
+            }
+        });
+
+        const label = document.createElement('div');
+        label.className = 'bar-label';
+        label.textContent = d.label;
+
+        group.appendChild(valueEl);
+        group.appendChild(bar);
+        group.appendChild(label);
+        container.appendChild(group);
+    });
+}
+
+function renderGbpSearchTerms() {
+    const container = document.getElementById('gbpSearchTerms');
+    if (!container) return;
+    container.innerHTML = '';
+
+    googleBusinessData.searchTerms.forEach(t => {
+        const row = document.createElement('div');
+        row.className = 'search-term';
+        row.innerHTML = `
+            <span class="search-term__rank">${t.rank}</span>
+            <span class="search-term__name">
+                <span class="ko">${t.ko}</span>
+                <span class="search-term__trans"> — ${t.en}</span>
+            </span>
+        `;
+        container.appendChild(row);
+    });
+}
+
+/* ═══════════════════════════════════════════════════
+   RENDER — NAVER
+   ═══════════════════════════════════════════════════ */
+
+function renderNaverTopPosts() {
+    const container = document.getElementById('naverTopPosts');
+    if (!container) return;
+
+    const maxViews = Math.max(...naverData.topPosts.map(p => p.views));
+    container.innerHTML = '';
+
+    naverData.topPosts.forEach(post => {
+        const row = document.createElement('div');
+        row.className = 'top-post-row';
+        row.innerHTML = `
+            <span class="top-post-rank">${post.rank}</span>
+            <span class="top-post-title" title="${post.title}">${post.title}</span>
+            <span class="top-post-bar-wrap">
+                <span class="top-post-bar" style="width:${(post.views / maxViews) * 100}%"></span>
+            </span>
+            <span class="top-post-views">${post.views}</span>
+        `;
+        container.appendChild(row);
+    });
+}
+
+function renderNaverContentMix() {
+    const container = document.getElementById('naverContentMix');
+    if (!container) return;
+
+    const maxPct = Math.max(...naverData.contentMix.map(m => m.pct));
+    container.innerHTML = '';
+
+    naverData.contentMix.forEach(mix => {
+        const row = document.createElement('div');
+        row.className = 'mix-row';
+        row.innerHTML = `
+            <span class="mix-label">${mix.label}</span>
+            <span class="mix-bar-wrap">
+                <span class="mix-bar" style="width:${(mix.pct / maxPct) * 100}%; background:${mix.color}"></span>
+            </span>
+            <span class="mix-pct">${mix.pct}%</span>
+        `;
+        container.appendChild(row);
+    });
+}
+
+/* ═══════════════════════════════════════════════════
+   TAB SWITCHING
+   ═══════════════════════════════════════════════════ */
+
+function switchMktTab(tab, event) {
+    if (event) event.preventDefault();
+    document.querySelectorAll('.mkt-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.mkt-panel').forEach(p => p.classList.remove('active'));
+
+    const btn = document.querySelector(`.mkt-tab[onclick*="'${tab}'"]`);
+    if (btn) btn.classList.add('active');
+
+    const panel = document.getElementById('mkt-panel-' + tab);
+    if (panel) panel.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════
+   WINDOW CONTROLS
+   ═══════════════════════════════════════════════════ */
+
+function closeMarketingWindow() {
+    const win = document.getElementById('marketingWindow');
+    if (!win) return;
+    win.classList.add('closing');
+    setTimeout(() => {
+        win.style.display = 'none';
+        win.classList.remove('closing');
+    }, 200);
+}
+
+/* ═══════════════════════════════════════════════════
+   LOAD ALL DATA
+   ═══════════════════════════════════════════════════ */
+
+function loadMarketingData() {
+    // Instagram
+    renderBarChart('igViewsChart', marketingData.igMonthlyViews, null, v => v >= 1000 ? (v / 1000).toFixed(1) + 'K' : v);
+    renderBarChart('igInteractionsChart', marketingData.igMonthlyInteractions, '#e07a5f', v => v >= 1000 ? (v / 1000).toFixed(1) + 'K' : v);
+    renderAudienceList('igCountries', marketingData.igCountries);
+    renderAudienceList('igCities', marketingData.igCities);
+    renderDemographics('igDemographics', marketingData.igDemographics);
+
+    // Google Business
+    renderGbpViewsChart();
+    renderGbpInteractionsChart();
+    renderGbpSearchTerms();
+
+    // Naver
+    renderNaverTopPosts();
+    renderNaverContentMix();
+}
+
+/* ═══════════════════════════════════════════════════
+   OPEN ON LOAD
+   ═══════════════════════════════════════════════════ */
+
+document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(function () {
+        const mktWin = document.getElementById('marketingWindow');
+        if (mktWin) {
+            mktWin.style.display = 'flex';
+            mktWin.classList.add('open');
+            loadMarketingData();
+        }
+    }, 500);
+});
+
+/* ═══════════════════════════════════════════════════
+   DRAG — MARKETING WINDOW HEADER
+   ═══════════════════════════════════════════════════ */
+
+document.addEventListener('mousedown', function(e) {
+    const header = e.target.closest('#marketingHeader');
+    if (!header) return;
+    const win = document.getElementById('marketingWindow');
+    if (!win || win.style.display === 'none') return;
+
+    const rect = win.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+
+    function onMove(e) {
+        const desktop = document.getElementById('desktop');
+        const dRect = desktop.getBoundingClientRect();
+        let nx = e.clientX - dRect.left - offsetX;
+        let ny = e.clientY - dRect.top - offsetY;
+        const wRect = win.getBoundingClientRect();
+        nx = Math.max(0, Math.min(nx, dRect.width - wRect.width));
+        ny = Math.max(0, Math.min(ny, dRect.height - wRect.height));
+        win.style.left = nx + 'px';
+        win.style.top = ny + 'px';
+        win.style.transform = 'none';
+    }
+
+    function onUp() {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+    }
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    e.preventDefault();
+});
