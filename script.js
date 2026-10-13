@@ -248,35 +248,56 @@ document.addEventListener('touchstart', e => {
 document.addEventListener('touchmove', e => { if (dragData) moveDrag(e); }, { passive: false });
 document.addEventListener('touchend', () => { if (dragData) endDrag(); }, { passive: true });
 
-// ─── WINDOW DRAG ───
+// ─── WINDOW DRAG (unified — works for all windows) ───
 let windowDragData = null;
+
 document.addEventListener('mousedown', e => {
+    const win = e.target.closest('.window');
+    if (!win || win.style.display === 'none') return;
+
+    // Bring clicked window to front
+    const allWins = document.querySelectorAll('.window');
+    let maxZ = 50;
+    allWins.forEach(w => {
+        const z = parseInt(w.style.zIndex) || 0;
+        if (z > maxZ) maxZ = z;
+    });
+    win.style.zIndex = maxZ + 1;
+
+    // Only start drag if the click is on the header bar
     const header = e.target.closest('.window-header');
     if (!header) return;
-    const win = header.closest('.window');
-    if (!win || !win.classList.contains('open')) return;
+
     const rect = win.getBoundingClientRect();
     windowDragData = {
         win: win,
         offsetX: e.clientX - rect.left,
-        offsetY: e.clientY - rect.top,
+        offsetY: e.clientY - rect.top
     };
+    document.body.style.cursor = 'grabbing';
     e.preventDefault();
 });
+
 document.addEventListener('mousemove', e => {
     if (!windowDragData) return;
     const desktop = document.getElementById('desktop');
     const dRect = desktop.getBoundingClientRect();
+    const wRect = windowDragData.win.getBoundingClientRect();
+
     let nx = e.clientX - dRect.left - windowDragData.offsetX;
     let ny = e.clientY - dRect.top - windowDragData.offsetY;
-    const wRect = windowDragData.win.getBoundingClientRect();
+
     nx = Math.max(0, Math.min(nx, dRect.width - wRect.width));
     ny = Math.max(0, Math.min(ny, dRect.height - wRect.height));
+
     windowDragData.win.style.left = nx + 'px';
     windowDragData.win.style.top = ny + 'px';
-    windowDragData.win.style.transform = 'none';
 });
-document.addEventListener('mouseup', () => { windowDragData = null; });
+
+document.addEventListener('mouseup', () => {
+    document.body.style.cursor = '';
+    windowDragData = null;
+});
 
 // ─── WINDOW FUNCTIONS ───
 function closeWindow() {
@@ -284,13 +305,11 @@ function closeWindow() {
     win.classList.add('closing');
     setTimeout(() => {
         win.classList.remove('open', 'closing');
-        win.style.transform = ''; win.style.left = ''; win.style.top = '';
     }, 200);
 }
 function openWindow() {
     const win = document.getElementById('mainWindow');
     win.classList.remove('closing');
-    win.style.transform = ''; win.style.left = ''; win.style.top = '';
     win.classList.add('open');
 }
 
@@ -1259,41 +1278,4 @@ document.addEventListener('DOMContentLoaded', function () {
             loadMarketingData();
         }
     }, 500);
-});
-
-/* ═══════════════════════════════════════════════════
-   DRAG — MARKETING WINDOW HEADER
-   ═══════════════════════════════════════════════════ */
-
-document.addEventListener('mousedown', function(e) {
-    const header = e.target.closest('#marketingHeader');
-    if (!header) return;
-    const win = document.getElementById('marketingWindow');
-    if (!win || win.style.display === 'none') return;
-
-    const rect = win.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-
-    function onMove(e) {
-        const desktop = document.getElementById('desktop');
-        const dRect = desktop.getBoundingClientRect();
-        let nx = e.clientX - dRect.left - offsetX;
-        let ny = e.clientY - dRect.top - offsetY;
-        const wRect = win.getBoundingClientRect();
-        nx = Math.max(0, Math.min(nx, dRect.width - wRect.width));
-        ny = Math.max(0, Math.min(ny, dRect.height - wRect.height));
-        win.style.left = nx + 'px';
-        win.style.top = ny + 'px';
-        win.style.transform = 'none';
-    }
-
-    function onUp() {
-        document.removeEventListener('mousemove', onMove);
-        document.removeEventListener('mouseup', onUp);
-    }
-
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onUp);
-    e.preventDefault();
 });
